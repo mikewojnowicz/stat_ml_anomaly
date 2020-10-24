@@ -1,108 +1,72 @@
-# Unsupervised Statistical Machine Learning in Python (DRAFT)
+# Statistical Machine Learning for Anomaly Detection 
 
 ## Instructors 
 Mike Wojnowicz and Karin Knudson 
 
 
-## Structure 
-* 1.5 hour lecture per day 
-* 1.5 hour python lab per day
+## Goal 
+This course will introduce students to a variety of models in statistical machine learning that can be used for anomaly detection. Topics will include:  Mixture Models, Hidden Markov Models, Latent Dirichlet Allocation, Variational Autoencoders, and Normalizing Flows. Areas of application range from cybersecurity to biology to speech recognition. 
 
 ## Pre-requisites
 
-Calculus;  know one dist besides Normal; know maximum likelihood; know conditional probability, expectation, covariance matrix; some experience with python; some experience with data science + ML; (maybe) create a GitHub account.
+Students should have some passing familiarity with basic statistical concepts (maximum likelihood, Bayes law, expectations, conditional probability), and should be comfortable with Python programming.
+
+## Structure 
+
+We break the course into four topics, one per day.  (The last day is a flex day.)  Each day in turn has four subtopics.  Each subtopic will consist of about 20 minutes of presentation, followed by about 20 minutes of interactive group activity.   
 
 ## Topics
 
 * Day 1: Statistical Inference / (maybe) Ice Breaker / (maybe) Python Template 
-    * Icebreakers (Maybe) 
-        * Could be a basis for how to group people for the “python lab"
-    * Maximum Likelihood
+    * Distribution Fitting via Maximum Likelihood 
+    * Bayesian approaches and Conjugate Bayesian Models
     * Exponential Families 
-    * (Maybe) Why Bayesian?
-    * Conjugate Bayesian Models
-    * (Maybe) Probabilistic Graphical Models (Independence Relations etc.)
+    * Probabilistic Graphical Models
 * Day 2: Expectation Maximization (EM) 
     * Overview
     * Mixture Models
     * Hidden Markov Models
     * Cybersecurity:  Malware Ground Truth 
-    * (Maybe) Segmented Hidden Markov Models
 * Day 3: Variational Inference (VI)
-    * Overview
+    * Overview (and Relation to EM) 
     * Bayesian Mixture Models
     * Bayesian Hidden Markov Models
-    * (Maybe) Bayesian Segmented Hidden Markov Models
     * Latent Dirichlet Allocation 
-    * (Maybe) Stochastic Variational Inference
-* Day 4: Black Box Variational Inference (BBVI)
-    * Black Box Extensions - Black Box Variational Inference, Automatic Differentiation Variational Inference, etc.
+* Day 4: Black Box Models 
+    * Introduction (Motivation, PGM's + NN's, etc.) 
+    * Automatic Differentiation Variational Inference
     * VAE 
     * Normalizing Flow
-    * (Probably not) PGMs+NN’s
 * Day 5: Flex Day 
 
-# Exercises
 
-## Philosophy
+## Further Readings
 
-Why have a lab as a part of the course, as opposed to just further lecture?
+### Day 1: Overview 
+* Statistical Inference
+   * Casella, G., & Berger, R. L. (2002). Statistical inference (Vol. 2, pp. 337-472). Pacific Grove, CA: Duxbury. 
+* Introduction to Bayesian Modeling
+	* Hoff, P. D. (2009). A first course in Bayesian statistical methods (Vol. 580). New York: Springer.
+	* Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A., & Rubin, D. B. (2013). Bayesian data analysis. CRC press
+* Graphical Models
+	* CH 8 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer.
+	* Ghahramani, Z. (2001). An introduction to hidden Markov models and Bayesian networks. In Hidden Markov models: applications in computer vision (pp. 9-41).
+* Exponential Families
+	* Michael I Jordan's chapter: https://people.eecs.berkeley.edu/~jordan/courses/260-spring10/other-readings/chapter8.pdf
+	* Michael I Jordan's chapter: https://people.eecs.berkeley.edu/~jordan/courses/260-spring10/other-readings/chapter9.pdf
 
-1. Working actively with the material will help you to better understand it, find good questions to ask, and be better prepared for the next sections.
+### Day 2: EM
+* Mixture Models and EM  
+	* CH 9 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer.
+* HMM
+	* Sec 13.2 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer.	
+	* Ghahramani, Z. (2001). An introduction to hidden Markov models and Bayesian networks. In Hidden Markov models: applications in computer vision (pp. 9-41).
 
-Why have a lab as a part of the course, as opposed to just working on your own time? 
+	
+### Day 3: Variational Inference
+* Introduction to VI 
+	* Blei, D. M., Kucukelbir, A., & McAuliffe, J. D. (2017). Variational inference: A review for statisticians. Journal of the American statistical Association, 112(518), 859-877.
+* Latent Dirichlet Allocation
+	* Blei, D. M., Ng, A. Y., & Jordan, M. I. (2003). Latent dirichlet allocation. Journal of machine Learning research, 3(Jan), 993-1022.
 
-1. Opportunity to collaborate in groups.
-2. Get real-time feedback from instructors.
-
-## Ideas 
-Python co-development paradigm -- collaborate in gitpod.io or Google Colab. We could potentially provide unit tests for each module, they could write code to make the tests pass (and perhaps write additional tests). This could include writing little mini functions (like sampling from a DP prior). This could also include calling apis from python packages.  Repo could provide some utilities in src/ (like forward backward algo).
-
-## Codes
-* [API] Use a pre-existing api to do something with data
-* [Unit] Write a function that performs some suboperation
-* [Hand] Mathematical Question 
-* [Application] Apply the model to a highlighted domain specific application
-
-## Schedule
-### Day 1: Distributions / Ice Breaker / Python Template 
-*  [Hand] Check ML estimate for a simple example
-    * Extension: for distribution in the survival analysis case.
-* [Hand] Compute the conjugate Bayes posterior for a simple example.
-* [Hand] Show that certain distributions are in the exponential family
-    * Bernoulli, Gaussian: http://www.cs.columbia.edu/~blei/fogm/2015F/notes/exponential-family.pdf.
-* [???] Fit a Bayesian Multivariate Gaussian to some data, plot samples from the NIW Posterior.
-* Maybe also use some library to fit some distribution to data using (a) maximum likelihood and (b) conjugate Bayes  ?
-
-### Day 2: EM 
-* Write Python code for k-means 
-* Write Python code for mixture model (Like in the textbook)
-    * Hughes has some exercises here; get them.
-* [API] Fit a mixture model to data
-    * Python notebook: http://krasserm.github.io/2019/11/21/latent-variable-models-part-1/
-    * Scikit learn  has mixture models 
-    * [Application] Try fitting EM to keystrokes bigrams.
-* [Unit] Write Python code for HMM given access to forward backward function.
-* [API] Use in a blackbox manner this hmm library 
-    * https://github.com/hmmlearn/hmmlearn
-    * https://hmmlearn.readthedocs.io/en/latest/index.html
-* [Application] Fit HMM to EEG Data
-    * https://ocw.mit.edu/courses/biology/7-91j-foundations-of-computational-and-systems-biology-spring-2014/assignments/
-* [Application] Fit HMM to Genomics Data 
-    * https://ocw.mit.edu/courses/biology/7-91j-foundations-of-computational-and-systems-biology-spring-2014/assignments/ 	 
-
-### Day 3: VI Foundations
-* [Unit/Hand] Compute the KL divergence between two distributions.
-* [API] Fit Bayesian GMM to data https://scikit-learn.org/stable/modules/generated/sklearn.mixture.BayesianGaussianMixture.html
-* [API] Fit LDA to data 
-* Other sources: https://github.com/kamperh/bayes_gmm, but that uses collapsed Gibbs sampling rather than VI.
-
-### Day 4: Black Box Models
-* [Unit] Change of variables for normalizing flow?
-* [Unit] Forward pass for VAE?
-* [API] SVI + VAE’s: 
-    * Has python code and notebook: http://krasserm.github.io/2019/12/17/latent-variable-models-part-2/
-* [Mix] VAE / RNVP:
-    * Have them change my code to accomplish some subgoal.
-
-
+ 	
