@@ -22,6 +22,7 @@ pi = .80 # mixture weight on cluster 1
 params=Params(cluster1=cluster1, cluster2=cluster2, pi=pi)
 
 ### Run some iterates of the EM algorithm 
+## What a fun exercise!
 n_iterates = 10 
 for i in range(n_iterates):
     # E-Step 
