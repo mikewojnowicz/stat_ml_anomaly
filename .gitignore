@@ -18,3 +18,16 @@ py2-env
 #folders I don't want to track
 devel
 
+# beamer stuff
+**/*.toc
+**/*.snm
+**/*.out
+**/*.nav
+**/*.log
+**/*.aux
+**/*.bbl
+**/*.bcf
+**/*.blg
+**/*blx.bib
+**/*run.xml
+
