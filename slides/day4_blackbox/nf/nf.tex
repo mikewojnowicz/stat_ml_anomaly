@@ -112,25 +112,24 @@ p_X(x) = p_Z( f_\theta(x) ) \ds\prod_{k=1}^K\absdet{\df{\partial h_\theta^k}{\pa
 \begin{definition}{(Real NVP)} \label{rnvp}
 A \textit{real NVP} is a normalizing flow (Def. \ref{flow}) where $f=h_\theta^1 \circ ... \circ h_\theta^K$ is structured such that:
 
-\[h^{i+1} = b^i \odot h^i + (1-b^i) \odot \bigg( h^i \odot \exp \big( s^i_\theta(b^i \odot h^i) \big) + t^i_\theta(b^i \odot h^i) \bigg)  \]
+\[h^{k+1} = b^k \odot h^k + (1-b^k) \odot \bigg( h^k \odot \exp \big( s^k_\theta(b^k \odot h^k) \big) + t^k _\theta(b^k \odot h^k ) \bigg)  \]
  
 where $b^1, ..., b^K$ is a sequence of binary masks, $\odot$ is the Hadamard product or element-wise product, and $s$ and $t$ stand for scale and translation. %\red{I'm still following their notational suckiness of conflating a function with the output of a function}
 \end{definition}
 
 
 \begin{definition}{(Affine Coupling Layer)} \label{acl}
-An affine coupling layer is one element of the sequence of invertible transformations in a real NVP; i.e. it is $h_i$ for some $i \in \set{1,...,K}$ in Def. \ref{rnvp}. 
+An affine coupling layer is one element of the sequence of invertible transformations in a real NVP; i.e. it is $h_k $ for some $k  \in \set{1,...,K}$ in Def. \ref{rnvp}. 
 \end{definition}
 
 \begin{example}\label{rnvp_example}
 
-If random variables are $D$ dimensional, and $b^i := [1,... 1, 0,...0]$, where the 0 entries begin at the $d_{i+1}$st element, then the affine coupling layer is given by
+If random variables are $D$ dimensional, and $b^k := [1,... 1, 0,...0]$, where the 0 entries begin at the $(d_{k}+1)$st element, then the affine coupling layer is given by
 
 \begin{align*}
-h^{i+1}_{1:d_i} &= h^i_{1:d_i} \\
-h^{i+1}_{d_i+1:D} &= h^i_{d_i+1:D} \odot \exp \big( s^i_\theta(h^i_{1:d_i}) \big) + t^i_\theta(h^i_{1:d_i})  \\
+h^{k+1}_{1:d_k} &= h^k_{1:d_k} \\
+h^{k+1}_{d_k+1:D} &= h^k_{d_k+1:D} \odot \exp \big( s^k_\theta(h^k_{1:d_k}) \big) + t^k_\theta(h^k_{1:d_k})  \\
 \end{align*}
-
 
 \end{example}
 
@@ -138,16 +137,16 @@ h^{i+1}_{d_i+1:D} &= h^i_{d_i+1:D} \odot \exp \big( s^i_\theta(h^i_{1:d_i}) \big
 \begin{frame}
 Note that the real NVP allows for efficient computation of the determinant of the Jacobians, since 
 
-\[ \df{\partial h_\theta^{i+1}}{\partial h_\theta^{i}} = 
+\[ \df{\partial h_\theta^{k+1}}{\partial h_\theta^{k}} = 
 	\begin{pmatrix}
-	\I_d & 0\\ 
-	\df{\partial h_{d_i+1:D}^{i+1}}{\partial h_{1:d_i}^{i}} & \text{diag} \bigg( \exp \big( s_\theta (h^i_{1:d_i}) \big) \bigg) 
+	\I_{d_k} & 0\\ 
+	\df{\partial h_{d_k+1:D}^{k+1}}{\partial h_{1:d_k}^{k}} & \text{diag} \bigg( \exp \big( s_\theta (h^k_{1:d_k}) \big) \bigg) 
 	\end{pmatrix}
 \]
 
 The bottom left term can be arbitrarily complex; we don't have to compute it, since the determinant of a triangular matrix is the product of the diagonals:
 
-\[ \det \df{\partial h_\theta^{i+1}}{\partial h_\theta^{i}} = \exp \bigg( \ds\sum_j s_\theta^i \, \big( h^i_{1:d_i} \big)_j \bigg) \] 
+\[ \det \df{\partial h_\theta^{k+1}}{\partial h_\theta^{k}} = \exp \bigg( \ds\sum_j s_\theta^k \, \big( h^k_{1:d_k} \big)_j \bigg) \] 
 \end{frame}
 
 % Needs work. 
@@ -158,7 +157,7 @@ The bottom left term can be arbitrarily complex; we don't have to compute it, si
 \begin{frame}
 So, by Equation \ref{cov}, the log likelihood with real NVP normalizing flow applied to a single data sample, $x$, is
 
-\[ \log p_X(x) = \log p_Z( f_\theta(x) ) + \explainterm{\blue{(LAYERS)}}{\ds\sum_i} \explainterm{\blue{(FEATURES)}}{\ds\sum_j} s_\theta^i \, \big( h^i_{1:d_i} \big)_j \] 
+\[ \log p_X(x) = \log p_Z( f_\theta(x) ) + \ds\sum_k \ds\sum_j s_\theta^k \, \big( h^k_{1:d_k} \big)_j \] 
 
 
 And the log likelihood applied for a collection of samples, assumed \textit{i.i.d.}, is the sum of individual log likelihoods. 
