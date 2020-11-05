@@ -1,0 +1,188 @@
+% VERSION: v0.0.1
+% MODIFIED: 11/4/2020
+
+% CHANGELOG
+% TBD
+
+%%% DEFINE A PREAMBLE
+% REFERENCE: https://tex.stackexchange.com/questions/77/how-to-make-a-standard-preamble-into-a-package?rq=1
+
+% Declare that this style file requires at least LaTeX version 2e.
+\NeedsTeXFormat{LaTeX2e}
+
+%% Provide the name of your page, the date it was last updated, and a comment about what it's used for
+%\ProvidesPackage{mikestyle}
+
+
+\usetheme{metropolis}
+\usepackage{appendixnumberbeamer}
+
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+
+\usepackage{amsmath}
+\usepackage{media9}
+\usepackage{xspace}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{bayesnet} %for plate notation
+\usepackage{listings} %for printing python code
+
+
+%%%% This next section builds the \warning symbol
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{newunicodechar}
+
+\newcommand\warning{%
+ \makebox[1.4em][c]{%
+ \makebox[0pt][c]{\raisebox{.1em}{\small!}}%
+ \makebox[0pt][c]{\color{red}\Large$\bigtriangleup$}}}%
+ 
+
+\usepackage[most]{tcolorbox} %for color box
+%Reference:
+% 	https://tex.stackexchange.com/questions/279464/2-boxed-equations-on-one-lineblue-outline-box-and-shadow
+%Usage:
+%	\tcboxmath{something}
+
+
+%https://tex.stackexchange.com/questions/395140/change-font-size-of-one-equation-in-align-environment?rq=1
+%has medmath for reducing font size in align environments
+\usepackage{mathtools, nccmath} 
+
+
+%https://jansoehlke.com/2010/06/strikethrough-in-latex/
+%lets you cancel out terms in an equation
+\usepackage{cancel}
+
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+
+% THEOREM STYLES 
+% Reference: https://www.overleaf.com/learn/latex/Theorems_and_proofs
+\usepackage{amsthm}
+\numberwithin{equation}{section}
+
+%\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{corollary}[theorem]{Corollary}
+%\newtheorem{conjecture}[theorem]{Conjecture}
+%\newtheorem{question}[theorem]{Question}
+
+
+
+
+\theoremstyle{definition}
+%\newtheorem{definition}[theorem]{Definition}
+%\newtheorem{property}[theorem]{Property}
+%\newtheorem{notation}[theorem]{Notation}
+%\newtheorem{exercise}[theorem]{Exercise}
+%\newtheorem{problem}[theorem]{Problem}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{remark}[theorem]{Remark}
+%%% Reference on example as environment: https://tex.stackexchange.com/questions/21227/example-environment
+%\newtheorem{example}[theorem]{Example}
+
+
+
+
+%%% GENERALLY USEFUL 
+\newcommand{\ds}{\displaystyle}
+\newcommand{\df}{\displaystyle\frac}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\+}[1]{\ensuremath{{\boldsymbol #1}}} %another way to make bold symbols
+\newcommand{\cond}{\; | \;}
+\newcommand{\blue}[1]{\color{blue}{#1}  \color{black}}
+\newcommand{\red}[1]{\color{red}{#1}  \color{black}}
+\newcommand{\green}[1]{\color{green}{#1}  \color{black}}
+\newcommand{\purple}[1]{\color{purple}{#1}  \color{black}}
+\DeclareMathOperator*{\argmax}{argmax} % thin space, limits underneath in displays
+\newcommand{\partialderiv}[2]{\df {\partial {#1}}{\partial {#2}} }
+\newcommand{\biggexp}[1]{\exp  \bigg\{ {#1} \bigg\} }
+\newcommand{\indep}{\perp \!\!\! \perp}
+
+%%% PROBABILITY
+\newcommand{\iid}{\stackrel{\text{iid}}{\sim}}
+\newcommand{\norm}{\mathcal{N}}
+\newcommand{\IG}{\mathcal{I}\mathcal{G}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\biggE}[2]{\E_{{#1}} \bigg[ {{#2}} \bigg]}
+%\newcommand{\H}{\mathbb{H}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\absdet}[1]{ \; \bigg\lvert \det{#1}  \bigg\rvert  \;}
+\newcommand{\logabsdet}[1]{ \log \absdet{#1}}
+\newcommand{\KL}[2] {\texttt{KL} \big({#1} \; \big|\big| \; {#2} \big)}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\ind}{\perp\kern-5pt\perp}
+
+%%% INTEGRALS
+\newcommand{\wrt}[1]{\; d \,{#1} \;} 
+
+%%% SETS
+\newcommand{\set}[1] { \{  {#1} \} }
+\newcommand{\cupdot}{\sqcup}
+
+
+%%%% TYPEWRITER FONTTED VI ACRONYMS 
+\newcommand{\bbvi}{\,\texttt{bbvi}\,}
+\newcommand{\VLBO}{\,\texttt{VLBO}\,}
+\newcommand{\ELBO}{\,\texttt{ELBO}\,}
+
+%% SHADED BOXES
+%colored shaded boxes
+\newcommand{\bluebox}[2] { \tikz[baseline]{\node[fill=blue!20,anchor=base]({#1}) { {#2} } }}
+\newcommand{\redbox}[2] { \tikz[baseline]{\node[fill=red!20,anchor=base]({#1}) { {#2} } }}
+\newcommand{\greenbox}[2] { \tikz[baseline]{\node[fill=green!20,anchor=base]({#1}) { {#2} } }}
+%these put a label beneath the shaded box, in the same color
+\newcommand{\labeledbluebox}[2]{  \underset{\blue{#1}}{\bluebox{_dummy_}{#2}} }
+\newcommand{\labeledredbox}[2]{  \underset{\red{#1}}{\redbox{_dummy_}{#2}} }
+\newcommand{\labeledgreenbox}[2]{  \underset{\green{#1}}{\greenbox{_dummy_}{#2}} }
+%https://github.com/matze/mtheme
+
+%%% CHANGE BEAMER BLOCK COLOR
+\setbeamercolor{block title}{bg=blue!30,fg=black}
+\setbeamercolor{block body}{bg=blue!10,fg=black}
+
+%% CHECKMARK 
+\usepackage{pifont}% for cmark and xmark for checkmark and xmark 
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\greencheck}{\green{\cmark}}
+\newcommand{\redx}{\red{\xmark}}
+
+%%% EXPLANATIONS  
+%explaining equations 
+\newcommand{\explaineq}[1]{\stackrel{\text{#1}}{=}}
+%explain terms
+\newcommand{\explainterm}[2]{\underset{\textit{#1}}{#2}}
+%explain terms with underbrace
+\newcommand{\explaintermbrace}[2]{\underbrace{#2}_{\text{#1}}}
+\newcommand{\explain}[2]{\underset{\textit{#2}}{#1}}
+
+% TOGGLE FONT SIZE
+\usepackage{lmodern}
+
+%%% HMM Specific Stuff
+\newcommand{\state}{x}
+ 
+ % SUBFIGURES
+ % See: https://www.overleaf.com/learn/latex/How_to_Write_a_Thesis_in_LaTeX_(Part_3):_Figures,_Subfigures_and_Tables
+ \usepackage{caption}
+\usepackage{subcaption}
+
+%\title{Variational Inference: A Historical Perspective}
+\title{Independence Properties \\ of Directed Probabilistic Graphical Models}
+
+
+%TO DRAW ARROWS WITH EQUATIONS AND SHADE THEM.
+% REFRENCE: http://www.texample.net/tikz/examples/beamer-arrows/
+% For every picture that defines or uses external nodes, you'll have to
+% apply the 'remember picture' style. To avoid some typing, we'll apply
+% the style to all pictures.
+\tikzstyle{every picture}+=[remember picture]

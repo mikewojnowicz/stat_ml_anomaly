@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{Motivation}{3}{0}{1}
+\beamer@sectionintoc {2}{Directed Probabilistic Graphical Models }{5}{0}{2}
+\beamer@sectionintoc {3}{Independence in Canonical Graphs}{8}{0}{3}
+\beamer@sectionintoc {4}{Independence in Directed PGM's}{15}{0}{4}
