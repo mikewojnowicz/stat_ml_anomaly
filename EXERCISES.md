@@ -31,9 +31,12 @@ Python co-development paradigm -- collaborate in gitpod.io or Google Colab. We c
 	* [Advanced]: Compute the predictive posterior for a Dirichlet-Categorical model. 
 * [Hand] Show that certain distributions are in the exponential family
     * Bernoulli, Gaussian: http://www.cs.columbia.edu/~blei/fogm/2015F/notes/exponential-family.pdf.
-* [Hand] Do the d-separation exercises at http://web.mit.edu/jmn/www/6.034/d-separation.pdf.
 * [???] Fit a Bayesian Multivariate Gaussian to some data, plot samples from the NIW Posterior.
 * Maybe also use some library to fit some distribution to data using (a) maximum likelihood and (b) conjugate Bayes  ?
+* PGM's
+	* [Hand] Do the d-separation exercises at http://web.mit.edu/jmn/www/6.034/d-separation.pdf.
+* Maximum Likelihood
+   *. 
 
 ### Day 2: EM 
 * Write Python code for k-means 

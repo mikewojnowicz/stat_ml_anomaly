@@ -4,12 +4,21 @@
 Mike Wojnowicz and Karin Knudson 
 
 
-## Goal 
-This course will introduce students to a variety of models in statistical machine learning that can be used for anomaly detection. Topics will include:  Mixture Models, Hidden Markov Models, Latent Dirichlet Allocation, Variational Autoencoders, and Normalizing Flows. Areas of application range from cybersecurity to biology to speech recognition. 
+## Description
+This workshop will introduce students to a variety of models in statistical machine learning that can be used for anomaly detection. Topics will include:  Mixture Models, Hidden Markov Models, Latent Dirichlet Allocation, Variational Autoencoders, and Normalizing Flows. Areas of application range from cybersecurity to biology to speech recognition. 
+
+## Goals
+By the end of this workshop, we hope that you will
+
+* Have some sense of various possible ways to approach an unsupervised learning problem (e.g., frequentist vs. Bayesian).
+* Have some intuition about the the models listed in the description.  This intuition should, for example, support intelligent use of api's when modeling data.
+* Understand what expectation maximization and variational inference are, and how they underly the learning of models such as those above.
+* Develop and/or reinforce some understanding about modeling tools (e.g., how to determine conditional independence in a probabilistic graphical model; what exponential families mean and are used for; etc.)
+
 
 ## Pre-requisites
 
-Students should have some passing familiarity with basic statistical concepts (maximum likelihood, Bayes law, expectations, conditional probability), and should be comfortable with Python programming.
+Students should have some passing familiarity with basic statistical concepts (maximum likelihood, Bayes law, expectations, conditional probability), and should be comfortable with Python programming.  We will also assume knowledge of calculus.
 
 ## Structure 
 
@@ -17,10 +26,10 @@ We break the course into four topics, one per day.  (The last day is a flex day.
 
 ## Topics
 
-* Day 1: Statistical Inference / (maybe) Ice Breaker / (maybe) Python Template 
-    * Distribution Fitting via Maximum Likelihood 
-    * Bayesian approaches and Conjugate Bayesian Models
+* Day 1: Basics 
+    * Frequentist approaches and Maximum Likelihood 
     * Exponential Families 
+    * Bayesian approaches and Conjugate Bayesian Models
     * Probabilistic Graphical Models
 * Day 2: Expectation Maximization (EM) 
     * Overview
@@ -55,10 +64,10 @@ We break the course into four topics, one per day.  (The last day is a flex day.
 	* Michael I Jordan's chapter: https://people.eecs.berkeley.edu/~jordan/courses/260-spring10/other-readings/chapter8.pdf
 	* Michael I Jordan's chapter: https://people.eecs.berkeley.edu/~jordan/courses/260-spring10/other-readings/chapter9.pdf
 
-### Day 2: EM
+### Day 2: Expectation Maximization (EM)
 * Mixture Models and EM  
 	* CH 9 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer.
-* HMM
+* Hidden Markov Models (HMMs)
 	* Sec 13.2 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer.	
 	* Ghahramani, Z. (2001). An introduction to hidden Markov models and Bayesian networks. In Hidden Markov models: applications in computer vision (pp. 9-41).
 
@@ -69,4 +78,8 @@ We break the course into four topics, one per day.  (The last day is a flex day.
 * Latent Dirichlet Allocation
 	* Blei, D. M., Ng, A. Y., & Jordan, M. I. (2003). Latent dirichlet allocation. Journal of machine Learning research, 3(Jan), 993-1022.
 
- 	
+### Day 4: Black Box Models 
+
+* Normalizing Flows 
+	* Dinh, L., Sohl-Dickstein, J., & Bengio, S. (2016). Density estimation using real nvp. arXiv preprint arXiv:1605.08803.
+	* Papamakarios, G., Nalisnick, E., Rezende, D. J., Mohamed, S., & Lakshminarayanan, B. (2019). Normalizing flows for probabilistic modeling and inference. arXiv preprint arXiv:1912.02762. 

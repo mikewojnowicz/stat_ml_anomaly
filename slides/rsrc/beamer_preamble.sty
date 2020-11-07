@@ -168,13 +168,26 @@
 % TOGGLE FONT SIZE
 \usepackage{lmodern}
 
-%%% HMM Specific Stuff
-\newcommand{\state}{x}
- 
  % SUBFIGURES
  % See: https://www.overleaf.com/learn/latex/How_to_Write_a_Thesis_in_LaTeX_(Part_3):_Figures,_Subfigures_and_Tables
  \usepackage{caption}
 \usepackage{subcaption}
+
+%%% COLORS
+% Reference: http://latexcolor.com/
+\definecolor{darkblue}{rgb}{0.0, 0.0, 0.55}
+
+%%% SIMPLE BLOCK
+\newenvironment{sblock}[1]
+{
+\setbeamercolor{block title}{bg=black!2,fg=darkblue}
+\setbeamerfont{block title}{size=\large}
+\setbeamercolor{block body}{bg=black!2,fg=black}
+\begin{block}{#1}
+}
+{
+\end{block}
+}
 
 
 %TO DRAW ARROWS WITH EQUATIONS AND SHADE THEM.
@@ -183,3 +196,7 @@
 % apply the 'remember picture' style. To avoid some typing, we'll apply
 % the style to all pictures.
 \tikzstyle{every picture}+=[remember picture]
+
+%%% HMM Specific Stuff
+\newcommand{\state}{x}
+ 
