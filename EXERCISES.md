@@ -17,13 +17,17 @@ Why have a lab as a part of the course, as opposed to just working on your own t
 * [Maximum Likelihood](https://colab.research.google.com/drive/1aNNOV0fdAcDiKKKGp5dodGtEA5sk96TH?usp=sharing)
 * [Anomaly Detection with Multivariate Gaussian](https://colab.research.google.com/drive/1tqG8H1m5TyBwtK_Rdnh9uYWMjzvJySvy?usp=sharing)
 * [Probabilistic Graphical Models](http://web.mit.edu/jmn/www/6.034/d-separation.pdf)
+* Other exercises to appear later.
 
 ### Day 2: EM 
 * [Mixture Models](https://colab.research.google.com/drive/1rbEjQkJPN6FCQ0i3dADZtCSa4tLK4zhw?usp=sharing)
 * [Mixture Models via SciKitLearn](https://colab.research.google.com/drive/1Rm5JRxB5lHGMFlj79C7kTgEuXmxnYSTe?usp=sharing)
+* Other exercises to appear later.
 
 ### Day 3: VI 
+* Exercises to appear later.
 
 
 ### Day 4: Black Box Models
 * [Normalizing Flows](https://colab.research.google.com/drive/1tHGmTXpme05uiB5kRz11EhSdxuZ4qXGf?usp=sharing)
+* Other exercises to appear later.
