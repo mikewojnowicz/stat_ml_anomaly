@@ -35,7 +35,7 @@ We allow for approximate execution of the vision.
     * Introduction (K-means)
     * Mixture Models
     * General comments
-    * Cybersecurity application
+    * Cybersecurity applications
     * Hidden Markov Models
 * Day 3: Variational Inference (VI)
     * Overview (and Relation to EM) 
