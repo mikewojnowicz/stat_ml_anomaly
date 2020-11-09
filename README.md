@@ -75,12 +75,13 @@ By the end of this workshop, we hope that you will
 
 ### Day 2: Expectation Maximization (EM)
 * Mixture Models and EM  
-	* CH 9 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer.
+	* Section 2.3 and Chapter 9 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer.
+	* Sections 6.8 and 8.5 of Elements of Statistical Learning by Hastie et al. (2009)
 * Hidden Markov Models (HMMs)
-	* Sec 13.2 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer.	
+	* Sec 13.2 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer
 	* Ghahramani, Z. (2001). An introduction to hidden Markov models and Bayesian networks. In Hidden Markov models: applications in computer vision (pp. 9-41).
 
-	
+
 ### Day 3: Variational Inference
 * Introduction to VI 
 	* Blei, D. M., Kucukelbir, A., & McAuliffe, J. D. (2017). Variational inference: A review for statisticians. Journal of the American statistical Association, 112(518), 859-877.
