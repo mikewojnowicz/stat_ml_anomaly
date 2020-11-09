@@ -16,7 +16,7 @@
 \newcommand{\y}{Y}
 
 
-\title{Maximum Likelihood Approaches}
+\title{Introduction to Maximum Likelihood Approaches}
 
 \begin{document}
 
@@ -150,7 +150,7 @@ Whether or not we can solve this analytically depends on the choice of model!
 \end{frame}
 
 
-\section{Maximum Likelihood Example}
+\section{Maximum Likelihood Examples}
 
 \begin{frame}{Example: Gaussian Distribution}
 
@@ -252,8 +252,15 @@ for $\mu$.
 
 \end{frame}
 
+\begin{frame}{Exercises}
 
-\section{Anomaly Detection}
+Let's split into break-out rooms and try some \href{https://colab.research.google.com/drive/1aNNOV0fdAcDiKKKGp5dodGtEA5sk96TH}{\blue{ML exercises}}
+
+\end{frame}
+
+
+
+\section{Anomaly Detection with Multivariate Gaussians}
 
 \begin{frame}{Anomaly Detection with Multivariate Gaussians}
 
@@ -279,6 +286,13 @@ This can be used to assess the anomalousness of test data.
 % SAY:  Note from the density that these are equi-probability contours 
 
 \end{frame}
+
+\begin{frame}{Exercises}
+
+Let's split into break-out rooms and try some \href{https://colab.research.google.com/drive/1tqG8H1m5TyBwtK_Rdnh9uYWMjzvJySvy}{\blue{exercises}}
+
+\end{frame}
+
 
 
 \section{Optimization}
@@ -338,6 +352,54 @@ You may have noticed that the maximum likelihood equation is only tracking a \it
 
 \end{frame}
 
+\section{Exponential Family}
+
+
+\begin{frame}{Exponential Family Models}
+
+\begin{sblock}{Definition}
+We consider a model $\mathcal{P}$ for data in a sample space $\mathcal{X}$ with parameter space $\Theta \subset \R^m$ . Each distribution in $\mathcal{P}$ has density $p(x \cond \theta)$ for some $\theta \in \Theta$ . \\
+\vfill
+The model is called an \bf{exponential family model} (EFM) if $p$ can be written as
+\begin{align*}
+%\label{eqn:exponential_family}
+ p(x \cond \theta) = h(x) \exp \{ \eta(\theta)^T s(x) - a(\theta)\} 
+ \end{align*}
+where we refer to 
+\begin{itemize}
+\item $h$ as the base measure
+\item  $\eta$ as the natural parameter
+\item $s$ as the sufficient statistics
+\item $a$ as the log normalizer. 
+\end{itemize}
+\end{sblock}
+\end{frame}
+
+
+\begin{frame}{Demo}
+\href{https://colab.research.google.com/drive/1PokSTCC1u0QWghxLVWhS30ycVRWjNMbG}{Gradient Ascent Demo}
+\end{frame}
+
+\begin{frame}
+\begin{sblock}{Exponential families are important because}
+\begin{itemize}
+\item Many important parametric models (Gaussian, Poisson, beta, gamma, etc.) are EFM's.
+\item The special form of $p$ gives them many nice properties. For example, exponential family likelihoods are \it{strictly convex.}\footnote{And for why we care about \it{that}, see the next slide. Other useful properties will come up as we go along.}
+\item Many algorithms and methods can be formulated generically for all EFM's. 
+\end{itemize}
+\end{sblock}
+\vfill
+\begin{sblock}{An observation}
+The data and the parameter interact only through the linear term $\eta(\theta)^T s(x)$ in the exponent.
+\end{sblock}
+
+%
+%The exponential family of distributions includes the Gaussian, binomial, multinomial, Poisson, gamma, von Mises and beta distributions, as well as many others. 
+%
+%Facts about the exponential family can be used to simplify many problems in machine learning.  (We have already seen one of many examples.)
+\end{frame}
+
+
 \begin{frame}{Convex Functions}
 
 \begin{sblock}{Definition}
@@ -369,72 +431,28 @@ If $f$ is convex, then:
 
 \end{frame}
 
-\section{Exponential Family}
+\begin{frame}{Example: The Gaussian distribution}
+\footnotesize
+The familiar form of the univariate Gaussian is 
+\[ p(x \cond \mu, \sigma^2) = \df{1}{\sqrt{2 \pi \sigma^2}} \; \exp \bp{ - \df{1}{2} \df{(x-\mu)^2}{\sigma^2}}  \] 
+\pause
 
-
-\begin{frame}{Exponential Family Models}
-
-\begin{sblock}{Definition}
-We consider a model $\mathcal{P}$ for data in a sample space $\mathcal{X}$ with parameter space $\Theta \subset \R^m$ . Each distribution in $\mathcal{P}$ has density $p(x \cond \theta)$ for some $\theta \in \Theta$ . \\
-\vfill
-The model is called an \bf{exponential family model} (EFM) if $p$ can be written as
+We put it in exponential family form by expanding the square
 \begin{align*}
-%\label{eqn:exponential_family}
- p(x \cond \theta) = h(x) \exp \{ \eta(\theta)^T s(x) - a(\theta)\} 
+ p(x \cond \mu, \sigma^2) = \df{1}{\sqrt{2 \pi}} \exp \bp{ \df{\mu}{\sigma^2} x - \df{1}{2 \sigma^2} x^2 - \df{1}{2 \sigma^2} \mu^2 - \log \sigma}
  \end{align*}
-where we refer to 
-\begin{itemize}
-\item $h$ as the base measure
-\item  $\eta$ as the natural parameter
-\item $s$ as the sufficient statistics
-\item $a$ as the log normalizer. 
-\end{itemize}
-\end{sblock}
-\end{frame}
+ which reveals the exponential family where
+ \begin{align*}
+\eta &= [\mu/\sigma^2, -1/2 \sigma^2 ]\\
+s(x) &= [x, x^2] \\
+a(\eta) &= \mu^2/2\sigma^2 + \log \sigma \\
+h(x) &=  1/\sqrt{2 \pi}
+ \end{align*}
 
-\begin{frame}
-
-
-
-\begin{sblock}{Exponential families are important because}
-\begin{itemize}
-\item The special form of $p$ gives them many nice properties.\footnote{Indeed, we have already seen one.  More will come up in this workshop.}
-\item Many important parametric models (Gaussian, Poisson, beta, gamma, etc.) are EFM's.
-\item Many algorithms and methods can be formulated generically for all EFM's. 
-\end{itemize}
-\end{sblock}
-\vfill
-\begin{sblock}{An observation}
-The data and the parameter interact only through the linear term $\eta(\theta)^T s(x)$ in the exponent.
-\end{sblock}
-
-%
-%The exponential family of distributions includes the Gaussian, binomial, multinomial, Poisson, gamma, von Mises and beta distributions, as well as many others. 
-%
-%Facts about the exponential family can be used to simplify many problems in machine learning.  (We have already seen one of many examples.)
-\end{frame}
-
-\begin{frame}{Example: The Dirichlet Distribution}
-
-
-\begin{columns}
-\begin{column}{.6\textwidth}
-We can write the density of the Dirichlet distribution in exponential form:
-\end{column}
-\begin{column}{.35\textwidth}
-\includegraphics[width=\textwidth]{images/dirichlet}
-\end{column}
-\end{columns}
-\begin{align*}
-p (\pi \cond\alpha) &= \df{\Gamma(\sum_k \alpha_k)}{\prod_k \Gamma (\alpha_k) } \pi_1^{\alpha_1 -1} \cdot \cdot \cdot \pi_K^{\alpha_K -1} \\
-&= \exp \bigg\{ \sum_{k=1}^K (\alpha_k -1) \log \pi_k - \bigg[ \sum_k \log \Gamma (\alpha_k)-  \log \Gamma (\sum \alpha_k) \bigg]  \bigg\}
-\end{align*}
-with natural parameter $\eta(\alpha) = [\alpha_1 -1, ..., \alpha_K -1]^T$, sufficient statistics $s(\pi) = \log \pi = [\log \pi_1, ..., \log \pi_K]^T$, base measure $h(\pi)=1$, and log normalizer $a(\alpha) =  \sum_k \log \Gamma (\alpha_k ) - \log \Gamma (\sum_k \alpha_k)$. $\qed$
 \end{frame}
 
 
-
-\begin{frame}{Exercise: The Bernoulli distribution}
+\begin{frame}{Example: The Bernoulli distribution}
 \footnotesize
 As an example, let's put the Bernoulli (in its usual form) into exponential family form.   The Bernoulli you are used to seeing is:
 \[ p(x \cond \pi) = \pi^x \; (1-\pi)^{1-x} \quad x \in \set{0,1} \] 
@@ -461,26 +479,23 @@ h(x) &=  1
 
 \end{frame}
 
-\begin{frame}{Exercise: The Gaussian distribution}
-\footnotesize
-The familiar form of the univariate Gaussian is 
-\[ p(x \cond \mu, \sigma^2) = \df{1}{\sqrt{2 \pi \sigma^2}} \; \exp \bp{ - \df{1}{2} \df{(x-\mu)^2}{\sigma^2}}  \] 
-\pause
 
-We put it in exponential family form by expanding the square
+\begin{frame}{Example: The Dirichlet Distribution}
+
+
+\begin{columns}
+\begin{column}{.6\textwidth}
+We can write the density of the Dirichlet distribution in exponential form:
+\end{column}
+\begin{column}{.35\textwidth}
+\includegraphics[width=\textwidth]{images/dirichlet}
+\end{column}
+\end{columns}
 \begin{align*}
- p(x \cond \mu, \sigma^2) = \df{1}{\sqrt{2 \pi}} \exp \bp{ \df{\mu}{\sigma^2} x - \df{1}{2 \sigma^2} x^2 - \df{1}{2 \sigma^2} \mu^2 - \log \sigma}
- \end{align*}
- which reveals the exponential family where
- \begin{align*}
-\eta &= [\mu/\sigma^2, -1/2 \sigma^2 ]\\
-s(x) &= [x, x^2] \\
-a(\eta) &= \mu^2/2\sigma^2 + \log \sigma \\
-h(x) &=  1/\sqrt{2 \pi}
- \end{align*}
-
-
-
+p (\pi \cond\alpha) &= \df{\Gamma(\sum_k \alpha_k)}{\prod_k \Gamma (\alpha_k) } \pi_1^{\alpha_1 -1} \cdot \cdot \cdot \pi_K^{\alpha_K -1} \\
+&= \exp \bigg\{ \sum_{k=1}^K (\alpha_k -1) \log \pi_k - \bigg[ \sum_k \log \Gamma (\alpha_k)-  \log \Gamma (\sum \alpha_k) \bigg]  \bigg\}
+\end{align*}
+with natural parameter $\eta(\alpha) = [\alpha_1 -1, ..., \alpha_K -1]^T$, sufficient statistics $s(\pi) = \log \pi = [\log \pi_1, ..., \log \pi_K]^T$, base measure $h(\pi)=1$, and log normalizer $a(\alpha) =  \sum_k \log \Gamma (\alpha_k ) - \log \Gamma (\sum_k \alpha_k)$. $\qed$
 \end{frame}
 
 
