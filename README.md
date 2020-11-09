@@ -43,8 +43,7 @@ We allow for approximate execution of the vision.
     * Bayesian Hidden Markov Models
     * Latent Dirichlet Allocation 
 * Day 4: Black Box Models 
-    * Introduction (Motivation, PGM's + NN's, etc.) 
-    * Automatic Differentiation Variational Inference
+    * Introduction 
     * VAE 
     * Normalizing Flow
 * Day 5: Flex Day 
