@@ -7,22 +7,22 @@ Mike Wojnowicz and Karin Knudson
 ## Description
 This workshop will introduce students to a variety of models in statistical machine learning that can be used for anomaly detection. Topics will include:  Mixture Models, Hidden Markov Models, Latent Dirichlet Allocation, Variational Autoencoders, and Normalizing Flows. Areas of application range from cybersecurity to biology to speech recognition. 
 
-## Goals
-By the end of this workshop, we hope that you will
-
-* Have some sense of various possible ways to approach an unsupervised learning problem (e.g., frequentist vs. Bayesian).
-* Have some intuition about the the models listed in the description.  This intuition should, for example, support intelligent use of api's when modeling data.
-* Understand what expectation maximization and variational inference are, and how they underly the learning of models such as those above.
-* Develop and/or reinforce some understanding about modeling tools (e.g., how to determine conditional independence in a probabilistic graphical model; what exponential families mean and are used for; etc.)
-
 
 ## Pre-requisites
 
-Students should have some passing familiarity with basic statistical concepts (maximum likelihood, Bayes law, expectations, conditional probability), and should be comfortable with Python programming.  We will also assume knowledge of calculus.
+Students should have some passing familiarity with basic statistical concepts (maximum likelihood, Bayes law, expectations, covariance matrices, conditional probability), and should be comfortable with Python programming.  We will also assume knowledge of calculus.
 
 ## Structure 
 
-We break the course into four topics, one per day.  (The last day is a flex day.)  Each day in turn has four subtopics.  Each subtopic will consist of about 20 minutes of presentation, followed by about 20 minutes of interactive group activity.   
+### Vision
+Break the course into four topics, one per day.  (The last day is a flex day.)  Each day in turn has four subtopics.  Each subtopic will consist of about 20 minutes of presentation, followed by about 20 minutes of interactive group activity. 
+
+### Execution
+
+We allow for approximate execution of the vision.
+
+* Some subtopics will have no exercises, some will have multiple.  Some exercises will occur mid-slides.
+* It is likely that topics will take more than a day. (The flex day will soak up overflow.)
 
 ## Topics
 
@@ -32,10 +32,11 @@ We break the course into four topics, one per day.  (The last day is a flex day.
     * Bayesian approaches and Conjugate Bayesian Models
     * Probabilistic Graphical Models
 * Day 2: Expectation Maximization (EM) 
-    * Overview
+    * Introduction (K-means)
     * Mixture Models
+    * General comments
+    * Cybersecurity application
     * Hidden Markov Models
-    * Cybersecurity:  Malware Ground Truth 
 * Day 3: Variational Inference (VI)
     * Overview (and Relation to EM) 
     * Bayesian Mixture Models
@@ -47,6 +48,14 @@ We break the course into four topics, one per day.  (The last day is a flex day.
     * VAE 
     * Normalizing Flow
 * Day 5: Flex Day 
+
+## Goals
+By the end of this workshop, we hope that you will
+
+* Have some sense of various possible ways to approach an unsupervised learning problem (e.g., frequentist vs. Bayesian).
+* Have some intuition about the the models listed in the description.  This intuition should, for example, support intelligent use of api's when modeling data.
+* Understand what expectation maximization and variational inference are, and how they underly the learning of models such as those above.
+* Develop and/or reinforce some understanding about modeling tools (e.g., how to determine conditional independence in a probabilistic graphical model; what exponential families mean and are used for; etc.)
 
 
 ## Further Readings

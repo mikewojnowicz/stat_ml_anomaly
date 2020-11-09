@@ -16,16 +16,6 @@
 \newcommand{\y}{Y}
 
 
-
-%%% SIMPLE TEXT
-\renewcommand{\bf}[1]{\textbf{{#1}}}
-\renewcommand{\it}[1]{\textit{{#1}}}
-
-
-%%% SIMPLE BIGG PARENTHESES AND BRACKETS
-\newcommand{\bp}[1]{\bigg(  {#1} \bigg)}
-\newcommand{\bb}[1]{\bigg[  {#1} \bigg]}
-
 \title{Maximum Likelihood Approaches}
 
 \begin{document}
@@ -497,6 +487,14 @@ h(x) &=  1/\sqrt{2 \pi}
 
 \begin{frame}{Examples of Exponential Families}
 \includegraphics[width=\textwidth]{images/ef_examples}
+
+%\hfill \tiny Image Credit: Peter Orbanz 
+\begin{sblock}{Roughly speaking}
+On every sample space, there is a ``natural" statistic of interest. On a space with Euclidean distance, for example, it is natural to measure both location and correlation; on categories (which have no "distance" from each other), it is more natural to measure only expected numbers of counts. %On most types of sample spaces, the exponential family model with S chosen as this natural statistic is the prototypical distribution
+\end{sblock}
+
+
+
 \end{frame}
 
 
