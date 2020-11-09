@@ -1,0 +1,145 @@
+\pdfoutput=1
+\documentclass[10pt]{beamer}
+
+%STANDARD PREAMBLE
+%https://tex.stackexchange.com/questions/68821/is-it-possible-to-create-a-latex-preamble-header
+\usepackage{../../rsrc/beamer_preamble}
+
+%% ALLOW FOR ITEMIZE ENVIRONMENTS WITH NO PRECEDING
+% SPACING, IF DESIRED
+% Reference: https://tex.stackexchange.com/questions/86054/how-to-remove-the-whitespace-before-itemize-enumerate
+%\usepackage{enumitem}% http://ctan.org/pkg/enumitem 
+\usepackage{paralist}
+
+% RANDOM VARIABLE
+\newcommand{\x}{X}
+\newcommand{\y}{Y}
+
+
+\title{Bayesian Inference}
+
+\begin{document}
+
+\maketitle
+
+
+
+%\section{Bayesian Approaches}
+
+\begin{frame}{Bayesian approaches}
+
+\begin{itemize}
+\item Typically contrasted with \textbf{frequentist} approaches
+\item Treat parameters as uncertain, data as fixed
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%
+
+\begin{frame}{Bayes' Rule}
+
+\begin{sblock}{Bayes' Rule}
+$ p(\theta | x) = \dfrac{p(x | \theta) p(\theta)}{p(x)} =\dfrac{p(x | \theta) p(\theta)}{\int p(x | \theta) p(\theta)}  $
+\end{sblock}
+
+\begin{sblock}{Notes:}
+
+$p(\theta | x)$ - posterior \\
+$p(\theta)$ - prior \\
+$p(x | \theta)$ - likelihood
+
+The posterior distribution is proportional to the prior times the likelihood:
+$p(\theta | x) \propto p(x | \theta) p(\theta)$
+
+The posterior distribution \textit{is a distribution} over $\theta$.
+
+\end{sblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%
+
+\begin{frame}{Posterior predictive distribution}
+
+\begin{sblock}{Given}
+
+$p(\theta | x)$ - posterior \\
+$p(\theta)$ - prior \\
+$p(x | \theta)$ - likelihood
+
+\end{sblock}
+
+\begin{sblock}{Posterior predictive distribution}
+
+Consider the probability of new data $x'$. Posterior predictive distribution is:
+
+$p(x' | x) = \int p(x', \theta | x) \, d\theta = \int p(x' | \theta, x) p(\theta |x) \, d\theta = \int p(x' | \theta) p(\theta | x) \, d\theta$
+
+Incorporates the knowledge and uncertainty about $\theta$ that we already had after seeing data $x$.
+
+\end{sblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%
+
+
+\begin{frame}{Bayesian inference: conjugate example}
+Sometimes, we can compute the posterior distribution by hand, given prior and likelihood.
+
+\begin{sblock}{Setup: flipping a coin}
+Probability that it lands heads is (unknown) $\theta$. \\
+Prior probability over $\theta$ assumed to follow a $Beta(3,3)$ distribution:
+$$ p(\theta) = \frac{\theta^{3-1}(1-\theta)^{3-1}}{B(3,3)}$$
+Note: $\theta \sim Beta(a, b)$ means $p(\theta) \propto \theta^{a-1}(1-\theta)^{b-1}$\\
+Will collect data by flipping coin once. Likelihood of observing heads ($x=1$) or tails ($x=0$) is given by a Bernoulli distribution:
+$$p(x | \theta) = \theta^x(1-\theta)^{1-x} $$.
+\end{sblock}
+
+
+\end{frame}
+
+\begin{frame}{Bayesian inference: conjugate example}
+
+\begin{sblock}{Setup: flipping a coin}
+Probability that it lands heads is (unknown) $\theta$. \\
+Prior probability over $\theta$ assumed to follow a $Beta(3,3)$ distribution:
+$$ p(\theta) = \frac{\theta^{3-1}(1-\theta)^{3-1}}{B(3,3)}$$
+Note: $\theta \sim Beta(a, b)$ means $p(\theta) \propto \theta^{a-1}(1-\theta)^{b-1}$\\
+Will collect data by flipping coin once. Likelihood of observing heads ($x=1$) or tails ($x=0$) is given by a Bernoulli distribution:
+$$p(x | \theta) = \theta^x(1-\theta)^{1-x} $$.
+\end{sblock}
+\begin{sblock}{Computing the posterior after observing x=1}
+$$p(\theta| x) \propto p(x | t\heta) p(\theta) = \theta^1(1-\theta)^{0}  \theta^{2}(1-\theta)^{2}  = \theta^3 (1-\theta)^2 \implies \theta | x \sim Beta(4,3)$$
+\end{sblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%
+
+\begin{frame}{Bayesian inference: tractability notes}
+
+\begin{sblock}{Conjugacy}
+We have conjugacy when the prior and the posterior distributions are in the same family (e.g. in the previous example, the prior and posterior are beta distributions).
+\end{sblock}
+
+\begin{sblock}{Generally}
+Generally, computing the posterior distribution is much harder than in this example!\\
+Consider the denominator in$ p(\theta | x) = \dfrac{p(x | \theta) p(\theta)}{\int p(x | \theta) p(\theta)}  $  - integrals are hard \\
+In nonconjugate examples, we need approaches to work with the posterior distribution when we cannot calculate it directly. Stay tuned!
+\end{sblock}
+
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+\end{document}
