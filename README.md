@@ -12,6 +12,10 @@ This workshop will introduce students to a variety of models in statistical mach
 
 Students should have some passing familiarity with basic statistical concepts (maximum likelihood, Bayes law, expectations, covariance matrices, conditional probability), and should be comfortable with Python programming.  We will also assume knowledge of calculus.
 
+## Work In Progress
+
+The slides, exercises, and wrapper will continue to evolve over the course of the week.  
+
 ## Structure 
 
 ### Vision
@@ -93,4 +97,4 @@ By the end of this workshop, we hope that you will
 	* Dinh, L., Sohl-Dickstein, J., & Bengio, S. (2016). Density estimation using real nvp. arXiv preprint arXiv:1605.08803.
 	* Papamakarios, G., Nalisnick, E., Rezende, D. J., Mohamed, S., & Lakshminarayanan, B. (2019). Normalizing flows for probabilistic modeling and inference. arXiv preprint arXiv:1912.02762. 
 * Variational Autoencoders
-   * Kingma, D. P., & Welling, M. (2013). Auto-encoding variational bayes. arXiv preprint arXiv:1312.6114. 	
+   * Kingma, D. P., & Welling, M. (2013). Auto-encoding variational bayes. arXiv preprint arXiv:1312.6114.
