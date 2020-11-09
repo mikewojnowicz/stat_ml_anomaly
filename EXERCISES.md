@@ -16,6 +16,7 @@ Why have a lab as a part of the course, as opposed to just working on your own t
 ### Day 1: Basics  
 * [Maximum Likelihood](https://colab.research.google.com/drive/1aNNOV0fdAcDiKKKGp5dodGtEA5sk96TH?usp=sharing)
 * [Anomaly Detection with Multivariate Gaussian](https://colab.research.google.com/drive/1tqG8H1m5TyBwtK_Rdnh9uYWMjzvJySvy?usp=sharing)
+* Exponential Families (see slide deck).
 * [Probabilistic Graphical Models](http://web.mit.edu/jmn/www/6.034/d-separation.pdf)
 * Other exercises to appear later.
 
