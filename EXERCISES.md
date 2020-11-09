@@ -20,6 +20,7 @@ Why have a lab as a part of the course, as opposed to just working on your own t
 
 ### Day 2: EM 
 * [Mixture Models](https://colab.research.google.com/drive/1rbEjQkJPN6FCQ0i3dADZtCSa4tLK4zhw?usp=sharing)
+* [Mixture Models via SciKitLearn](https://colab.research.google.com/drive/1Rm5JRxB5lHGMFlj79C7kTgEuXmxnYSTe?usp=sharing)
 
 ### Day 3: VI 
 
