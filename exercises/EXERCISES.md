@@ -19,7 +19,6 @@ Why have a lab as a part of the course, as opposed to just working on your own t
 * [Anomaly Detection with Multivariate Gaussian](https://colab.research.google.com/drive/1tqG8H1m5TyBwtK_Rdnh9uYWMjzvJySvy?usp=sharing)
 * Exponential Families (see slide deck).
 * [Probabilistic Graphical Models](http://web.mit.edu/jmn/www/6.034/d-separation.pdf)
-* Other exercises to appear later.
 
 ### Day 2: EM 
 * [Mixture Models](https://colab.research.google.com/drive/1rbEjQkJPN6FCQ0i3dADZtCSa4tLK4zhw?usp=sharing)
