@@ -346,14 +346,44 @@ The $d \times  d$-matrix $H_f (\+x)$ is called the \bf{Hessian matrix} of $f$ at
 You may have noticed that the maximum likelihood equation is only tracking a \it{local} maximality criterion.  In fact, it also ignored the second-order condition. What gives?
 
 \begin{itemize}
-\item Many well-known distributions\footnote{In particular, those in the exponential family.  We will cover this in the next slide deck.} have strictly concave likelihoods, in which case the MLE equation is sufficient to verify a global maximum. 
+\item Many well-known distributions\footnote{In particular, those in the exponential family.  See the next slide.} have strictly concave likelihoods\, in which case the MLE equation is sufficient to verify a global maximum. 
 \item For many other distributions, it can be hard to find the global maximizer of the likelihood. Thus a local maximizer is often used and is called an MLE.   The local optimizer is typically found by an optimization procedure, from which the second order condition generally follows.
 \end{itemize}
 
 \end{frame}
 
+\begin{frame}{Convex Functions}
+
+\begin{sblock}{Definitions}
+
+\begin{minipage}{.6\textwidth}
+A function $f$ is \bf{convex} if every line segment between function values lies above the graph of $f$.  \tiny{(A function $f$ is \bf{concave} if $-f$ is convex.  Some likelihood functions $L$ are \it{concave}, in which case the \it{cost function} that we want to minimize, $-L$, is convex.)}
+\end{minipage}
+\hfill
+\begin{minipage}{.3\textwidth}
+\includegraphics[width=\textwidth]{images/convexity}
+\end{minipage}
+\end{sblock}
+
+\begin{sblock}{Analytic criterion}
+ A twice differentiable function is convex if $f^{\prime \prime}(\+x) \geq 0$ (or $H_f (\+x)$ positive semidefinite) for all $\+x$.
+\end{sblock}  
+  
+\begin{sblock}{Implications for optimization}
+If $f$ is convex, then:
+\begin{itemize}
+\item $f^\prime (\+x) = 0$ is a sufficient criterion for a minimum. 
+\item Local minima are global.
+\item If f is strictly convex ($f^{\prime \prime} > 0$ or $H_f$ positive definite), there is only one minimum (which is both global and local).
+\end{itemize}
+\end{sblock}
+
+\end{frame}
+
 \begin{frame}{Demo}
+\begin{center}
 \href{https://colab.research.google.com/drive/1PokSTCC1u0QWghxLVWhS30ycVRWjNMbG}{Gradient Ascent Demo}
+\end{center}
 \end{frame}
 
 \section{Exponential Family}
@@ -384,7 +414,7 @@ where we refer to
 \begin{sblock}{Exponential families are important because}
 \begin{itemize}
 \item Many important parametric models (Gaussian, Poisson, beta, gamma, etc.) are EFM's.
-\item The special form of $p$ gives them many nice properties. For example, exponential family likelihoods are \it{strictly convex.}\footnote{And for why we care about \it{that}, see the next slide. Other useful properties will come up as we go along.}
+\item The special form of $p$ gives them many nice properties. For example, exponential family likelihoods are \it{strictly concave.}\footnote{We have seen this earlier. Other useful properties -- such as conjugacy -- will come up as we go along.}
 \item Many algorithms and methods can be formulated generically for all EFM's. 
 \end{itemize}
 \end{sblock}
@@ -400,36 +430,7 @@ The data and the parameter interact only through the linear term $\eta(\theta)^T
 \end{frame}
 
 
-\begin{frame}{Convex Functions}
 
-\begin{sblock}{Definition}
-\begin{columns}
-\begin{column}{.02\textwidth}
-\end{column}
-\begin{column}{.68\textwidth}
-A function $f$ is \bf{convex} if every line segment between function values lies above the graph of $f$
-\end{column}
-\begin{column}{.3\textwidth}
-\includegraphics[width=\textwidth]{images/convexity}
-\end{column}
-
-\end{columns}
-\end{sblock}
-
-\begin{sblock}{Analytic criterion}
- A twice differentiable function is convex if $f^{\prime \prime}(\+x) \geq 0$ (or $H_f (\+x)$ positive semidefinite) for all $\+x$.
-\end{sblock}  
-  
-\begin{sblock}{Implications for optimization}
-If $f$ is convex, then:
-\begin{itemize}
-\item $f^\prime (\+x) = 0$ is a sufficient criterion for a minimum. 
-\item Local minima are global.
-\item If f is strictly convex ($f^{\prime \prime} > 0$ or $H_f$ positive definite), there is only one minimum (which is both global and local).
-\end{itemize}
-\end{sblock}
-
-\end{frame}
 
 \begin{frame}{Example: The Gaussian distribution}
 \footnotesize
