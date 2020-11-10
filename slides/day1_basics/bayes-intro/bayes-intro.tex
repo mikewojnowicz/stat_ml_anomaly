@@ -110,7 +110,7 @@ Will collect data by flipping coin once. Likelihood of observing heads ($x=1$) o
 $$p(x | \theta) = \theta^x(1-\theta)^{1-x} $$.
 \end{sblock}
 \begin{sblock}{Computing the posterior after observing x=1}
-$$p(\theta| x) \propto p(x | t\heta) p(\theta) = \theta^1(1-\theta)^{0}  \theta^{2}(1-\theta)^{2}  = \theta^3 (1-\theta)^2 \implies \theta | x \sim Beta(4,3)$$
+$$p(\theta| x) \propto p(x | \theta) p(\theta) = \theta^1(1-\theta)^{0}  \theta^{2}(1-\theta)^{2}  = \theta^3 (1-\theta)^2 \implies \theta | x \sim Beta(4,3)$$
 \end{sblock}
 
 \end{frame}
@@ -124,8 +124,10 @@ We have conjugacy when the prior and the posterior distributions are in the same
 \end{sblock}
 
 \begin{sblock}{Generally}
-Generally, computing the posterior distribution is much harder than in this example!\\
-Consider the denominator in$ p(\theta | x) = \dfrac{p(x | \theta) p(\theta)}{\int p(x | \theta) p(\theta)}  $  - integrals are hard \\
+Generally, computing the posterior distribution is much harder than in this example!
+\vfill
+Consider the denominator in $ p(\theta | x) = \dfrac{p(x | \theta) p(\theta)}{\int p(x | \theta) p(\theta)}  $  - integrals are hard 
+\vfill
 In nonconjugate examples, we need approaches to work with the posterior distribution when we cannot calculate it directly. Stay tuned!
 \end{sblock}
 

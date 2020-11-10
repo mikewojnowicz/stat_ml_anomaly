@@ -34,12 +34,13 @@ We allow for approximate execution of the vision.
     * Frequentist approaches and Maximum Likelihood 
     * Exponential Families 
     * Bayesian approaches and Conjugate Bayesian Models
+    * Cybersecurity Application
     * Probabilistic Graphical Models
 * Day 2: Expectation Maximization (EM) 
     * Introduction (K-means)
     * Mixture Models
     * General comments
-    * Cybersecurity applications
+    * Cybersecurity Applications
     * Hidden Markov Models
 * Day 3: Variational Inference (VI)
     * Overview (and Relation to EM) 
