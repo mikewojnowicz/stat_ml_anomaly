@@ -666,6 +666,15 @@ The expectation maximization algorithm is
 \label{eqn:em_algorithm_appendix}
  \+\theta^{(t+1)} =  \text{argmax}_{\+\theta} \; \E_{p(\+z \cond \+x , \+\theta^{(t)})} \bigg[ \ln p(\+x, \+z \cond \+\theta) \bigg] 
  \end{equation}
+ \vfill
+\tiny \bf{Discuss:} What does and doesn't make sense about this algorithm? \\ % Expected: We need to marginalize out z.  Should make sense.   But (1) Why marginalize against that particular distribution on z (the posterior)?  (2) Where does this particular maximize-expectation form come from.
+\pause 
+
+\tiny \bf{Rk:}  There are many derivations.  One will fall out naturally when we do the section on variational inference. \\
+
+\pause 
+\bf{Discuss:} When will this algorithm will not be useable?
+
 \end{frame}
 
 
@@ -678,15 +687,15 @@ Moreover, let us assume that the complete data likelihood is in the exponential 
 
 \begin{align}
 \label{eqn:exponential_family_complete_data_likelihood}
- p(\+x, \+z \cond \theta) = \ds\prod_{i=1}^n h(x_i, z_i) \exp \big\{ \eta(\theta)^T \sum_{i=1}^n t(x_i, z_i) - n \,a(\eta(\theta))\big\} 
+ p(\+x, \+z \cond \theta) = \ds\prod_{i=1}^n h(x_i, z_i) \exp \big\{ \eta(\theta)^T \sum_{i=1}^n s(x_i, z_i) - n \,a(\eta(\theta))\big\} 
  \end{align}
 
 Here we want to find $\+\theta$ to optimize 
 \[ f(\+\theta) =  \E_{p(\+z \cond \+x , \+\theta^{(t)})} \bigg[ \ln p(\+x, \+z \cond \+\theta) \bigg] \]
 
 Following the logic of the Exponential Family module, we determine that we should select $\theta^{(t+1)}$ such that
-\[ \mu(\theta^{(t+1)}) = \df{1}{n} \ds\sum_{i=1}^n   \E_{p(\+z \cond \+x , \+\theta^{(t)})} t(x_i, z_i) \]
-where $\mu := \E[t(x_1,z_1)]$ refers to the mean parametrization of the likelihood.
+\[ \mu(\theta^{(t+1)}) = \df{1}{n} \ds\sum_{i=1}^n   \E_{p(\+z \cond \+x , \+\theta^{(t)})} s(x_i, z_i) \]
+where $\mu := \E[s(x_1,z_1)]$ refers to the mean parametrization of the likelihood.
 
 This is why an EM iteration is often described and  implemented as iteratively computing \bf{maximum likelihood with the expected sufficient statistics.}
 \end{frame}
