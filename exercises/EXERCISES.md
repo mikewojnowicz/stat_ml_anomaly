@@ -29,7 +29,7 @@ Why have a lab as a part of the course, as opposed to just working on your own t
 * [Mixture Models via SciKitLearn](https://colab.research.google.com/drive/1Rm5JRxB5lHGMFlj79C7kTgEuXmxnYSTe?usp=sharing)
    * [Mixture Models via SciKitLearn - Discussion Resources](https://colab.research.google.com/drive/1WOLuzfzc9LugAlA4m4fGtWmV6dNa-wnL) 
 * HMM exercises to appear later.
-* [Probabilistic Graphical Models](http://web.mit.edu/jmn/www/6.034/d-separation.pdf)
+* [Probabilistic Graphical Models](pdfs/d-separation-exercises.pdf)
 
 
 ### Module 3: VI 
