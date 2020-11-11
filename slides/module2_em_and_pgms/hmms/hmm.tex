@@ -117,7 +117,7 @@ M : Find $\theta$ to maximize $Q(\theta, \theta^{(old)})$.
 \begin{equation*}
 \begin{split}
 p(X, Z | \theta) &= p(\mathbf{z}_1| \pi) \prod_{n=2}^N p(\mathbf{z}_n | \mathbf{z}_{n-1}, A) \prod_{m=1}^N p(\mathbf{x}_m | \mathbf{z}_m, \phi) \\
-&=(\prod_{k=1}^{K} \pi_k^{z_{1k} )}(\prod_{n=1}^N\prod_{k=1}^K \prod_{j=1}^K A_{jk}^{z_{n-1,j}z_{nk} })( \prod_{m=1}^N \prod_{k=1}^K z_{mk} p(\mathbf{x}_n | \phi_k)
+&=(\prod_{k=1}^{K} \pi_k^{z_{1k} }((\prod_{n=1}^N\prod_{k=1}^K \prod_{j=1}^K A_{jk}^{z_{n-1,j}z_{nk} })( \prod_{m=1}^N \prod_{k=1}^K p(\mathbf{x}_n | \phi_k)^{ z_{mk}}
  \end{split}
  \end{equation*}
 %$$\implies \ln p (X, Z | \theta)$$
