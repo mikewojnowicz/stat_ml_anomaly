@@ -1169,17 +1169,85 @@ CAVI uses deterministic optimization methods, and thereby requires analytical ex
 
 \end{frame}
 
+\subsection{Tool: MF-CAVI Updates On Exponential Family Complete Conditionals}
+
+\begin{frame}{The Exponential Family} 
+
+We define an \textit{exponential family} of probability distributions as those distributions whose density has the following form
+\begin{align}
+\label{eqn:exponential_family}
+ p(x \cond \eta) = h(x) \exp \{ \eta^T t(x) - a(\eta)\} 
+ \end{align}
+where we refer to $h$ as the base measure, $\eta$ as the natural parameter, $t$ as the sufficient statistics, and $a$ as the log normalizer. 
+\vfill \vfill
+\tiny
+\alert{Note:} $x\perp \!\!\! \perp  \theta \cond t(x)$
+\end{frame}
+
+\begin{frame}{Example: The Dirichlet Distribution} 
+We can write the density of the Dirichlet distribution in exponential form.  If we let $Z(\alpha)$ be its normalizing constant (in particular, the multivariate beta function), then we have 
+\begin{align*}
+p \cond\alpha &= \df{1}{Z(\alpha)} p_1^{\alpha_1 -1} \cdot \cdot \cdot p_K^{\alpha_K -1} \\
+&= \exp \bigg\{ \sum_{k=1}^K (\alpha_k -1) \log p_k - \log Z(\alpha) \bigg\}
+\end{align*}
+with natural parameter $\eta(\alpha) = [\alpha_1 -1, ..., \alpha_K -1]^T$, sufficient statistics $\log p = [\log p_1, ..., \log p_K]^T$, base measure $h(p)=1$, and normalizing constant $a(\alpha) = \log Z(\alpha)$.
+\end{frame}
+
+\begin{frame}{MF-CAVI updates on random variables with exponential family complete conditionals}  \label{slide_claim}
+\textbf{Claim} Consider a model with unobserved random variables $(u_1,...,u_k)$.  Let 
+
+\begin{enumerate}
+\item Variational density $q$ have mean field factorization $q=q_k(u_k)q_{-k}(u_{-k})$. 
+\item $p(u_k \cond u_{-k}, x)$ be in some parametric exponential family $\mathcal{E}$ with natural parameter $\eta_k(u_{-k}, x)$.  
+\end{enumerate}
+
+Then optimal mean field CAVI update \eqref{mfcavi_update} puts
+
+\begin{align}
+\label{eqn:mf_cavi_efcc_0}
+q_k \in \mathcal{E}  
+\end{align}
+
+ with natural parameter 
+
+\begin{align}
+\label{eqn:mf_cavi_efcc}
+\boxed{\nu_k = \E_{q_{-k}} [\eta_k(u_{-k}, x)]}
+\end{align}
+
+%SAY: That is, the optimal update sets the natural variational parameter equal to the expectation (with respect to the other variational factors) of the natural parameter of the complete conditional.
+
+\end{frame}
+
+\begin{frame}{Proof}
+If the $k$th complete conditional is in the exponential family, then we have 
+\begin{align}
+\label{eqn:efcc}
+ p(u_k \cond u_{-k}, x) = h(u_k) \exp \{ \eta_k^T t(u_k) - a(\eta_k)\} 
+ \end{align}
+\tiny Note that our notation suppresses that the natural parameter $\eta_k$ depends on the conditioning variables $(u_{-k}, x)$. \normalsize
+
+By substituting \eqref{eqn:efcc} into \eqref{mfcavi_update} and discarding factors that do not depend on $u_k$, we obtain
+
+\begin{align*}
+q_k(u_k) & \propto  \exp \bigg\{ \E_{q_{-k}} \bigg[  \eta_k^T t(u_k) + \log h(u_k) \bigg] \bigg\} \\
+& \propto  h(u_k) \exp \bigg\{ \E_{q_{-k}}[ \eta_k]^T t(u_k) \bigg\} 
+\end{align*}
+
+Since $h$ and $t$ are identical to those of \eqref{eqn:efcc}, the claim holds. 
+
+\end{frame}
 
 \section{Example: Bayesian Gaussian Mixture Model}
 \begin{frame}{Example: Bayesian Gaussian Mixture Model}
 
 To see the mean field CAVI algorithm \eqref{mfcavi_update} in a concrete context, consider a version of the Bayesian Gaussian Mixture Model.  
 \begin{align*}
-\mu_k & \sim \text{Normal}(0, \sigma^2) && k = 1,..., K\\
+\mu_k & \sim \text{Normal}(M_k = 0, V_k = \sigma^2) && k = 1,..., K\\
 c_i & \sim \text{Categorical}(\pi_1, ..., \pi_K) && i=1, ... ,n \\
-x_i \cond c_i, \mu & \sim \text{Normal}(c_i^T \mu, 1) && i = 1,..., n
+x_i \cond c_i, \mu & \sim \text{Normal}(\mu_{c_i}, 1) && i = 1,..., n
 \end{align*}
-\tiny (The model is simple in that it assumes that each mixture component has unit variance.) \normalsize 
+\tiny (The model is simple in that it assumes univariate observations and that each mixture component has unit variance.) \normalsize 
 
 The joint density, by chain rule, is
 \[ p(x,c,\mu) = p(\mu) \ds\prod_{i=1}^n p(c_i) p(x_i \cond c_i, \mu) \]
@@ -1190,7 +1258,7 @@ And a mean-field variational family is given by
 \end{frame}
 
 \begin{frame}{Example: Bayesian Gaussian Mixture Model}
-We apply \eqref{mfcavi_update} to determine the coordinate updates for $q_{c_i}$, the variational factors governing cluster assignments.   We take the log of the joint and discard terms that do not depend upon $c_i$ to obtain
+We apply \eqref{mfcavi_update} to determine the coordinate updates for $q_{c_i}$, the variational factors governing cluster assignments.   %We take the log of the joint density and utilize proportionality to obtain
 
 \begin{align*}
 q(c_{ik}) & \propto \exp \bigg\{ \E_{q_{\mu_k}} \bigg[  \log p(c_i =k) + \log p(x_i \cond c_i=k, \mu) \bigg] \bigg\} \\
@@ -1200,6 +1268,9 @@ q(c_{ik}) & \propto \exp \bigg\{ \E_{q_{\mu_k}} \bigg[  \log p(c_i =k) + \log p(
 
 The coordinate updates for $q_{\mu_k}$ are derived similarly.  They reveal that $q_{\mu_k}$ are Gaussian, and hence the above expectations are easy to compute. 
 
+\vfill
+\tiny
+\alert{Note:} We abuse notation, and write $q(c_{ik})$ as shorthand for $q(c_i =k)$
 \end{frame}
 
 \begin{frame}{Bayesian Gaussian Mixture Model: \\ Updates to mixture component means}
@@ -1208,10 +1279,206 @@ Using the same strategy as when updating cluster assignments $c_i$, we obtain
 \begin{align*}
 q(\mu_k) & \propto \exp \bigg\{ \E_{-q_{\mu_k}} \bigg[  \log p(\mu_k) + \ds\sum_{i=1}^n \log p(x_i \cond c_i=k, \mu) \bigg] \bigg\} \\
 & \propto \exp \bigg\{ -\df{1}{2  \sigma^2} \mu_k^2 +  \ds\sum_{i=1}^{n} \E_{q_c} \bigg[ \+1_{c_i=k}\, \bigg(x_i \mu_k - \df{1}{2} \mu_k^2\bigg) \bigg] \bigg\} \\
-& \propto \exp \bigg\{ -\df{1}{2} \bigg(\df{1}{ \sigma^2} + \ds\sum_{i=1}^n q(c_{ik}) \bigg) \mu_k^2 \; +  \;  \bigg( \ds\sum_{i=1}^n q(c_{ik})x_i  \bigg) \mu_k \bigg\} \\
+& \propto \exp \bigg\{  \bigg( \ds\sum_{i=1}^n q(c_{ik})x_i  \bigg) \mu_k   \; +  \; -\df{1}{2} \bigg(\df{1}{ \sigma^2} + \ds\sum_{i=1}^n q(c_{ik}) \bigg) \mu_k^2 \bigg\} \\
 \end{align*}
 
-which is an exponential family distribution with sufficient statistics $(\mu_k, \mu_k^2)$, and hence Gaussian.
+
+ 
+which is an exponential family distribution with sufficient statistics $(\mu_k, \mu_k^2)$  and base measure $\propto 1$; hence it is Gaussian. 
+
+\end{frame}
+
+\begin{frame}{Bayesian Gaussian Mixture Model: \\ Updates to mixture component means}
+
+It is easy to show that for a Gaussian with mean $M$ and variance $V$, the natural parameters are given by
+ \[\eta_1 = \df{M}{V}, \quad \eta_2 = -\df{1}{2V} \]
+ 
+From the last slide, the variational density $q(\mu_k)$ has natural parameters
+\[ \eta_1 = \bigg( \ds\sum_{i=1}^n q(c_{ik})x_i  \bigg) , \quad \eta_2 = -\df{1}{2} \bigg(\df{1}{ \sigma^2} + \ds\sum_{i=1}^n q(c_{ik}) \bigg) \]
+
+
+ 
+   Using this, we can backsolve to determine the updates to the mean and variance of the Gaussian variational density governing the kth cluster mean:
+\[ M_k = \df{\sum_{i=1}^n q(c_{ik}) x_i}{1/\sigma^2 + \sum_{i=1}^n q(c_{ik})}, \quad V_k= \df{1}{1/\sigma^2 +\sum_{i=1}^n q(c_{ik})}\]
+\end{frame}
+
+
+\section{Example: Bayesian Hidden Markov Model}
+
+\begin{frame}{Hidden Markov Model}
+A  hidden Markov model (HMM) is a tool for representing probability distributions over sequences of observations.  
+
+The HMM assumes that 
+\begin{itemize}
+\item The observation at time $t$, $y_t$, was generated by some process whose state $x_t$ is hidden from the observer. 
+\item The sequence of states satisfies the \textit{Markov property}:  conditional on the current state $x_t$, past and future hidden states are independent. 
+\item There is an additional Markov property on outputs:  conditional on the current state $x_t$, the output $y_t$ is independent of all other hidden states and outputs.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Notation}
+\begin{itemize}
+\item $y_{1:T}=(y_1, ..., y_T)$ observed sequence
+\item $x_{1:T} =(x_1, ...., x_T)$: hidden state sequence ($x_t \in \{1,...,K \}$) 
+\item $\pi = \{ \pi_k \}, \pi_k = P(x_1 = k)$: initial state distribution
+\item $A=\{A_{kk'}\}, A_{kk'} = P(x_t= k' \cond x_{t-1}=k):$ state transition probability matrix 
+\item $\phi = (\phi_k)_{k=1}^K$ a set of parameters, each governing an output distribution (also called emissions distribution) associated to each hidden state; that is, $ P(y_t \cond x_t=k) = P(y_t \cond \phi_k)$. 
+\item $\theta = (\pi, A, \phi)$: model parameters
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{HMM: Complete Data Likelihood (CDL) }
+The complete data likelihood for the HMM is given by 
+\begin{align}
+ p(x_{1:T}, y_{1:T} \cond \theta) &=  p(x_1 \cond \theta)  p(y_1 \cond x_1, \theta) \ds\prod_{t=2}^T p(x_t \cond x_{t-1}, \theta) p(y_t \cond x_t, \theta) \nonumber \\
+ &=  p(x_1 \cond \pi) p(y_1 \cond x_1, \phi) \ds\prod_{t=2}^T p(x_t \cond x_{t-1}, A) p(y_t \cond x_t, \phi)   \nonumber \\
+ &= \pi_{x_1}  \; \ds\prod_{t=2}^T A_{x_{t-1}, x_t} \ds\prod_{t=1}^T p(y_1 \cond \phi_{x_t}) \label{eqn:hmm_cdl_compact}
+ \end{align}
+\end{frame}
+
+\begin{frame}{HMM: Complete Data Likelihood is an Exponential Family}
+We continue 
+\small
+\begin{align}
+p(x_{1:T}, y_{1:T} \cond \theta) &=  \exp\bigg \{ \log p(x_1 \cond \pi) + \ds\sum_{t=2}^T \log p(x_t \cond x_{t-1}, A) +  \ds\sum_{t=1}^T \log p(y_t \cond x_t, \phi) \bigg\}  \nonumber \\
+&= \exp \bigg \{ \log \pi_{x_1}  + \ds\sum_{t=2}^T \log A_{x_{t-1}, x_t} + \ds\sum_{t=1}^T \log p(y_1 \cond \phi_{x_t}) \bigg\} \label{eqn:hmm_cdl_ef_compact} \\
+&=  \exp\bigg \{  \ds\sum_{k=1}^K x_1^k \log \pi_k + \ds\sum_{t=2}^T \ds\sum_{k, k'=1}^K x_{t-1}^k x_t^{k'} \log A_{kk'} \nonumber \\ 
+&\quad\quad\quad\quad\quad  + \ds\sum_{t=1}^T \ds\sum_{k=1}^K x_t^k \log p(y_t \cond x_t, \phi_k)  \bigg\} \label{eqn:hmm_ef_form}
+\end{align}
+
+\tiny where we have defined
+\[ x_t^k =  
+\begin{cases}	  
+1, & \text{if the latent state at time $t$ is $k$} \\
+0, & \text{otherwise}
+\end{cases} \]
+
+\small
+
+Thus, the complete data likelihood \tiny (although not the marginal  likelihood $p(x_{1:T} \cond \theta)$) \normalsize is in the exponential family, so long as the emissions distributions are.   The sufficient statistics for $\log \pi_k$ are $x_1^k$, and the sufficient statistics for $\log A_{kk'}$ are $\sum_{t=2}^T x_{t-1}^k x_t^{k'}$.
+
+%\vfill \vfill
+%\tiny
+%\hfill \alert{Note:} The \textit{marginal} likelihood $p(x_{1:T} \cond \theta)$ is \textit{not} in the exponential family.  
+\end{frame}
+
+
+\begin{frame}{Prior Distributions}
+Let us impose a prior whose density factorizes as follows
+\begin{align}
+\label{eqn:bayesian_hmm_prior_macro}
+p(\theta) &= p(A) p(\phi) p(\pi) 
+ \end{align}
+and let us further assume that the priors have the form
+\begin{align}
+p(\pi) &= \text{Dirichlet}(\pi \cond \alpha^\pi) \label{eqn:bayesian_hmm_prior_pi}  \\
+p(A) &= \ds\prod_{k=1}^K p(A_k \cond \alpha^{A_k}) =  \ds\prod_{k=1}^K \text{Dirichlet}(A_k \cond \alpha^{A_k}) \label{eqn:bayesian_hmm_prior_transition} 
+\end{align}
+where $A_k$ designates the $k$th row of $A$. 
+\end{frame}
+
+\begin{frame}{$\pi$ has a Dirichlet complete conditional}
+By the structure of the complete data likelihood \eqref{eqn:hmm_ef_form} and prior \eqref{eqn:bayesian_hmm_prior_macro}, \eqref{eqn:bayesian_hmm_prior_pi} ,  we see that the complete conditional of $\pi$ is a Dirichlet
+\begin{align*}
+p(\pi \cond \theta_{-\pi}, x_{1:T}, y_{1:T} ) & \propto p(\pi, \theta_{-\pi},  x_{1:T}, y_{1:T}) \\
+&\propto \exp \bigg\{ \ds\sum_{k=1}^K  (\alpha_{k}^\pi -1) \log \pi_k \bigg\}  \exp \bigg\{  \ds\sum_{k=1}^K   x_{1}^k \log \pi_k  \bigg\}  \\
+&\propto \exp \bigg\{ \ds\sum_{k=1}^K  \bigg( \alpha_k^\pi -1 + x_1^k \bigg) \log \pi_k   \bigg\}  
+\end{align*}
+since this is an exponential family with base measure $h(\pi) \propto 1$ and the sufficient statistics are $\log \pi  = [\log \pi_1, ..., \log \pi_K]^T$.      
+\end{frame}
+
+\begin{frame}{Variational update for $\pi$}
+From the last slide, the natural parameter for the complete conditional for $\pi$ is given by 
+\[ \eta^{\pi} =
+ \begin{bmatrix} 
+\alpha_1^\pi -1 + x_1^1\\
+... \\
+\alpha_K^\pi  -1 + x_1^k \\
+ \end{bmatrix}
+ \]
+
+Let us assume the factorization $q(A,\phi,\pi, z) = q(\phi, A, z)q(\pi)$.  
+
+Then 
+we can apply our Claim (Slide \ref{slide_claim}) to discover that the optimal MF-CAVI update takes $q(\pi)$ to be Dirichlet with variational natural parameter 
+
+\[  \nu^{\pi} = \E_{q_{-\pi}} [\eta^{\pi}]=
+ \begin{bmatrix} 
+\alpha_1^\pi  -1 +  \E_{q_x} [x_1^1 ] \\
+... \\
+\alpha_K^\pi  -1 +   \E_{q_x} [x_1^K] \\
+ \end{bmatrix}
+ = \alpha^\pi + \E_{q_x} [x_1]  \]
+\end{frame}
+
+\begin{frame}{The rows of $A$ have Dirichlet complete conditionals}The updates for the rows $A_k$ can be determined using a similar argument as for $\pi$.   By the structure of the complete data likelihood \eqref{eqn:hmm_ef_form} and prior \eqref{eqn:bayesian_hmm_prior_macro}, \eqref{eqn:bayesian_hmm_prior_transition}, we see that the complete conditional of $A_k$ is also Dirichlet 
+% For below, the complete conditional is proportional to the joint, and we only need to worry about the terms $A_k$.
+\begin{align*}
+p(A_k & \cond \theta_{-A_k}, x_{1:T}, y_{1:T} ) \propto p(A_k, \theta_{-A_k},  x_{1:T}, y_{1:T}) \\
+&\propto \exp \bigg\{ \ds\sum_{k'=1}^K  (\alpha_{k'}^{A_k} -1) \log A_{kk'} \bigg\}  \exp \bigg\{  \ds\sum_{k'=1}^K \ds\sum_{t=2}^T  x_{t-1}^k x_t^{k'} \log A_{kk'}  \bigg\}  \\
+&\propto \exp \bigg\{ \ds\sum_{k'=1}^K  \bigg( (\alpha_{k'}^{A_k} -1) + \ds\sum_{t=2}^T  x_{t-1}^k x_t^{k'}  \bigg) \log A_{kk'}   \bigg\}  
+\end{align*}
+since this is an exponential family with base measure  $h(A_k) \propto 1$ and sufficient statistics  $\log A_k  = [\log A_{k1}, ..., \log A_{kK}]^T$. 
+
+\end{frame}
+
+
+\begin{frame}{Variational update for $A_k$}
+From the last slide, the natural parameter for the complete conditional for $A_k$ is given by 
+\small
+\[ \eta^{A_k} =
+ \begin{bmatrix} 
+(\alpha_1^{A_k} -1) + \ds\sum_{t=2}^T x_{t-1}^k x_t^{1} \\
+... \\
+(\alpha_K^{A_k} -1) + \ds\sum_{t=2}^T x_{t-1}^k x_t^{K} \\
+ \end{bmatrix}
+ \]
+\normalsize
+Let us assume factorization $q(A,\phi,\pi, z) = q(\phi, \pi, z) \prod_{k=1}^K q(A_k)$.
+ 
+Then we can apply our Claim (Slide \ref{slide_claim}) to discover that the optimal MF-CAVI update takes $q(A_k)$ to be Dirichlet with variational natural parameter 
+\small 
+\[  \nu^{A_k} = \E_{q_{-A}} [\eta^{A_k}]=
+ \begin{bmatrix} 
+(\alpha_1^{A_k}  -1) + \ds\sum_{t=2}^T \E_{q_x} [ x_{t-1}^k x_t^{1} ] \\
+... \\
+(\alpha_K^{A_k}  -1) + \ds\sum_{t=2}^T  \E_{q_x} [ x_{t-1}^k x_t^{K}] \\
+ \end{bmatrix}  
+ =  \alpha^{A_k}  + \ds\sum_{t=2}^T \E_{q_x} [x_{t-1}^k x_t] 
+  \]
+
+\end{frame}
+
+\begin{frame}{Variational update for $x$}
+By applying \eqref{mfcavi_update} and substituting in the form of the complete data likelihood \eqref{eqn:hmm_cdl_compact}, we obtain 
+
+\small
+\begin{align*}
+q(x) & \propto \exp \bigg\{ \E_{-q(z)} \big[ \log p(x_{1:T}, y_{1:T}, \theta) \big] \bigg\} \\
+ &\propto \exp \bigg\{ \E_{q(\pi)} \log \pi_{x_1} \bigg\} \ds\prod_{t=2}^T \exp \bigg\{  \E_{q(A)}   \log A_{x_{t-1}, x_t} \bigg\} \ds\prod_{t=1}^T \exp \bigg\{  \E_{q(\phi)} p(y_1 \cond \phi_{x_t})  \bigg\}
+\end{align*}
+\normalsize 
+
+Compare this to the original complete data likelihood \eqref{eqn:hmm_cdl_compact}. The structure is identical if we define the alterations  $(A, \pi, p) \to (A^*, \pi^*, p^*)$.
+
+\end{frame}
+
+\begin{frame}
+In particular, we define 
+\begin{align*}
+\pi^* &= \{ \pi^*_k \}_{k=1}^K : \pi^*_k =\exp \bigg\{ \E_{q(\pi)} \log \pi_{x_1} \bigg\} = \exp \bigg\{  \psi(\nu_k^\pi) - \psi(\ds\sum_{j=1}^K \nu_j^\pi) \bigg\} \\
+A^* &= \{A_{kk'}^* \}_{k,k'=1}^K : A_{kk'}^*  = \exp \bigg\{  \E_{q(A)}   \log A_{kk'} \bigg\} = \exp \bigg\{   \psi(\nu_{k'}^{A_k}) - \psi(\ds\sum_{j=1}^K \nu_j^{A_k}) \bigg\} \\
+p^* &= \{ p^*( \cdot \cond \phi_k) \}_{k=1}^K : p^*_k \propto \exp \bigg\{ \E_{q(\phi_k)} \log p( \cdot \cond \phi_k)\bigg\}
+\end{align*}
+\tiny $\psi(\cdot)$ is the digamma function; the expectation of the log of a component of a Dirichlet-distributed probability vector is well-known. \normalsize 
+
+Then we can use the forward-backwards algorithm (FBA) to update $q(x)$.
+\begin{itemize}
+\item A standard HMM applies FBA to $(A, \pi, p)$ in order determine the marginals $p(x_t \cond y, \theta)$ and pairwise marginals $p(x_{t-1},x_t \cond y, \theta)$.
+\item Likewise, we can apply FBA to $(A^*, \pi^*, p^*)$ to determine the marginals $q(x_t)$ and pairwise marginals $q(x_{t-1}, x_t)$ \tiny (which, as we have seen, are sufficient for performing the other updates).
+\end{itemize}
 
 \end{frame}
 
