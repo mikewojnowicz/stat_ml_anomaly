@@ -1,120 +1,126 @@
+\pdfoutput=1
 \documentclass[10pt]{beamer}
 
-\usetheme{metropolis}
-\usepackage{appendixnumberbeamer}
+%STANDARD PREAMBLE
+%https://tex.stackexchange.com/questions/68821/is-it-possible-to-create-a-latex-preamble-header
+\usepackage{../../rsrc/beamer_preamble}
 
+%
+%\usetheme{metropolis}
+%\usepackage{appendixnumberbeamer}
+%
+%
+%\usepackage{booktabs}
+%\usepackage[scale=2]{ccicons}
+%
+%\usepackage{pgfplots}
+%\usepgfplotslibrary{dateplot}
+%
+%
+%\usepackage{amsmath}
+%\usepackage{media9}
+%\usepackage{xspace}
+%\usepackage{xcolor}
+%\usepackage{tikz}
+%\usetikzlibrary{bayesnet} %for plate notation
+%\usepackage{listings} %for printing python code
+%
+%
+%%%%% This next section builds the \warning symbol
+%\usepackage[utf8]{inputenc}
+%\usepackage{xcolor}
+%\usepackage{newunicodechar}
+%
+%\newcommand\warning{%
+% \makebox[1.4em][c]{%
+% \makebox[0pt][c]{\raisebox{.1em}{\small!}}%
+% \makebox[0pt][c]{\color{red}\Large$\bigtriangleup$}}}%
+% 
+%
+%\usepackage[most]{tcolorbox} %for color box
+%%Reference:
+%% 	https://tex.stackexchange.com/questions/279464/2-boxed-equations-on-one-lineblue-outline-box-and-shadow
+%%Usage:
+%%	\tcboxmath{something}
+%
+%
+%%https://tex.stackexchange.com/questions/395140/change-font-size-of-one-equation-in-align-environment?rq=1
+%%has medmath for reducing font size in align environments
+%\usepackage{mathtools, nccmath} 
+%
+%
+%%https://jansoehlke.com/2010/06/strikethrough-in-latex/
+%%lets you cancel out terms in an equation
+%\usepackage{cancel}
+%
+%\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+%
+%%%% GENERALLY USEFUL 
+%\newcommand{\ds}{\displaystyle}
+%\newcommand{\df}{\displaystyle\frac}
+%\newcommand{\R}{\mathbb{R}}
+%\newcommand{\+}[1]{\ensuremath{{\boldsymbol #1}}} %another way to make bold symbols
+%\newcommand{\cond}{\; | \;}
+%\newcommand{\blue}[1]{\color{blue}{#1}  \color{black}}
+%\newcommand{\red}[1]{\color{red}{#1}  \color{black}}
+%\newcommand{\green}[1]{\color{green}{#1}  \color{black}}
+%\newcommand{\purple}[1]{\color{purple}{#1}  \color{black}}
+%\DeclareMathOperator*{\argmax}{argmax} % thin space, limits underneath in displays
+%\newcommand{\partialderiv}[2]{\df {\partial {#1}}{\partial {#2}} }
+%\newcommand{\biggexp}[1]{\exp  \bigg\{ {#1} \bigg\} }
+%
+%
+%%%% PROBABILITY
+%\newcommand{\iid}{\stackrel{\text{iid}}{\sim}}
+%\newcommand{\norm}{\mathcal{N}}
+%\newcommand{\IG}{\mathcal{I}\mathcal{G}}
+%\newcommand{\E}{\mathbb{E}}
+%\newcommand{\biggE}[2]{\E_{{#1}} \bigg[ {{#2}} \bigg]}
+%%\newcommand{\H}{\mathbb{H}}
+%\newcommand{\Prob}{\mathbb{P}}
+%\newcommand{\absdet}[1]{ \; \bigg\lvert \det{#1}  \bigg\rvert  \;}
+%\newcommand{\logabsdet}[1]{ \log \absdet{#1}}
+%\newcommand{\KL}[2] {\texttt{KL} \big({#1} \; \big|\big| \; {#2} \big)}
+%\newcommand{\Q}{\mathcal{Q}}
+%\newcommand{\ind}{\perp\kern-5pt\perp}
+%
+%%%% INTEGRALS
+%\newcommand{\wrt}[1]{\; d \,{#1} \;} 
+%
+%%%% SETS
+%\newcommand{\set}[1] { \{  {#1} \} }
+%\newcommand{\cupdot}{\sqcup}
+%
+%
+%%%%% TYPEWRITER FONTTED VI ACRONYMS 
+%\newcommand{\bbvi}{\,\texttt{bbvi}\,}
+%\newcommand{\VLBO}{\,\texttt{VLBO}\,}
+%
+%%% SHADED BOXES
+%%colored shaded boxes
+%\newcommand{\bluebox}[2] { \tikz[baseline]{\node[fill=blue!20,anchor=base]({#1}) { {#2} } }}
+%\newcommand{\redbox}[2] { \tikz[baseline]{\node[fill=red!20,anchor=base]({#1}) { {#2} } }}
+%\newcommand{\greenbox}[2] { \tikz[baseline]{\node[fill=green!20,anchor=base]({#1}) { {#2} } }}
+%%these put a label beneath the shaded box, in the same color
+%\newcommand{\labeledbluebox}[2]{  \underset{\blue{#1}}{\bluebox{_dummy_}{#2}} }
+%\newcommand{\labeledredbox}[2]{  \underset{\red{#1}}{\redbox{_dummy_}{#2}} }
+%\newcommand{\labeledgreenbox}[2]{  \underset{\green{#1}}{\greenbox{_dummy_}{#2}} }
+%%https://github.com/matze/mtheme
 
-\usepackage{booktabs}
-\usepackage[scale=2]{ccicons}
-
-\usepackage{pgfplots}
-\usepgfplotslibrary{dateplot}
-
-
-\usepackage{amsmath}
-\usepackage{media9}
-\usepackage{xspace}
-\usepackage{xcolor}
-\usepackage{tikz}
-\usetikzlibrary{bayesnet} %for plate notation
-\usepackage{listings} %for printing python code
-
-
-%%%% This next section builds the \warning symbol
-\usepackage[utf8]{inputenc}
-\usepackage{xcolor}
-\usepackage{newunicodechar}
-
-\newcommand\warning{%
- \makebox[1.4em][c]{%
- \makebox[0pt][c]{\raisebox{.1em}{\small!}}%
- \makebox[0pt][c]{\color{red}\Large$\bigtriangleup$}}}%
- 
-
-\usepackage[most]{tcolorbox} %for color box
-%Reference:
-% 	https://tex.stackexchange.com/questions/279464/2-boxed-equations-on-one-lineblue-outline-box-and-shadow
-%Usage:
-%	\tcboxmath{something}
-
-
-%https://tex.stackexchange.com/questions/395140/change-font-size-of-one-equation-in-align-environment?rq=1
-%has medmath for reducing font size in align environments
-\usepackage{mathtools, nccmath} 
-
-
-%https://jansoehlke.com/2010/06/strikethrough-in-latex/
-%lets you cancel out terms in an equation
-\usepackage{cancel}
-
-\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
-
-%%% GENERALLY USEFUL 
-\newcommand{\ds}{\displaystyle}
-\newcommand{\df}{\displaystyle\frac}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\+}[1]{\ensuremath{{\boldsymbol #1}}} %another way to make bold symbols
-\newcommand{\cond}{\; | \;}
-\newcommand{\blue}[1]{\color{blue}{#1}  \color{black}}
-\newcommand{\red}[1]{\color{red}{#1}  \color{black}}
-\newcommand{\green}[1]{\color{green}{#1}  \color{black}}
-\newcommand{\purple}[1]{\color{purple}{#1}  \color{black}}
-\DeclareMathOperator*{\argmax}{argmax} % thin space, limits underneath in displays
-\newcommand{\partialderiv}[2]{\df {\partial {#1}}{\partial {#2}} }
-\newcommand{\biggexp}[1]{\exp  \bigg\{ {#1} \bigg\} }
-
-
-%%% PROBABILITY
-\newcommand{\iid}{\stackrel{\text{iid}}{\sim}}
-\newcommand{\norm}{\mathcal{N}}
-\newcommand{\IG}{\mathcal{I}\mathcal{G}}
-\newcommand{\E}{\mathbb{E}}
-\newcommand{\biggE}[2]{\E_{{#1}} \bigg[ {{#2}} \bigg]}
-%\newcommand{\H}{\mathbb{H}}
-\newcommand{\Prob}{\mathbb{P}}
-\newcommand{\absdet}[1]{ \; \bigg\lvert \det{#1}  \bigg\rvert  \;}
-\newcommand{\logabsdet}[1]{ \log \absdet{#1}}
-\newcommand{\KL}[2] {\texttt{KL} \big({#1} \; \big|\big| \; {#2} \big)}
-\newcommand{\Q}{\mathcal{Q}}
-\newcommand{\ind}{\perp\kern-5pt\perp}
-
-%%% INTEGRALS
-\newcommand{\wrt}[1]{\; d \,{#1} \;} 
-
-%%% SETS
-\newcommand{\set}[1] { \{  {#1} \} }
-\newcommand{\cupdot}{\sqcup}
-
-
-%%%% TYPEWRITER FONTTED VI ACRONYMS 
-\newcommand{\bbvi}{\,\texttt{bbvi}\,}
-\newcommand{\VLBO}{\,\texttt{VLBO}\,}
-
-%% SHADED BOXES
-%colored shaded boxes
-\newcommand{\bluebox}[2] { \tikz[baseline]{\node[fill=blue!20,anchor=base]({#1}) { {#2} } }}
-\newcommand{\redbox}[2] { \tikz[baseline]{\node[fill=red!20,anchor=base]({#1}) { {#2} } }}
-\newcommand{\greenbox}[2] { \tikz[baseline]{\node[fill=green!20,anchor=base]({#1}) { {#2} } }}
-%these put a label beneath the shaded box, in the same color
-\newcommand{\labeledbluebox}[2]{  \underset{\blue{#1}}{\bluebox{_dummy_}{#2}} }
-\newcommand{\labeledredbox}[2]{  \underset{\red{#1}}{\redbox{_dummy_}{#2}} }
-\newcommand{\labeledgreenbox}[2]{  \underset{\green{#1}}{\greenbox{_dummy_}{#2}} }
-%https://github.com/matze/mtheme
-
-%% CHECKMARK 
-\usepackage{pifont}% for cmark and xmark for checkmark and xmark 
-\newcommand{\cmark}{\ding{51}}%
-\newcommand{\xmark}{\ding{55}}%
-\newcommand{\greencheck}{\green{\cmark}}
-\newcommand{\redx}{\red{\xmark}}
-
-%%% EXPLANATIONS  
-%explaining equations 
-\newcommand{\explaineq}[1]{\stackrel{\text{#1}}{=}}
-%explain terms
-\newcommand{\explainterm}[2]{\underset{\textit{#1}}{#2}}
-%explain terms with underbrace
-\newcommand{\explaintermbrace}[2]{\underbrace{#2}_{\text{#1}}}
+%%% CHECKMARK 
+%\usepackage{pifont}% for cmark and xmark for checkmark and xmark 
+%\newcommand{\cmark}{\ding{51}}%
+%\newcommand{\xmark}{\ding{55}}%
+%\newcommand{\greencheck}{\green{\cmark}}
+%\newcommand{\redx}{\red{\xmark}}
+%
+%%%% EXPLANATIONS  
+%%explaining equations 
+%\newcommand{\explaineq}[1]{\stackrel{\text{#1}}{=}}
+%%explain terms
+%\newcommand{\explainterm}[2]{\underset{\textit{#1}}{#2}}
+%%explain terms with underbrace
+%\newcommand{\explaintermbrace}[2]{\underbrace{#2}_{\text{#1}}}
 
  %%%% SUPPORT MAKING \subsectionpage
 \AtBeginSection{\frame{\sectionpage}}
@@ -1381,6 +1387,11 @@ Then we can use the forward-backwards algorithm (FBA) to update $q(x)$.
 
 \section{Example: Latent Dirichlet Allocation (LDA)}
 
+\begin{frame}{Acknowledgements}
+
+This section, especially the intro, borrows heavily from David Blei's 2012 ICML tutorial. 
+
+\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1402,52 +1413,253 @@ So:
 \end{itemize}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Illustration}
-  
-\begin{figure}
-\includegraphics[width=\textwidth]{images/lda_topics_nyt}
-\caption{ Posterior topics from a variant of LDA trained on 1.8M articles from the New York Times.  Each topic is a weighted distribution over the vocabulary and each topic’s plot illustrates its most frequent words.}
-\end{figure}
 
-\vfill
+%%%%%%%%%%
+\begin{frame}
 
-\tiny Hoffman, M. D., Blei, D. M., Wang, C., \& Paisley, J. (2013). Stochastic variational inference. The Journal of Machine Learning Research, 14(1), 1303-1347.
-  
+\begin{center}
+\includegraphics[width=\textwidth]{images/lda_intro}
+\end{center}
+
+
+\begin{itemize}
+\item Each \textbf{topic} is a distribution over words.
+\item Each \textbf{document} is a mixture of corpus-wide topics.
+\item Each \textbf{word} is drawn from one of those topics.
+\end{itemize}
+
+\hfill \tiny Source: David Blei, 2012 ICML Tutorial \normalsize
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Illustration}
-  
-\begin{figure}
-\includegraphics[width=\textwidth]{images/lda_topics_nature}
-\caption{ Posterior topics from a variant of LDA trained on 300K articles from Nature.  Each topic is a weighted distribution over the vocabulary and each topic’s plot illustrates its most frequent words.}
-\end{figure}
+%%%%%%%%%%
+\begin{frame}
 
-\vfill
+\begin{center}
+\includegraphics[width=\textwidth]{images/lda_intro_2}
+\end{center}
 
-\tiny Hoffman, M. D., Blei, D. M., Wang, C., \& Paisley, J. (2013). Stochastic variational inference. The Journal of Machine Learning Research, 14(1), 1303-1347.
-  
+
+\begin{itemize}
+\item In reality, we only observe the documents. 
+\item The other structure is \textbf{hidden variables}.
+\end{itemize}
+
+% \hfill \tiny Source: David Blei, 2012 ICML Tutorial \normalsize
 \end{frame}
 
 
+%%%%%%%%%%
+\begin{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Illustration}
+\begin{center}
+\includegraphics[width=\textwidth]{images/lda_intro_2}
+\end{center}
 
-LDA assumes that each word in a document was generated from one of $K$ latent topics.
-  
-\begin{figure}
-\includegraphics[width=.8\textwidth]{images/lda_word_colors}
-\caption{ An example article from the AP corpus. Each color codes a different topic from which the word is putatively generated.}
-\end{figure}
 
-\vfill
+\begin{itemize}
+\item Our goal is to \textbf{infer} the hidden variables.
+\item I.e., compute their distribution conditioned on the documents
+\[ p(\text{topics, proportions, assignments} \cond \text{documents} ) \]
+\end{itemize}
 
-\tiny Blei, D. M., Ng, A. Y., \& Jordan, M. I. (2003). Latent dirichlet allocation. Journal of machine Learning research, 3(Jan), 993-1022.
-  
+%\hfill \tiny Source: David Blei, 2012 ICML Tutorial \normalsize
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Illustration}
+%  
+%\begin{figure}
+%\includegraphics[width=\textwidth]{images/lda_topics_nyt}
+%\caption{ Posterior topics from a variant of LDA trained on 1.8M articles from the New York Times.  Each topic is a weighted distribution over the vocabulary and each topic’s plot illustrates its most frequent words.}
+%\end{figure}
+%
+%\vfill
+%
+%\tiny Hoffman, M. D., Blei, D. M., Wang, C., \& Paisley, J. (2013). Stochastic variational inference. The Journal of Machine Learning Research, 14(1), 1303-1347.
+%  
+%\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Illustration}
+%  
+%\begin{figure}
+%\includegraphics[width=\textwidth]{images/lda_topics_nature}
+%\caption{ Posterior topics from a variant of LDA trained on 300K articles from Nature.  Each topic is a weighted distribution over the vocabulary and each topic’s plot illustrates its most frequent words.}
+%\end{figure}
+%
+%\vfill
+%
+%\tiny Hoffman, M. D., Blei, D. M., Wang, C., \& Paisley, J. (2013). Stochastic variational inference. The Journal of Machine Learning Research, 14(1), 1303-1347.
+%  
+%\end{frame}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Illustration}
+%
+%LDA assumes that each word in a document was generated from one of $K$ latent topics.
+%  
+%\begin{figure}
+%\includegraphics[width=.8\textwidth]{images/lda_word_colors}
+%\caption{ An example article from the AP corpus. Each color codes a different topic from which the word is putatively generated.}
+%\end{figure}
+%
+%\vfill
+%
+%\tiny Blei, D. M., Ng, A. Y., \& Jordan, M. I. (2003). Latent dirichlet allocation. Journal of machine Learning research, 3(Jan), 993-1022.
+%  
+%\end{frame}
+
+%%%%%%%%%%
+\begin{frame}{LDA as a graphical model}
+
+\begin{center}
+\includegraphics[width=\textwidth]{images/lda_graphical_model}
+\end{center}
+
+
+\begin{itemize}
+\item Encodes assumptions
+\item Defines a factorization of the joint distribution
+\end{itemize}
+
+%\hfill \tiny Source: David Blei, 2012 ICML Tutorial \normalsize
+\end{frame}
+
+
+%%%%%%%%%%
+\begin{frame}{LDA as a graphical model}
+
+\begin{center}
+\includegraphics[width=\textwidth]{images/lda_graphical_model}
+\end{center}
+
+
+\begin{itemize}
+\item Nodes are random variables; edges indicate dependence.
+\item Shaded nodes are observed.
+\item Plates indicate replicated variables.
+\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%
+\begin{frame}{Joint distribution}
+
+\begin{center}
+\includegraphics[width=\textwidth]{images/lda_graphical_model}
+\end{center}
+
+\footnotesize
+\begin{equation}
+p(\+z, \+\theta, \+w, \+\beta \cond \+\alpha, \+\eta)  = \ds\prod_{k=1}^K \explainterm{Dirichlet}{p(\+\beta_k \cond \+\eta)}  \ds\prod_{d=1}^D \explainterm{Dirichlet}{p(\+\theta_d \cond \+\alpha)} \; \ds\prod_{n=1}^N \explainterm{Categorical}{p(\+z_n \cond \+\theta)} \; \explainterm{Categorical}{p(\+w_n \cond \+z_n, \+\beta)}
+\label{lda_joint}
+\end{equation}
+\end{frame}
+
+
+%%%%%%%%%%
+\begin{frame}{LDA: Generative Process}
+\footnotesize
+
+\begin{itemize}
+\item Choose $V$ vocabulary words, $K$ topics. 
+\item $\eta \in \R^V, \alpha \in \R^K$ are \textit{hyperparameters}.
+\item For $k$ in $(1,K)$:
+	\begin{itemize}
+	\item Choose \textit{per-corpus topic distribution} $\beta_k \in \R^V \sim \text{Dir}(\eta)$
+	\end{itemize}
+\item For $d$ in $(1,D):$
+	\begin{itemize}
+	\item Choose \textit{per-document topic proportions}   $\theta_d \in \R^K \sim \text{Dir}(\alpha)$
+	\item For $j$ in $(1, N_d)$:
+		\begin{itemize}
+		\item Choose \textit{topic} $z_{d,n} \sim \text{Categorical}_K (\theta_d)$
+		\item Choose \textit{word} $w_{d,n} \sim \text{Categorical}_V(\beta_{z_{d,n}})$
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%
+\begin{frame}{Aside: Dirichlet Distribution}
+
+\begin{itemize}
+\item Dirichlet distribution is \textit{conjugate prior} of Multinomial
+\[  p(\theta \cond \alpha)  = \df{\Gamma (\sum_{i=1}^K \alpha_i)}{ \prod_{i=1}^k \Gamma(\alpha_i)}  \theta_1^{\alpha_1 -1 } \cdots  \theta_k^{\alpha_k -1 }  \]
+\item The parameter $\alpha$ controls the shape and sparsity of $\theta$
+	\begin{itemize}
+	\item high $\alpha$ = uniform $\theta$, small $\alpha$ = sparse $\theta$
+	\end{itemize}
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=.8\textwidth]{images/dirichlet_role_of_hyperparameter}
+\end{center}
+
+
+
+\end{frame}
+
+\begin{frame}{LDA Example Inference}
+
+\scriptsize
+\begin{itemize}
+\item \textbf{Data}: 17K Science documents from 1990-2000 ( 11M words, 20K unique terms)
+\item \textbf{Model}: 100-topic LDA model, fit using variational inference
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=.75\textwidth]{images/lda_example_inference}
+\end{center}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%
+\begin{frame}{LDA as Probabilistic Matrix Factorization}
+\scriptsize
+
+\begin{center}
+\includegraphics[width=.9\textwidth]{images/lda_as_probabilistic_matrix_factorization}
+\end{center}
+
+LDA can be seen as a probabilistically constrained factorization of the matrix describing the bag of words composing each group, or document.  \\
+\vfill
+The number $K$ of latent topics determines the factorization’s rank.  \\
+\vfill
+% The hyperparameters $\alpha$ and $\beta$ define Dirichlet priors for
+%the columns of the topic and word distribution matrices, respectively \
+
+\hfill \tiny Image Credit : Erik Sudderth
+
+\end{frame}
+
+
+%\begin{frame}{Example Inference}
+%%
+%\begin{minipage}
+%\includegraphics{images/lda_example_inference}
+%\end{minipage}
+%%%\hfill
+%%\begin{minipage}{width=.2\textwidth}
+%%\scriptsize
+%%\begin{itemize}
+%%\item \textbf{Data}:The OCR’ed collection of Science from 1990–2000
+%%	\begin{itemize}
+%%	\item 17K Documents, 11M words, 20K unique terms \tiny (stop words and rare words removed) \footnotesize
+%%	\end{itemize}
+%%\item \textbf{Model}: 100-topic LDA model using variational inference
+%%\end{itemize}
+%%\end{minipage}
+%%
+%\end{frame}
+
+
+\subsection{Old LDA Stuff (Still needs integration)}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Structure}
@@ -1513,25 +1725,7 @@ i.e. it is the right-stochastic matrix, where each row is a categorical distribu
 
 \end{frame}
 
-%%%%%%%%%%%%%%
-\begin{frame}{LDA as Probabilistic Matrix Factorization}
-\scriptsize
-
-\begin{center}
-\includegraphics[width=.7\textwidth]{images/lda_as_probabilistic_matrix_factorization}
-\end{center}
-
-LDA can be seen as a probabilistically constrained factorization of the matrix describing the bag of words composing each group, or document.  \\
-\vfill
-The number $K$ of latent topics determines the factorization’s rank.  \\
-\vfill
-The hyperparameters $\alpha$ and $\beta$ define Dirichlet priors for
-the columns of the topic and word distribution matrices, respectively \\
-
-\hfill \tiny Image Credit : Erik Sudderth
-
-\end{frame}
-
+%%%%%
 
 \begin{frame}{Generative process} 
 
