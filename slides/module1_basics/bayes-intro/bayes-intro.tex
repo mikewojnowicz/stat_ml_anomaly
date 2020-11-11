@@ -40,7 +40,7 @@
 \footnotesize
 
 \begin{sblock}{Bayes' Rule}
-$ p(\theta | x) = \dfrac{p(x | \theta) p(\theta)}{p(x)} =\dfrac{p(x | \theta) p(\theta)}{\int p(x | \theta) p(\theta)}  $
+$ p(\theta | x) = \dfrac{p(x | \theta) p(\theta)}{p(x)} =\dfrac{p(x | \theta) p(\theta)}{\int p(x | \theta) p(\theta) \, d\theta}  $
 \end{sblock}
 
 \begin{sblock}{Terms}
@@ -189,7 +189,7 @@ We have conjugacy when the prior and the posterior distributions are in the same
 \begin{sblock}{Generally}
 Generally, computing the posterior distribution is much harder than in this example!
 \vfill
-Consider the denominator in $ p(\theta | x) = \dfrac{p(x | \theta) p(\theta)}{\int p(x | \theta) p(\theta)}  $  - integrals are hard 
+Consider the denominator in $ p(\theta | x) = \dfrac{p(x | \theta) p(\theta)}{\int p(x | \theta) p(\theta)} \, d\theta $  - integrals are hard 
 \vfill
 In nonconjugate examples, we need approaches to work with the posterior distribution when we cannot calculate it directly. Stay tuned!
 \end{sblock}
