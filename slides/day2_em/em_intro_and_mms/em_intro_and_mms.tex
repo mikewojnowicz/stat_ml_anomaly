@@ -668,6 +668,31 @@ The expectation maximization algorithm is
  \end{equation}
 \end{frame}
 
+
+
+\begin{frame}{EM for Exponential Family Latent Variable Models}
+\scriptsize 
+%We see how this plays out in the exponential family.   
+Let us assume that $(\+x, \+z)=((x_1,z_1), ..., (x_n, z_n))$ are $n$ independent samples from the same exponential family, where $\+x$ is observed data and $\+z$ is unobserved data.
+Moreover, let us assume that the complete data likelihood is in the exponential family
+
+\begin{align}
+\label{eqn:exponential_family_complete_data_likelihood}
+ p(\+x, \+z \cond \theta) = \ds\prod_{i=1}^n h(x_i, z_i) \exp \big\{ \eta(\theta)^T \sum_{i=1}^n t(x_i, z_i) - n \,a(\eta(\theta))\big\} 
+ \end{align}
+
+Here we want to find $\+\theta$ to optimize 
+\[ f(\+\theta) =  \E_{p(\+z \cond \+x , \+\theta^{(t)})} \bigg[ \ln p(\+x, \+z \cond \+\theta) \bigg] \]
+
+Following the logic of the Exponential Family module, we determine that we should select $\theta^{(t+1)}$ such that
+\[ \mu(\theta^{(t+1)}) = \df{1}{n} \ds\sum_{i=1}^n   \E_{p(\+z \cond \+x , \+\theta^{(t)})} t(x_i, z_i) \]
+where $\mu := \E[t(x_1,z_1)]$ refers to the mean parametrization of the likelihood.
+
+This is why an EM iteration is often described and  implemented as iteratively computing \bf{maximum likelihood with the expected sufficient statistics.}
+\end{frame}
+
+
+
 \begin{frame}{Convergence Properties}
 \footnotesize
 \begin{sblock}{Marginal likelihood}
@@ -725,27 +750,6 @@ In practice, the best way to use EM is often
 \tiny \bf{Q}: What would be an intelligent way to initialize?
 \end{frame}
 
-
-\begin{frame}{EM for Exponential Family Latent Variable Models}
-\scriptsize 
-%We see how this plays out in the exponential family.   
-Let us assume that $(\+x, \+z)=((x_1,z_1), ..., (x_n, z_n))$ are $n$ independent samples from the same exponential family, where $\+x$ is observed data and $\+z$ is unobserved data.
-Moreover, let us assume that the complete data likelihood is in the exponential family
-
-\begin{align}
-\label{eqn:exponential_family_complete_data_likelihood}
- p(\+x, \+z \cond \theta) = \ds\prod_{i=1}^n h(x_i, z_i) \exp \big\{ \eta(\theta)^T \sum_{i=1}^n t(x_i, z_i) - n \,a(\eta(\theta))\big\} 
- \end{align}
-
-Here we want to find $\+\theta$ to optimize 
-\[ f(\+\theta) =  \E_{p(\+z \cond \+x , \+\theta^{(t)})} \bigg[ \ln p(\+x, \+z \cond \+\theta) \bigg] \]
-
-Following the logic of the Exponential Family module, we determine that we should select $\theta^{(t+1)}$ such that
-\[ \mu(\theta^{(t+1)}) = \df{1}{n} \ds\sum_{i=1}^n   \E_{p(\+z \cond \+x , \+\theta^{(t)})} t(x_i, z_i) \]
-where $\mu := \E[t(x_1,z_1)]$ refers to the mean parametrization of the likelihood.
-
-This is why an EM iteration is often described and  implemented as iteratively computing \bf{maximum likelihood with the expected sufficient statistics.}
-\end{frame}
 
 \section{Some Cybersecurity Applications of EM}
 \subsection{Better malware ground truth}
