@@ -269,7 +269,7 @@ where $\sum_k c_k =1$ and $c_k \geq 0$.
 \end{frame}
 
 % GMM for anomaly detection
-
+%
 \begin{frame}{Illustration}
 \begin{sblock}{Mixture of two Gaussians}
 \begin{minipage}{0.4\textwidth}
@@ -291,7 +291,10 @@ where $p$ is the Gaussian density.  The blue curves are the component densities.
 \end{minipage} 
 \hfill 
 \begin{minipage}{0.5\textwidth}
-Here, the weights $c_1=c_2 =0.5$ above have been changes to $c_1 = 0.8$ and $c_2 = 0.2$.  The component distributions are the same as above. 
+The curve outlined in red is the mixture
+\[ \pi(x) = 0.8\, p(x \cond 0, 1) + 0.2 \, p(x \cond 2, 0.5) \]
+
+Here, the weights $c_1=c_2 =0.5$ above have been changed to $c_1 = 0.8$ and $c_2 = 0.2$.  
 \end{minipage} 
 
 \end{sblock}
@@ -557,7 +560,7 @@ The algorithm fits both the mean and the covariance parameter.
 \end{frame}
 
 
-\begin{frame}{GMMs as Universal Approximators}
+\begin{frame}{GMMs as ``Universal Approximators"}
 
 \begin{quote}
 A Gaussian mixture model is a universal approximator of densities, in the sense that any smooth density can be approximated with any speciﬁc nonzero amount of error by a Gaussian mixture model with enough components.
@@ -566,13 +569,25 @@ A Gaussian mixture model is a universal approximator of densities, in the sense 
 \hfill \tiny Ian Goodfellow et al. 2016
 \vfill
 \tiny More formally, if $\mathcal{P}(\R^d)$  is the set of probability Borel measures on $\R^d$ (with its Euclidean topology), then ``Gaussian mixtures" (a.k.a. convex combinations of Gaussian measures) are dense in $\mathcal{P}(\R^d)$ for the  weak*  topology.
-\vfill \vfill \vfill
-\tiny \bf{Q:} So why not use GMM's for everything?
 
 \end{frame}
 % A's: Known support,  computation efficiency / estimation power (e.g. in high dimensions)
 
-\begin{frame}{Other Mixture Models}
+\begin{frame}{Gaussian Mixture Models for Non-Gaussian Distributions}
+
+\begin{center}
+\includegraphics[width=.8\textwidth]{images/speaker_diarization_contours}
+\end{center}
+
+\tiny Fox, E. B., Sudderth, E. B., Jordan, M. I., \& Willsky, A. S. (2011). A sticky HDP-HMM with application to speaker diarization. The Annals of Applied Statistics, 1020-1056.
+
+\vfill \vfill \vfill
+\tiny \bf{Q:} So why not use GMM's for everything?
+
+\end{frame}
+
+
+\begin{frame}{Non-Gaussian Mixture Models}
 The mixture components do not need to be Gaussian in order for the model to be well-posed, and for EM to estimate the parameters.   \\
 \vfill 
 \begin{sblock}{Example: mixture of two betas}
@@ -587,7 +602,7 @@ The mixture components do not need to be Gaussian in order for the model to be w
 \tiny \textbf{Q:} Under what conditions might one use a mixture of betas rather than a mixture of Gaussians?
 \end{frame}
 
-\begin{frame}{Other Mixture Models}
+\begin{frame}{Non-Gaussian Mixture Models}
 
 \begin{sblock}{Example: mixture of two Gammas}
 \begin{center}
@@ -600,26 +615,122 @@ The mixture components do not need to be Gaussian in order for the model to be w
 
 \end{frame}
 
-\begin{frame}{EM for General Mixture Models}
-\footnotesize
+\begin{frame}{EM for Exponential Family Mixture Models}
+\scriptsize
 \begin{sblock}{Algorithm}
 \begin{itemize}
 \item \bf{E-step:} Recompute the assignment matrix $\soft_{ik}^{(j)}$ as
-\[ \soft_{ik}^{(j+1)} = \df{ c_k^{(j)}  p(x_i \cond \theta_k^{(j)}) }{ \sum_{l=1}^K c_l^{(j)}  p(x_i \cond \theta_l^{(j)})} \quad \propto\quad  \underset{prior}{c_k^{(j)}} \;\;\; \underset{likelihood}{p(x_i \cond \theta_k^{(j)})}\]
+\[ \underset{posterior}{\soft_{ik}^{(j+1)}} = \df{ c_k^{(j)}  p(x_i \cond \theta_k^{(j)}) }{ \sum_{l=1}^K c_l^{(j)}  p(x_i \cond \theta_l^{(j)})} \quad \propto\quad  \underset{prior}{c_k^{(j)}} \;\;\; \underset{likelihood}{p(x_i \cond \theta_k^{(j)})}\]
+\pause 
 \item \bf{M-step:} Recompute $(c,\theta)$ as
-\[ (c^{(j+1}, \theta^{(j+1)}) = \arg\max_{c, \theta} \bb{ \ds\sum_{ik} \soft_{ik}^{(j+1)} \log (c_k \, p(x_i \cond \theta_k)) } \]
+\[ c_k^{(j+1)}  = \df{\sum_{i=1}^n \soft_{ik}^{(j+1)}}{n} \quad \text{and} \quad \theta_k^{(j+1)} = \df{\sumn \alert{\soft_{ik}^{(j+1)}} s(x_i)}{ \sumn \alert{\soft_{ik}^{(j+1)}}}\]
 \end{itemize}
 \end{sblock}
-\begin{sblock}{Convenient special case}
-If the MLE of $p(x \cond \theta)$ is of the form $\widehat{\theta}_{\text{ML}} =\frac{1}{n} \sumn s(x_i)$ for some function $s$  the M-step computes the ``weighted maximum likelihood estimate":
-\[ c_k^{(j+1)}  = \df{\sum_{i=1}^n \soft_{ik}^{(j+1)}}{n} \quad \text{and} \quad \theta_k^{(j+1)} = \df{\sumn \soft_{ik}^{(j+1)} s(x_i)}{ \sumn \soft_{ik}^{(j+1)}}\]
-This is true for any distribution in the exponential family.\footnote{\tiny Note that the ML problem, and therefore the M-step, need not have closed form solution; e.g. click \blue{\href{https://tminka.github.io/papers/minka-gamma.pdf}{here}} for the Gamma distribution.}
+\begin{sblock}{Weighted Maximum Likelihood}
+Recall that for any exponential family distribution, the MLE of $p(x \cond \theta)$ is of the form 
+\[\widehat{\theta}_{\text{ML}} =\alert{\frac{1}{n}} \sumn s(x_i) = \df{\sumn \alert{1} \, s(x_i) }{ \sumn \alert{1} } \]
+where $s$ is the sufficient statistics function.  Thus, the M-step computes the ``weighted maximum likelihood estimate".   \pause \tiny (Note that the ML problem, and therefore the M-step, need not have closed form solution; e.g. click \blue{\href{https://tminka.github.io/papers/minka-gamma.pdf}{here}} for the Gamma distribution.)
 \end{sblock}
+
+
 \end{frame}
 
 
+%\begin{frame}{EM for General Mixture Models}
+%\footnotesize
+%\begin{sblock}{Algorithm}
+%\begin{itemize}
+%\item \bf{E-step:} Recompute the assignment matrix $\soft_{ik}^{(j)}$ as
+%\[ \underset{posterior}{\soft_{ik}^{(j+1)}} = \df{ c_k^{(j)}  p(x_i \cond \theta_k^{(j)}) }{ \sum_{l=1}^K c_l^{(j)}  p(x_i \cond \theta_l^{(j)})} \quad \propto\quad  \underset{prior}{c_k^{(j)}} \;\;\; \underset{likelihood}{p(x_i \cond \theta_k^{(j)})}\]
+%\pause 
+%\item \bf{M-step:} Recompute $(c,\theta)$ as
+%\[ (c^{(j+1}, \theta^{(j+1)}) = \arg\max_{c, \theta} \bb{ \ds\sum_{ik} \soft_{ik}^{(j+1)} \log (c_k \, p(x_i \cond \theta_k)) } \]
+%\end{itemize}
+%\end{sblock}
+%\pause
+%\begin{sblock}{Convenient special case}
+%If the MLE of $p(x \cond \theta)$ is of the form $\widehat{\theta}_{\text{ML}} =\frac{1}{n} \sumn s(x_i)$ for some function $s$  the M-step computes the ``weighted maximum likelihood estimate":
+%\[ c_k^{(j+1)}  = \df{\sum_{i=1}^n \soft_{ik}^{(j+1)}}{n} \quad \text{and} \quad \theta_k^{(j+1)} = \df{\sumn \soft_{ik}^{(j+1)} s(x_i)}{ \sumn \soft_{ik}^{(j+1)}}\]
+%This is true for any distribution in the exponential family.\footnote{\tiny Note that the ML problem, and therefore the M-step, need not have closed form solution; e.g. click \blue{\href{https://tminka.github.io/papers/minka-gamma.pdf}{here}} for the Gamma distribution.}
+%\end{sblock}
+%\end{frame}
+
+\begin{frame}{Application: Identity verification with behavioral biometrics}
+
+\begin{itemize}
+\item Recall our earlier discussion on intruder detection and behavioral biometrics.
+\item Gaussian  (and other exponential family) mixture models have been used to construct the \textit{personalized models} of typing behavior. 
+	\begin{itemize}
+	\item Often these models provide better models than non-mixtures, due to increased representational capacity.
+	\end{itemize}
+\item In this context, anomaly detection is often improved when using a \textit{universal background model} (UBM) (itself a mixture model) that models the typing behavior of a larger population of individuals 
+\item The level of anomalousness of typing behavior  can be obtained via the log likelihood ratio of the universal background model to the personalized model.
+\end{itemize}
+
+\end{frame}
+
 \section{Expectation Maximization (more generally)}
 
+
+
+\begin{frame}{Convergence Properties}
+\footnotesize
+\begin{sblock}{Marginal likelihood}
+\begin{itemize}
+\item It can be shown that the marginal likelihood $p(\+x \cond \+\theta)$ always increases from each step to the next, unless $\+\theta$ is already a stationary point.
+\item The theory guarantees only that the algorithm terminates at a stationary point.  That point can be a saddle point rather than a maximum (very rare)
+
+\end{itemize}
+\end{sblock}
+\begin{sblock}{The real problem: Local maxima}
+\begin{minipage}{.6\textwidth}
+\begin{itemize}
+\item EM is effectively a gradient method.
+\item The maxima it finds are the \bf{local maxima of the log-likelihood}
+\item There are no guarantees on the global quality of the solution: The global maximum may differ arbitrarily from the one we find.
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{.35\textwidth}
+\begin{tikzpicture}
+  % Put a picture at a tikz node. 
+  %I'm not sure what the anchor does, exactly.
+    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=.7\textwidth]{images/em_local_maxima}};
+    % The scope environment induces relative coordinates to the picture.
+    \begin{scope}[x={(image.south east)},y={(image.north west)}]
+        \node[text=black, text width=1cm] at (0,1.2) {$\log p(\+x \cond \+\theta)$};
+        \node[text=black, text width=1cm] at (1.2, 0.0) {$\+\theta$};
+    \end{scope}
+\end{tikzpicture}
+\end{minipage}
+
+\end{sblock}
+\vfill \tiny \bf{Q:} So what can we do about this?
+\end{frame}
+
+\begin{frame}{EM in practice}
+\footnotesize
+\begin{sblock}{Comparing solutions}
+\begin{itemize}
+\item If $\+\theta$ and $\+\theta^\prime$ are two different EM solutions, we can always compute the log-likelihoods
+\[ \ds\sum_i \log p(x_i \cond \+\theta) \quad \text{and} \quad \ds\sum_i \log p(x_i \cond \+\theta^\prime) \]
+\item The solution with the higher likelihood is better.
+\item This is a very convenient feature of EM: Different solutions are comparable. 
+\end{itemize}
+\end{sblock}
+\begin{sblock}{Random restarts}
+In practice, the best way to use EM is often
+\begin{itemize}
+\item Restart EM repeatedly with randomly (or intelligently) chosen initial values.
+\item Compute the log-likelihoods of all solutions and compare them.
+\item Choose the solution achieving maximal log-likelihood
+\end{itemize}
+\end{sblock}
+\vfill
+\tiny \bf{Q}: What would be an intelligent way to initialize?
+\end{frame}
+
+\subsection{Latent variable models}
 \begin{frame}{Latent variable models}
 
 \begin{itemize}
@@ -682,23 +793,34 @@ The expectation maximization algorithm is
 \scriptsize 
 %We see how this plays out in the exponential family.   
 Let us assume that $(\+x, \+z)=((x_1,z_1), ..., (x_n, z_n))$ are $n$ independent samples from the same exponential family, where $\+x$ is observed data and $\+z$ is unobserved data.
-Moreover, let us assume that the complete data likelihood is in the exponential family
+Moreover, let us assume that the complete data likelihood is in the exponential family.\footnote{ \tiny And that we are using the \textit{mean parameterization}; i.e. $\theta = \E [s(x_1, z_1)] $.}
 
 \begin{align}
 \label{eqn:exponential_family_complete_data_likelihood}
- p(\+x, \+z \cond \theta) = \ds\prod_{i=1}^n h(x_i, z_i) \exp \big\{ \eta(\theta)^T \sum_{i=1}^n s(x_i, z_i) - n \,a(\eta(\theta))\big\} 
+ p(\+x, \+z \cond \theta) = \ds\prod_{i=1}^n h(x_i, z_i) \exp \big\{ \theta^T \sum_{i=1}^n s(x_i, z_i) - n \,a(\eta(\theta))\big\} 
  \end{align}
-
-Here we want to find $\+\theta$ to optimize 
-\[ f(\+\theta) =  \E_{p(\+z \cond \+x , \+\theta^{(t)})} \bigg[ \ln p(\+x, \+z \cond \+\theta) \bigg] \]
-
-Following the logic of the Exponential Family module, we determine that we should select $\theta^{(t+1)}$ such that
-\[ \mu(\theta^{(t+1)}) = \df{1}{n} \ds\sum_{i=1}^n   \E_{p(\+z \cond \+x , \+\theta^{(t)})} s(x_i, z_i) \]
-where $\mu := \E[s(x_1,z_1)]$ refers to the mean parametrization of the likelihood.
-
+\pause
+The EM algorithm \tiny (at iterate $j$) \scriptsize attempts to find $\+\theta$ to maximize
+\[ f(\+\theta) =  \E_{p(\+z \cond \+x , \+\theta^{(j)})} \bigg[ \ln p(\+x, \+z \cond \+\theta) \bigg] \]
+\pause 
+The solution is to select $\theta^{(j+1)}$ such that
+\[\theta^{(j+1)} = \df{1}{n} \ds\sum_{i=1}^n   \E_{p(\+z \cond \+x , \+\theta^{(j)})} s(x_i, z_i) \]
+\pause 
 This is why an EM iteration is often described and  implemented as iteratively computing \bf{maximum likelihood with the expected sufficient statistics.}
 \end{frame}
 
+\subsection{Hidden Markov Models}
+\begin{frame}{Demo}
+
+\begin{itemize}
+\item You have seen HMM's from Karin's presentation.
+\item HMM's are also in the exponential family (so long as the emissions distributions are)!
+\item Thus, we can easily work with HMM's with non-gaussian emissions.
+\item The M-step simply updates the emissions parameters via the expected sufficient statistics.
+\item The E-step (and the other M-step updates) remain the same as before.)
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}{Hidden Markov Model}
 A  hidden Markov model (HMM) is a tool for representing probability distributions over sequences of observations.  
@@ -761,69 +883,10 @@ Thus, the complete data likelihood \tiny (although not the marginal  likelihood 
 \end{frame}
 
 
-\begin{frame}{Demo}
-\end{frame}
-
-\begin{frame}{Convergence Properties}
-\footnotesize
-\begin{sblock}{Marginal likelihood}
-\begin{itemize}
-\item It can be shown that the marginal likelihood $p(\+x \cond \+\theta)$ always increases from each step to the next, unless $\+\theta$ is already a stationary point.
-\item The theory guarantees only that the algorithm terminates at a stationary point.  That point can be a saddle point rather than a maximum (very rare)
-
-\end{itemize}
-\end{sblock}
-\begin{sblock}{The real problem: Local maxima}
-\begin{minipage}{.6\textwidth}
-\begin{itemize}
-\item EM is effectively a gradient method.
-\item The maxima it finds are the \bf{local maxima of the log-likelihood}
-\item There are no guarantees on the global quality of the solution: The global maximum may differ arbitrarily from the one we find.
-\end{itemize}
-\end{minipage}
-\hfill
-\begin{minipage}{.35\textwidth}
-\begin{tikzpicture}
-  % Put a picture at a tikz node. 
-  %I'm not sure what the anchor does, exactly.
-    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=.7\textwidth]{images/em_local_maxima}};
-    % The scope environment induces relative coordinates to the picture.
-    \begin{scope}[x={(image.south east)},y={(image.north west)}]
-        \node[text=black, text width=1cm] at (0,1.2) {$\log p(\+x \cond \+\theta)$};
-        \node[text=black, text width=1cm] at (1.2, 0.0) {$\+\theta$};
-    \end{scope}
-\end{tikzpicture}
-\end{minipage}
-
-\end{sblock}
-\vfill \tiny \bf{Q:} So what can we do about this?
-\end{frame}
-
-\begin{frame}{EM in practice}
-\footnotesize
-\begin{sblock}{Comparing solutions}
-\begin{itemize}
-\item If $\+\theta$ and $\+\theta^\prime$ are two different EM solutions, we can always compute the log-likelihoods
-\[ \ds\sum_i \log p(x_i \cond \+\theta) \quad \text{and} \quad \ds\sum_i \log p(x_i \cond \+\theta^\prime) \]
-\item The solution with the higher likelihood is better.
-\item This is a very convenient feature of EM: Different solutions are comparable. 
-\end{itemize}
-\end{sblock}
-\begin{sblock}{Random restarts}
-In practice, the best way to use EM is often
-\begin{itemize}
-\item Restart EM repeatedly with randomly (or intelligently) chosen initial values.
-\item Compute the log-likelihoods of all solutions and compare them.
-\item Choose the solution achieving maximal log-likelihood
-\end{itemize}
-\end{sblock}
-\vfill
-\tiny \bf{Q}: What would be an intelligent way to initialize?
-\end{frame}
 
 
-\section{Some Cybersecurity Applications of EM}
-\subsection{Better malware ground truth}
+
+\subsection{Application of General EM}
 \begin{frame}{Introduction}
 \begin{itemize}
 \item Commercial anti-virus software traditionally memorizes specific byte sequences (known as \textbf{signatures}) in the file contents of previously encountered malware. 
@@ -913,70 +976,68 @@ Z_i \cond \pi & \sim \text{Bernouli}(\pi) \\
 
 \end{frame}
 
-\subsection{Behavioral biometrics}
-\begin{frame}{Keystrokes biometrics}
-
-Gaussian mixture models (and other density models) have been applied to typing behavior to flag anomalous behavior.
-
-\begin{center}
-\includegraphics[width=\textwidth]{images/keystroke_dynamics}
-\end{center}
-
-\end{frame}
+%\subsection{Behavioral biometrics}
+%
+%
+%%\begin{center}
+%%\includegraphics[width=\textwidth]{images/keystroke_dynamics}
+%%\end{center}
+%
+%\end{frame}
 
 \end{document}
 
 
-
-
-%THE ACTUAL KANTCHELIAN MODEL.
-\begin{sblock}{Model}
-
-\begin{minipage}{.65\textwidth}
-\begin{align*}
-X_{ij} \cond Z_{i}, \alpha_j, \beta_j &= 
-\begin{cases}
-\alpha_j&  \text{ if } Z_i  =1   \text{ and }  X_{ij} = 1  \;  \text{(TP)} \\
-1 - \alpha_j&  \text{ if }  Z_i  =1    \text{ and } X_{ij} = 0     \; \text{(FN)} \\
-\beta_j &  \text{ if }  Z_i  =0  \text{ and } X_{ij} = 1     \; \text{(FP)} \\
-1 - \beta_j& \text{ if } Z_i  =0  \text{ and } X_{ij} = 0    \;  \text{(TN)} \\
-\end{cases} \\
-Z_i & \sim \text{Bernouli}(\pi) \\
-\pi &\sim \text{Beta (symmetric)} \\
-\alpha \cond \psi &\sim \text{Beta (assymmetric)} \\
-\beta \cond \phi &\sim \text{Beta (assymmetric)} \\
-\end{align*}
-\end{minipage}
-\hfill 
-\begin{minipage}{.3\textwidth}
-\begin{center}
-\includegraphics[width=\textwidth]{images/assymmetric_beta_kantchelian}
-Assymmetric Beta (right skewed) were used since 
-\end{center}
-
-\end{minipage}
-
-\end{sblock}
-
-\vfill \vfill \vfill \bf{Rk:} This is actually a \textit{Bayesian} latent variable model, since the parameters are assumed to be random variables.  However, we do not focus on that point here.
-\end{frame}
-
-
-
-
-\begin{frame}{Hyperparameters}
-\begin{tikzpicture}
-  % Put a picture at a tikz node. 
-  %I'm not sure what the anchor does, exactly.
-    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\textwidth]{images/bd_ihmm_hyperparameters}};
-    % The scope environment induces relative coordinates to the picture.
-    \begin{scope}[x={(image.south east)},y={(image.north west)}]
-        \node[text=blue, text width=2cm] at (.30, 1.2) {more states};
-        \node[text=blue, text width=2cm] at (.50, 1.2) {more blocks};
-         \node[text=blue, text width=2cm] at (.70, 1.2) {freer mvmt across blocks};
-        \node[text=blue, text width=2cm] at (.90, 1.2) {$\downarrow$ variability in transition probabilities};
-    \end{scope}
-\end{tikzpicture}
-\scriptsize Truncated Markov transition matrices (right stochastic) sampled from the BD-iHMM prior with various fixed hyperparameter values.  Highlighted hyperparameters yield the chief observable difference from the leftmost matrix.
-\end{frame}
-
+%
+%
+%%THE ACTUAL KANTCHELIAN MODEL.
+%\begin{sblock}{Model}
+%
+%\begin{minipage}{.65\textwidth}
+%\begin{align*}
+%X_{ij} \cond Z_{i}, \alpha_j, \beta_j &= 
+%\begin{cases}
+%\alpha_j&  \text{ if } Z_i  =1   \text{ and }  X_{ij} = 1  \;  \text{(TP)} \\
+%1 - \alpha_j&  \text{ if }  Z_i  =1    \text{ and } X_{ij} = 0     \; \text{(FN)} \\
+%\beta_j &  \text{ if }  Z_i  =0  \text{ and } X_{ij} = 1     \; \text{(FP)} \\
+%1 - \beta_j& \text{ if } Z_i  =0  \text{ and } X_{ij} = 0    \;  \text{(TN)} \\
+%\end{cases} \\
+%Z_i & \sim \text{Bernouli}(\pi) \\
+%\pi &\sim \text{Beta (symmetric)} \\
+%\alpha \cond \psi &\sim \text{Beta (assymmetric)} \\
+%\beta \cond \phi &\sim \text{Beta (assymmetric)} \\
+%\end{align*}
+%\end{minipage}
+%\hfill 
+%\begin{minipage}{.3\textwidth}
+%\begin{center}
+%\includegraphics[width=\textwidth]{images/assymmetric_beta_kantchelian}
+%Assymmetric Beta (right skewed) were used since 
+%\end{center}
+%
+%\end{minipage}
+%
+%\end{sblock}
+%
+%\vfill \vfill \vfill \bf{Rk:} This is actually a \textit{Bayesian} latent variable model, since the parameters are assumed to be random variables.  However, we do not focus on that point here.
+%\end{frame}
+%
+%
+%
+%
+%\begin{frame}{Hyperparameters}
+%\begin{tikzpicture}
+%  % Put a picture at a tikz node. 
+%  %I'm not sure what the anchor does, exactly.
+%    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\textwidth]{images/bd_ihmm_hyperparameters}};
+%    % The scope environment induces relative coordinates to the picture.
+%    \begin{scope}[x={(image.south east)},y={(image.north west)}]
+%        \node[text=blue, text width=2cm] at (.30, 1.2) {more states};
+%        \node[text=blue, text width=2cm] at (.50, 1.2) {more blocks};
+%         \node[text=blue, text width=2cm] at (.70, 1.2) {freer mvmt across blocks};
+%        \node[text=blue, text width=2cm] at (.90, 1.2) {$\downarrow$ variability in transition probabilities};
+%    \end{scope}
+%\end{tikzpicture}
+%\scriptsize Truncated Markov transition matrices (right stochastic) sampled from the BD-iHMM prior with various fixed hyperparameter values.  Highlighted hyperparameters yield the chief observable difference from the leftmost matrix.
+%\end{frame}
+%

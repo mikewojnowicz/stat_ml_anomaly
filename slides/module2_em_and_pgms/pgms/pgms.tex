@@ -22,57 +22,30 @@
 
 \section{Motivation}
 \begin{frame}{Motivation}
-Consider a model of interest; e.g.,
-%\begin{figure}[H]
-%  \centering
-%  \scalebox{1.0}{
-%  \tikz{ %
-%    \node[latent] (beta) {$\beta$} ; %
-%    \node[latent, below=of beta] (pi) {$\pi_k$} ; %
-%    \node[latent, below=of pi] (theta) {$\theta_k$} ; %
-%    \node[const, left=of beta] (gamma) {$\gamma$}; %
-%    \node[const, left=of pi] (alpha) {$\alpha$}; %
-%     \node[const, left=of theta] (H) {$H$}; %
-% \plate[inner sep=0.25cm, xshift=0cm, yshift=0cm] {plate1} {(pi) (theta)} {$\infty$}; %
-%     \node[obs, right=of pi](x0){$\x_0$}; %
-%     \node[latent, right=of x0](x1){$\x_1$}; %
-%     \node[latent, right=of x1](x2){$\x_2$};%
-%     \node[const, right=of x2](ellipses){$\; \+\ldots \;$}; %
-%     \node[latent, right=of ellipses](xT){$\x_T$}; %
-%     \draw [->] (pi) to [out=30, in=150] (x1);
-%     \draw [->] (pi) to [out=30, in=150] (x2);
-%     \draw [->] (pi) to [out=30, in=150] (xT);
-%     \node[obs, below=of x1](y1){$\y_1$}; %
-%     \node[obs, right=of y1](y2){$\y_2$};%
-%     \node[const, right=of y2](yellipses){$\; \+\ldots \;$}; %
-%     \node[obs, right=of yellipses](yT){$\y_T$}; %
-%     \draw [->] (theta) to [out=30, in=150] (y1);
-%     \draw [->] (theta) to [out=30, in=150] (y2);
-%     \draw [->] (theta) to [out=30, in=150] (yT);
-% \edge{beta}{pi} ;
-% \edge{gamma}{beta} ;
-% \edge{alpha}{pi} ;
-%  \edge{pi}{theta} ;
-% \edge{H}{theta} ;
-% \edge{x0}{x1};
-% \edge{x1}{x2};
-%  \edge{x2}{ellipses};
-%  \edge{ellipses}{xT};
-%  \edge{x1}{y1};
-%   \edge{x2}{y2};
-%  \edge{xT}{yT};
-% \edge{y1}{y2};
-%  \edge{y2}{yellipses};
-%  \edge{yellipses}{yT};
-%  }
-% }
-%\caption{The HDP-HMM as a graphical model}
-%\label{fig:HDP_HMM_graphical_model}
-%\end{figure}
+\scriptsize
+Consider, for example, a Bayesian Hidden Markov Model.
 
-\begin{figure}[H]
-  \centering
-  \scalebox{1.0}{
+\[  \underset{joint}{p(\pi, \theta, X, Y)} = \explaintermbrace{prior}{p(\pi) \, p(\theta)} \quad 
+\explaintermbrace{(complete data) likelihood}{ p(X_0) \; \ds\prod_{t=1}^T p(X_{t} \cond X_{t-1})  \; p(Y_t \cond X_t)} \]
+
+\pause 
+
+You may see statements like: \textit{The future is independent of the past given the current hidden state.}
+
+\pause
+\begin{itemize}
+\item How can we know this?
+\pause 
+\item More generally:  How can we easily answer queries about \tiny (conditional \textit{or} marginal) \scriptsize independence ?
+\end{itemize}
+
+
+\pause 
+%We can make headway by representing the model as a \bf{probabilistic graphical model.}
+
+\begin{block}{Representation as a \textit{probabilistic graphical model}}
+\begin{center}
+  \scalebox{0.7}{
   \tikz{ %
     \node[latent] (pi) {$\pi_k$} ; %
     \node[latent, below=of pi] (theta) {$\theta_k$} ; %
@@ -95,7 +68,6 @@ Consider a model of interest; e.g.,
      \draw [->] (theta) to [out=30, in=150] (y2);
      \draw [->] (theta) to [out=30, in=150] (yT);
  \edge{alpha}{pi} ;
-  \edge{pi}{theta} ;
  \edge{H}{theta} ;
  \edge{x0}{x1};
  \edge{x1}{x2};
@@ -109,11 +81,55 @@ Consider a model of interest; e.g.,
   \edge{yellipses}{yT};
   }
  }
-\caption{The Bayesian HMM as a graphical model}
-\label{fig:bayesian_HMM_graphical_model}
-\end{figure}
-How can we easily answer queries about \tiny (conditional \textit{or} marginal) \normalsize independence ?
+\end{center}
+\end{block}
+
 \end{frame}
+
+
+
+%
+%\begin{figure}[H]
+%  \centering
+%  \scalebox{1.0}{
+%  \tikz{ %
+%    \node[latent] (pi) {$\pi_k$} ; %
+%    \node[latent, below=of pi] (theta) {$\theta_k$} ; %
+% \plate[inner sep=0.25cm, xshift=0cm, yshift=0cm] {plate1} {(pi) (theta)} {$K$}; %
+%     \node[obs, right=of pi](x0){$\x_0$}; %
+%     \node[latent, right=of x0](x1){$\x_1$}; %
+%     \node[latent, right=of x1](x2){$\x_2$};%
+%     \node[const, right=of x2](ellipses){$\; \+\ldots \;$}; %
+%     \node[latent, right=of ellipses](xT){$\x_T$}; %
+%     \draw [->] (pi) to [out=30, in=150] (x1);
+%     \draw [->] (pi) to [out=30, in=150] (x2);
+%     \draw [->] (pi) to [out=30, in=150] (xT);
+%     \node[obs, below=of x1](y1){$\y_1$}; %
+%     \node[obs, right=of y1](y2){$\y_2$};%
+%     \node[const, right=of y2](yellipses){$\; \+\ldots \;$}; %
+%     \node[obs, right=of yellipses](yT){$\y_T$}; %
+%     \draw [->] (theta) to [out=30, in=150] (y1);
+%     \draw [->] (theta) to [out=30, in=150] (y2);
+%     \draw [->] (theta) to [out=30, in=150] (yT);
+% \edge{x0}{x1};
+% \edge{x1}{x2};
+%  \edge{x2}{ellipses};
+%  \edge{ellipses}{xT};
+%  \edge{x1}{y1};
+%   \edge{x2}{y2};
+%  \edge{xT}{yT};
+% \edge{y1}{y2};
+%  \edge{y2}{yellipses};
+%  \edge{yellipses}{yT};
+%  }
+% }
+%\caption{The HMM as a graphical model}
+%\label{fig:HMM_graphical_model}
+%\end{figure}
+%How can we easily answer queries about \tiny (conditional \textit{or} marginal) \normalsize independence ?
+%\end{frame}
+
+
 
 \section{Directed Probabilistic  Graphical Models }
 \begin{frame}{Joint distributions}
@@ -130,9 +146,11 @@ where the conditioning set $\pi_i$ is referred to as the \alert{parents} of  var
 
 \[ p(\x_1, ..., \x_n) = \ds\prod_{i=1}^n p(\x_i \cond \x_1, .., \x_{i-1} ) \]
 
+\pause
 \vfill \vfill
 \tiny In other words, \eqref{eqn:joint_factorization} restricts our consideration to a certain subset of joint probability distributions.  \\
 
+\pause
 \tiny Consider, e.g., the structure imposed in Bayesian models by independent priors or conditionally i.i.d likelihoods.  \normalsize
 
 \end{frame}
@@ -143,16 +161,16 @@ where the conditioning set $\pi_i$ is referred to as the \alert{parents} of  var
 \footnotesize 
 Once we have specified our desired factorization via \eqref{eqn:joint_factorization}, we can identify it with a directed acyclic graph (DAG) $\mathcal{G} = (E,V)$ by:
 \begin{itemize}
-\item identifying each random variable with a node
-\item drawing a directed arc from $A$ to $B$ if $A$ is a parent of $B$ 
+\item identifying each random variable with a node \pause
+\item drawing a directed arc from $A$ to $B$ if $A$ is a parent of $B$  \pause
 \end{itemize}
 
- We call this representation a \alert{directed probabilistic graphical model}  \tiny (or a Bayesian network)  \footnotesize.
+ We call this representation a \alert{directed probabilistic graphical model}  \tiny (or a Bayesian network)  \footnotesize. \pause
  
- For example, the DAG in Figure \ref{fig:example_directed_pgm}
+ \begin{block}{Example} 
+ For example,  the directed acyclic graph (DAG) below 
 
-\begin{figure}[H]
-  \centering
+\begin{center}
   \scalebox{0.7}{
   \tikz{ %
     \node[latent] (x1) at (0,0) {$\x_1$} ; %
@@ -169,12 +187,11 @@ Once we have specified our desired factorization via \eqref{eqn:joint_factorizat
   \edge{x5}{x6};
   }
  }
-\caption{An example directed acyclic graph (DAG).}
-\label{fig:example_directed_pgm}
-\end{figure}
+\end{center}
 
- corresponds to the factorization
+ corresponds to the factorization  \tiny (Any guesses?) \footnotesize \pause
 \[ p(\x) = p(\x_1) \, p(\x_2 \cond \x_1) \, p(\x_3 \cond \x_1) \, p(\x_4 \cond \x_2) \, p(\x_5 \cond \x_3) \, p(\x_6 \cond \x_5, \x_2) \]
+ \end{block}
 \end{frame}
 
 \section{Independence in Canonical Graphs}
@@ -231,7 +248,7 @@ Once we have specified our desired factorization via \eqref{eqn:joint_factorizat
 %\end{frame}
 
 \begin{frame}{Three canonical graphs}
-
+\pause
 
 \begin{columns}[onlytextwidth,t]
  \begin{column}{0.33\textwidth}
@@ -568,7 +585,6 @@ In real models ...
  
  
 \begin{frame}{Worksheet for practice}
-\url{http://web.mit.edu/jmn/www/6.034/d-separation.pdf}
 \end{frame}
 
 \begin{frame}{Fundamental property of Bayes networks}
