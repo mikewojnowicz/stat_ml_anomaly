@@ -20,6 +20,8 @@ Why have a lab as a part of the course, as opposed to just working on your own t
    * Solution: See slide deck.
 * [Anomaly Detection with Multivariate Gaussian](https://colab.research.google.com/drive/1tqG8H1m5TyBwtK_Rdnh9uYWMjzvJySvy?usp=sharing)
 * [Bayesian approaches and conjugate Bayes](https://colab.research.google.com/drive/1NvclBaljXrwlW95YvEW-AwrHjo8RpGeN?usp=sharing)
+  * [Bayesian approaches and conjugate Bayes: solutions](https://colab.research.google.com/drive/1t463-c65w91LjEubAmsaEzGeCRBCdDKJ?usp=sharing)
+
 
 
 
@@ -30,6 +32,7 @@ Why have a lab as a part of the course, as opposed to just working on your own t
    * [Mixture Models via SciKitLearn - Discussion Resources](https://colab.research.google.com/drive/1WOLuzfzc9LugAlA4m4fGtWmV6dNa-wnL) 
 * HMM exercises to appear later.
 * [Probabilistic Graphical Models](pdfs/d-separation-exercises.pdf)
+
 
 
 ### Module 3: VI 
