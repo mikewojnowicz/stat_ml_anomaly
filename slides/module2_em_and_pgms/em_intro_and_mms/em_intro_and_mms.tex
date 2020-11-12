@@ -673,62 +673,7 @@ where $s$ is the sufficient statistics function.  Thus, the M-step computes the 
 
 
 
-\begin{frame}{Convergence Properties}
-\footnotesize
-\begin{sblock}{Marginal likelihood}
-\begin{itemize}
-\item It can be shown that the marginal likelihood $p(\+x \cond \+\theta)$ always increases from each step to the next, unless $\+\theta$ is already a stationary point.
-\item The theory guarantees only that the algorithm terminates at a stationary point.  That point can be a saddle point rather than a maximum (very rare)
 
-\end{itemize}
-\end{sblock}
-\begin{sblock}{The real problem: Local maxima}
-\begin{minipage}{.6\textwidth}
-\begin{itemize}
-\item EM is effectively a gradient method.
-\item The maxima it finds are the \bf{local maxima of the log-likelihood}
-\item There are no guarantees on the global quality of the solution: The global maximum may differ arbitrarily from the one we find.
-\end{itemize}
-\end{minipage}
-\hfill
-\begin{minipage}{.35\textwidth}
-\begin{tikzpicture}
-  % Put a picture at a tikz node. 
-  %I'm not sure what the anchor does, exactly.
-    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=.7\textwidth]{images/em_local_maxima}};
-    % The scope environment induces relative coordinates to the picture.
-    \begin{scope}[x={(image.south east)},y={(image.north west)}]
-        \node[text=black, text width=1cm] at (0,1.2) {$\log p(\+x \cond \+\theta)$};
-        \node[text=black, text width=1cm] at (1.2, 0.0) {$\+\theta$};
-    \end{scope}
-\end{tikzpicture}
-\end{minipage}
-
-\end{sblock}
-\vfill \tiny \bf{Q:} So what can we do about this?
-\end{frame}
-
-\begin{frame}{EM in practice}
-\footnotesize
-\begin{sblock}{Comparing solutions}
-\begin{itemize}
-\item If $\+\theta$ and $\+\theta^\prime$ are two different EM solutions, we can always compute the log-likelihoods
-\[ \ds\sum_i \log p(x_i \cond \+\theta) \quad \text{and} \quad \ds\sum_i \log p(x_i \cond \+\theta^\prime) \]
-\item The solution with the higher likelihood is better.
-\item This is a very convenient feature of EM: Different solutions are comparable. 
-\end{itemize}
-\end{sblock}
-\begin{sblock}{Random restarts}
-In practice, the best way to use EM is often
-\begin{itemize}
-\item Restart EM repeatedly with randomly (or intelligently) chosen initial values.
-\item Compute the log-likelihoods of all solutions and compare them.
-\item Choose the solution achieving maximal log-likelihood
-\end{itemize}
-\end{sblock}
-\vfill
-\tiny \bf{Q}: What would be an intelligent way to initialize?
-\end{frame}
 
 \subsection{Latent variable models}
 \begin{frame}{Latent variable models}
@@ -748,6 +693,7 @@ In practice, the best way to use EM is often
 \item Latent variable models provide a \bf{complete data likelihood}  $p (\+x, \+z \cond \+\theta)$, where $\+z$ is unobserved. The model often factorizes as
 \[   p (\+x,  \+z \cond \+\theta) = \ds\prod_{i=1}^n  p (x_i, z_i \cond \+\theta) \]
 \item For frequentist latent variable models, the inferential goal is to compute $\+\theta_{\text{ML}}$, the maximum likelihood value of the parameter.  
+\pause
 \item Since $\+z$ is not observed, so one seeks to find 
 \begin{equation}
 \+\theta_{\text{ML}}:=  \text{argmax}_{\+\theta} \; p (\+x \cond \+\theta) = \text{argmax}_{\+\theta} \ds\int p(\+x,\+z \cond \+\theta) \wrt{\+z} 
@@ -758,6 +704,7 @@ In practice, the best way to use EM is often
 p(\+x \cond \+\theta) = \ds\int p(\+x,\+z \cond \+\theta) \wrt{\+z} 
 \label{marginal_likelihood}
 \end{equation}
+but that may be intractable.\pause \tiny (For instance, for a HMM, the computation is $\mathcal{O}(T K^T)$, as there are $K^T$ possible hidden state sequences and $T$ emissions density evaluations.  To get a sense of how large this is, $(K,T) = (5,100) \to  10^{72}$ calculations!)
 \end{itemize}
 \end{frame}
 
@@ -855,7 +802,7 @@ The complete data likelihood for the HMM is given by
  \end{align}
 \end{frame}
 
-\begin{frame}{HMM: Complete Data Likelihood is an Exponential Family}
+\begin{frame}{HMM: Complete Data Likelihood is in the Exponential Family!}
 We continue 
  \footnotesize
 \begin{align}
@@ -875,15 +822,72 @@ p(x_{1:T}, y_{1:T} \cond \theta) &=  \exp\bigg \{ \log p(x_1 \cond \pi) + \ds\su
 \vfill
  \footnotesize
 
-Thus, the complete data likelihood \tiny (although not the marginal  likelihood $p(x_{1:T} \cond \theta)$) \footnotesize in the exponential family, so long as the emissions distributions are.   The sufficient statistics for $\log \pi_k$ are $x_1^k$, and the sufficient statistics for $\log A_{kk'}$ are $\sum_{t=2}^T x_{t-1}^k x_t^{k'}$.
+Thus, the complete data likelihood \tiny (although not the marginal  likelihood $p(x_{1:T} \cond \theta)$) \footnotesize in the exponential family, so long as the emissions distributions are.   The sufficient statistics for $\log \pi_k$ are $\alert{x_1^k}$, and the sufficient statistics for $\log A_{kk'}$ are $\alert{\sum_{t=2}^T x_{t-1}^k x_t^{k'}}$. \pause \tiny (What about for the emissions distributions?)
 
 %\vfill \vfill
 %\tiny
 %\hfill \alert{Note:} The \textit{marginal} likelihood $p(x_{1:T} \cond \theta)$ is \textit{not} in the exponential family.  
 \end{frame}
 
+\subsection{Practical points}
+\begin{frame}{Convergence Properties}
+\footnotesize
+\begin{sblock}{Marginal likelihood}
+\begin{itemize}
+\item It can be shown that the marginal likelihood $p(\+x \cond \+\theta)$ always increases from each step to the next, unless $\+\theta$ is already a stationary point.
+\item The theory guarantees only that the algorithm terminates at a stationary point.  That point can be a saddle point rather than a maximum (very rare)
 
+\end{itemize}
+\end{sblock}
+\pause
+\begin{sblock}{The real problem: Local maxima}
+\begin{minipage}{.6\textwidth}
+\begin{itemize}
+\item EM is effectively a gradient method.
+\item The maxima it finds are the \bf{local maxima of the log-likelihood}
+\item There are no guarantees on the global quality of the solution: The global maximum may differ arbitrarily from the one we find.
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{.35\textwidth}
+\begin{tikzpicture}
+  % Put a picture at a tikz node. 
+  %I'm not sure what the anchor does, exactly.
+    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=.7\textwidth]{images/em_local_maxima}};
+    % The scope environment induces relative coordinates to the picture.
+    \begin{scope}[x={(image.south east)},y={(image.north west)}]
+        \node[text=black, text width=1cm] at (0,1.2) {$\log p(\+x \cond \+\theta)$};
+        \node[text=black, text width=1cm] at (1.2, 0.0) {$\+\theta$};
+    \end{scope}
+\end{tikzpicture}
+\end{minipage}
 
+\end{sblock}
+\vfill \tiny \bf{Q:} So what can we do about this?
+\end{frame}
+
+\begin{frame}{EM in practice}
+\footnotesize
+\begin{sblock}{Comparing solutions}
+\begin{itemize}
+\item If $\+\theta$ and $\+\theta^\prime$ are two different EM solutions, we can always compute the log-likelihoods
+\[ \ds\sum_i \log p(x_i \cond \+\theta) \quad \text{and} \quad \ds\sum_i \log p(x_i \cond \+\theta^\prime) \]
+\item The solution with the higher likelihood is better.
+\item This is a very convenient feature of EM: Different solutions are comparable. 
+\end{itemize}
+\end{sblock}
+\pause
+\begin{sblock}{Random restarts}
+In practice, the best way to use EM is often
+\begin{itemize}
+\item Restart EM repeatedly with randomly (or intelligently) chosen initial values.
+\item Compute the log-likelihoods of all solutions and compare them.
+\item Choose the solution achieving maximal log-likelihood
+\end{itemize}
+\end{sblock}
+\vfill
+\tiny \bf{Q}: What would be an intelligent way to initialize?
+\end{frame}
 
 
 \subsection{Application of General EM}

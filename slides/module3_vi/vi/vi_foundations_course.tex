@@ -5,126 +5,28 @@
 %https://tex.stackexchange.com/questions/68821/is-it-possible-to-create-a-latex-preamble-header
 \usepackage{../../rsrc/beamer_preamble}
 
-%
-%\usetheme{metropolis}
-%\usepackage{appendixnumberbeamer}
-%
-%
-%\usepackage{booktabs}
-%\usepackage[scale=2]{ccicons}
-%
-%\usepackage{pgfplots}
-%\usepgfplotslibrary{dateplot}
-%
-%
-%\usepackage{amsmath}
-%\usepackage{media9}
-%\usepackage{xspace}
-%\usepackage{xcolor}
-%\usepackage{tikz}
-%\usetikzlibrary{bayesnet} %for plate notation
-%\usepackage{listings} %for printing python code
-%
-%
-%%%%% This next section builds the \warning symbol
-%\usepackage[utf8]{inputenc}
-%\usepackage{xcolor}
-%\usepackage{newunicodechar}
-%
-%\newcommand\warning{%
-% \makebox[1.4em][c]{%
-% \makebox[0pt][c]{\raisebox{.1em}{\small!}}%
-% \makebox[0pt][c]{\color{red}\Large$\bigtriangleup$}}}%
-% 
-%
-%\usepackage[most]{tcolorbox} %for color box
-%%Reference:
-%% 	https://tex.stackexchange.com/questions/279464/2-boxed-equations-on-one-lineblue-outline-box-and-shadow
-%%Usage:
-%%	\tcboxmath{something}
-%
-%
-%%https://tex.stackexchange.com/questions/395140/change-font-size-of-one-equation-in-align-environment?rq=1
-%%has medmath for reducing font size in align environments
-%\usepackage{mathtools, nccmath} 
-%
-%
-%%https://jansoehlke.com/2010/06/strikethrough-in-latex/
-%%lets you cancel out terms in an equation
-%\usepackage{cancel}
-%
-%\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
-%
-%%%% GENERALLY USEFUL 
-%\newcommand{\ds}{\displaystyle}
-%\newcommand{\df}{\displaystyle\frac}
-%\newcommand{\R}{\mathbb{R}}
-%\newcommand{\+}[1]{\ensuremath{{\boldsymbol #1}}} %another way to make bold symbols
-%\newcommand{\cond}{\; | \;}
-%\newcommand{\blue}[1]{\color{blue}{#1}  \color{black}}
-%\newcommand{\red}[1]{\color{red}{#1}  \color{black}}
-%\newcommand{\green}[1]{\color{green}{#1}  \color{black}}
-%\newcommand{\purple}[1]{\color{purple}{#1}  \color{black}}
-%\DeclareMathOperator*{\argmax}{argmax} % thin space, limits underneath in displays
-%\newcommand{\partialderiv}[2]{\df {\partial {#1}}{\partial {#2}} }
-%\newcommand{\biggexp}[1]{\exp  \bigg\{ {#1} \bigg\} }
-%
-%
-%%%% PROBABILITY
-%\newcommand{\iid}{\stackrel{\text{iid}}{\sim}}
-%\newcommand{\norm}{\mathcal{N}}
-%\newcommand{\IG}{\mathcal{I}\mathcal{G}}
-%\newcommand{\E}{\mathbb{E}}
-%\newcommand{\biggE}[2]{\E_{{#1}} \bigg[ {{#2}} \bigg]}
-%%\newcommand{\H}{\mathbb{H}}
-%\newcommand{\Prob}{\mathbb{P}}
-%\newcommand{\absdet}[1]{ \; \bigg\lvert \det{#1}  \bigg\rvert  \;}
-%\newcommand{\logabsdet}[1]{ \log \absdet{#1}}
-%\newcommand{\KL}[2] {\texttt{KL} \big({#1} \; \big|\big| \; {#2} \big)}
-%\newcommand{\Q}{\mathcal{Q}}
-%\newcommand{\ind}{\perp\kern-5pt\perp}
-%
-%%%% INTEGRALS
-%\newcommand{\wrt}[1]{\; d \,{#1} \;} 
-%
-%%%% SETS
-%\newcommand{\set}[1] { \{  {#1} \} }
-%\newcommand{\cupdot}{\sqcup}
-%
-%
-%%%%% TYPEWRITER FONTTED VI ACRONYMS 
-%\newcommand{\bbvi}{\,\texttt{bbvi}\,}
-%\newcommand{\VLBO}{\,\texttt{VLBO}\,}
-%
-%%% SHADED BOXES
-%%colored shaded boxes
-%\newcommand{\bluebox}[2] { \tikz[baseline]{\node[fill=blue!20,anchor=base]({#1}) { {#2} } }}
-%\newcommand{\redbox}[2] { \tikz[baseline]{\node[fill=red!20,anchor=base]({#1}) { {#2} } }}
-%\newcommand{\greenbox}[2] { \tikz[baseline]{\node[fill=green!20,anchor=base]({#1}) { {#2} } }}
-%%these put a label beneath the shaded box, in the same color
-%\newcommand{\labeledbluebox}[2]{  \underset{\blue{#1}}{\bluebox{_dummy_}{#2}} }
-%\newcommand{\labeledredbox}[2]{  \underset{\red{#1}}{\redbox{_dummy_}{#2}} }
-%\newcommand{\labeledgreenbox}[2]{  \underset{\green{#1}}{\greenbox{_dummy_}{#2}} }
-%%https://github.com/matze/mtheme
 
-%%% CHECKMARK 
-%\usepackage{pifont}% for cmark and xmark for checkmark and xmark 
-%\newcommand{\cmark}{\ding{51}}%
-%\newcommand{\xmark}{\ding{55}}%
-%\newcommand{\greencheck}{\green{\cmark}}
-%\newcommand{\redx}{\red{\xmark}}
-%
-%%%% EXPLANATIONS  
-%%explaining equations 
-%\newcommand{\explaineq}[1]{\stackrel{\text{#1}}{=}}
-%%explain terms
-%\newcommand{\explainterm}[2]{\underset{\textit{#1}}{#2}}
-%%explain terms with underbrace
-%\newcommand{\explaintermbrace}[2]{\underbrace{#2}_{\text{#1}}}
+% CREATE DIFFERENT VERSIONS DEPENDING ON THE AUDIENCE
+% Reference: https://tex.stackexchange.com/questions/290102/how-do-i-skip-slides-in-beamer
+\usepackage[
+    audience=short
+    ]{beameraudience}
 
  %%%% SUPPORT MAKING \subsectionpage
 \AtBeginSection{\frame{\sectionpage}}
 \AtBeginSubsection{\frame{\subsectionpage}}
+
+
+%%%% REDUCED SPACING IN TABLE OF CONTENTS
+%% Reference: https://tex.stackexchange.com/questions/170268/separation-space-between-tableofcontents-items-in-beamer
+\makeatletter
+\patchcmd{\beamer@sectionintoc}{\vskip1.5em}{\vskip0.5em}{}{}
+\makeatother
+
+%%% GOOD URL 
+% Will make the url clickable, and also highlight it in blue.   Put the url 
+% first, then the text.
+\newcommand{\goodurl}[2]{\blue{\href{ {#1} }{ {#2} }}}
 
 \title{Variational Inference}
 
@@ -153,8 +55,6 @@
 \end{frame}
 
 
-\section{Variational Inference: Overview}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Some questions}
 
@@ -177,87 +77,13 @@
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Approximate Bayesian Inference}
 
-\begin{itemize}
-\item The two most prominent strategies for approximating intractable posteriors are VI and Markov Chain Monte Carlo (MCMC). 
-\item MCMC  uses \alert{sampling}.  We construct a Markov chain over model parameters.  The stationary distribution is the posterior.  We approximate the posterior with samples.
-\item VI uses \alert{approximation}.  A tractable approximating family is chosen, and parameters are optimized to be close to the posterior.
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Variational Inference vs MCMC}
-
-Variational Inference scales better to large datasets.
-
-\begin{figure}
-\includegraphics[width=\textwidth]{images/CAVI_vs_HamiltonianMCMC}
-\caption{ Comparison of CAVI to a Hamiltonian Monte Carlo-based sampling technique.  The plot shows log predictive test set accuracy by training time (minutes).  CAVI fits a Gaussian mixture model to 10,000 images in less than a minute.}
-\end{figure}
-\vfill
-\tiny Blei, D. M., Kucukelbir, A., \& McAuliffe, J. D. (2017). Variational inference: A review for statisticians. Journal of the American statistical Association, 112(518), 859-877.
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Illustration}
-
- \begin{minipage}[t][.9\textheight]{\textwidth}
-  
-Here we approximate an probability distribution by finding the best approximation from tractable family $\Q = \{ \text{10-component Gaussian mixture models} \}$ 
-
-\begin{columns}[t]
-\column{.5\textwidth}
-\centering
-\includegraphics[width=.7\textwidth]{images/intro_animation_1.png}\\
-\includegraphics[width=.7\textwidth]{images/intro_animation_2.png}
-\column{.5\textwidth}
-\centering
-\includegraphics[width=.7\textwidth]{images/intro_animation_3.png}\\
-\includegraphics[width=.7\textwidth]{images/intro_animation_4.png}
-\end{columns}
-
-\vfill
-
-\tiny Ranganath, R., Gerrish, S., \& Blei, D. (2014, April). Black box variational inference. In Artificial Intelligence and Statistics (pp. 814-822).
-  \end{minipage}
-  
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Modern application}
-
-  \begin{minipage}[t][.9\textheight]{\textwidth}
-
-We can compose probabilistic graphical models with neural networks to exploit their complementary strengths.  
-
-\vspace{.2in}
-
-\centering
-\includegraphics[width=.95\textwidth]{images/composing_pgms_with_nns}
-
-\vspace{.2in}
-
-The resulting model is expressive, but also interpretable/decomposable.\\
-
-    \vfill
-
-\tiny Johnson, M., Duvenaud, D. K., Wiltschko, A., Adams, R. P., \& Datta, S. R. (2016). Composing graphical models with neural networks for structured representations and fast inference. In Advances in neural information processing systems (pp. 2946-2954).
-
-  \end{minipage}
-  
-\end{frame}
-
-
-
-
-\section{Variational Inference: Basics}
+\section{Overview}
 
 %TO SAY:  (1) orientation -- what is VI, freq or bayes, why "variatational", how related to EM, blockers for classical approaches, etc... (2) still used (2a) duvenaud -- efficient subroutines; leverage conjugate exponential family structure, enabling second-order optimization where possible, use backprop for everything else, (2b) max welling -- taylor series approach. 
 
 
+\subsection{The problem: marginalization}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Parametric statistical models}
@@ -291,49 +117,52 @@ Frequentists take parameters $\+\theta$  to be fixed (but unknown) constants, wh
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Three statistical modeling paradigms of interest}
 
-Variational inference can be useful for:
-
-\vfill
-
-1. \alert{\emph{Bayesian latent variable models}}
-	\begin{itemize}
-	\item e.g. Bayesian Mixture Model, Bayesian Hidden Markov Model, Latent Dirichlet Allocation,  Bayesian Nonparametric versions of the preceding
-	\end{itemize}
-2. \alert{\emph{Frequentist latent variable models}}
-	\begin{itemize}
-	\item  Variational Autoencoders \tiny (the classical kind) \normalsize, Bayesian Generalized Linear Mixed Effects Models, %(standard) Hidden Markov Models$^*$%,  (typical) Hidden Markov Models$^*$ %/footnote{Standard HMM's are typically fit with EM, but as we will see, EM is a special case of VI.}
-	\end{itemize}
-3. \alert{\emph {Bayesian (non-latent variable) models}}
-	\begin{itemize}
-	\item Many hierarchical Bayesian models,  Any model with non-conjugate prior, 
-	\end{itemize}
-\end{frame}
-
-		
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Statistical inference}
-%TOSAY: want to emphasize the role of marginalization
+Let us consider models that present an \bf{intractable marginal}.
+ 
+\metroset{block=fill}
+\begin{block}{Bayesian latent variable models}
+Examples: Bayesian Mixture Model, Bayesian Hidden Markov Model, Latent Dirichlet Allocation,  Bayesian nonparametric versions of the preceding
+\end{block}
 
 \metroset{block=fill}
-\begin{block}{Bayesian non-latent variable models}
+\begin{block}{Bayesian (non-latent variable) models}
+Examples: Non-conjugate models, Many hierarchical Bayesian models
+\end{block}
 
-We want the posterior:
-\[ p(\+\theta \cond \+x) =  \df{p(\+x \cond \+\theta ) p(\+\theta )}{p(\+x)} \]
 
-Note that we need to compute the \textit{evidence}, i.e. the marginal likelihood of the data: 
-
-	\begin{equation}
-	 p(\+x) = \ds\int p(\+\theta,\+x) \wrt{\+\theta}
-	 \end{equation}
-	 
-\end{block} 
-
+\metroset{block=fill}
+\begin{block}{Frequentist latent variable models}
+Examples:  Hidden Markov Models \tiny (although we have handled this case)  \normalsize , Variational Autoencoders \tiny (the classical kind) \normalsize, Bayesian Generalized Linear Mixed Effects Models
+\end{block}
 \end{frame}
 
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Three statistical modeling paradigms of interest}
+%
+%Variational inference can be useful whenever we face an intractable marginal:
+%
+%\vfill
+%
+%1. \alert{\emph{Bayesian latent variable models}}
+%	\begin{itemize}
+%	\item e.g. Bayesian Mixture Model, Bayesian Hidden Markov Model, Latent Dirichlet Allocation,  Bayesian Nonparametric versions of the preceding
+%	\end{itemize}
+%2. \alert{\emph {Bayesian (non-latent variable) models}}
+%	\begin{itemize}
+%	\item e.g. Many hierarchical Bayesian models,  Any model with non-conjugate prior
+%	\end{itemize}
+%3. \alert{\emph{Frequentist latent variable models}}
+%	\begin{itemize}
+%	\item  e.g. Variational Autoencoders \tiny (the classical kind) \normalsize, Bayesian Generalized Linear Mixed Effects Models, Hidden Markov Models \tiny (although here we use the special case, EM)  \normalsize %(standard) Hidden Markov Models$^*$%,  (typical) Hidden Markov Models$^*$ %/footnote{Standard HMM's are typically fit with EM, but as we will see, EM is a special case of VI.}
+%	\end{itemize}
+%\end{frame}
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Statistical inference}
+\begin{frame}{Statistical inference and marginalization}
 %TOSAY: want to emphasize the role of marginalization
 
 \metroset{block=fill}
@@ -352,8 +181,29 @@ Note that we need to compute the \textit{evidence}, i.e. the marginal likelihood
 \end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Statistical inference and marginalization}
+%TOSAY: want to emphasize the role of marginalization
+
+\metroset{block=fill}
+\begin{block}{Bayesian non-latent variable models}
+
+We want the posterior:
+\[ p(\+\theta \cond \+x) =  \df{p(\+x \cond \+\theta ) p(\+\theta )}{p(\+x)} \]
+
+Note that we need to compute the \textit{evidence}, i.e. the marginal likelihood of the data: 
+
+	\begin{equation}
+	 p(\+x) = \ds\int p(\+\theta,\+x) \wrt{\+\theta}
+	 \end{equation}
+	 
+\end{block} 
+
+\end{frame}
+
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Statistical inference}
+\begin{frame}{Statistical inference and marginalization}
 
 \metroset{block=fill}
 \begin{block}{Frequentist latent variable models}
@@ -461,7 +311,7 @@ Consider e.g. that (k,n) = (5,100) $ \rightarrow 10^{72}$ calculations.  \includ
 %One solution is variational inference.
 %\end{frame}
 
-
+\subsection{The technique: functional optimization}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Towards variational inference}
  
@@ -497,7 +347,7 @@ Let $q$ be any probability density over $\+u$. Then:
 \begin{frame}{Variational Inference: Maximizing the 
 \VLBO}
 
-%Now that we have obtained a computable quantity (the VLBO),
+%SAY: Now that we have obtained a computable quantity (the VLBO),
 
 \metroset{block=fill}
 \begin{block}{Variational Inference}
@@ -508,13 +358,37 @@ Let $q$ be any probability density over $\+u$. Then:
 
 
 \vfill \vfill
-
-\small
+\tiny \bf{Rk:} Note that we are trying to optimize over a function space (of a particular kind).  
 %(More later on how to execute this optimization.)
 \end{frame} 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Illustration}
+
+ \begin{minipage}[t][.9\textheight]{\textwidth}
+  
+Here we approximate an probability distribution by finding the best approximation from tractable family $\Q = \{ \text{10-component Gaussian mixture models} \}$ 
+
+\begin{columns}[t]
+\column{.5\textwidth}
+\centering
+\includegraphics[width=.7\textwidth]{images/intro_animation_1.png}\\
+\includegraphics[width=.7\textwidth]{images/intro_animation_2.png}
+\column{.5\textwidth}
+\centering
+\includegraphics[width=.7\textwidth]{images/intro_animation_3.png}\\
+\includegraphics[width=.7\textwidth]{images/intro_animation_4.png}
+\end{columns}
+
+\vfill
+
+\tiny Ranganath, R., Gerrish, S., \& Blei, D. (2014, April). Black box variational inference. In Artificial Intelligence and Statistics (pp. 814-822).
+  \end{minipage}
+  
+\end{frame}
 
 
+\subsection{Decompositions: Intuition on the cost function}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Decompositions of the VLBO}
 \metroset{block=fill}
@@ -524,9 +398,11 @@ By simply appealing to properties of the logarithm and the definition of expecta
 \VLBO(q) & = \ds\int  q(\+u) \; \ln p(\+x,\+u  \cond \+c) \wrt{\+u}   - \ds\int  q(\+u) \; \ln q(\+u) \wrt{\+u}  \\
 & =  \underset{energy}{ \E_q \big[ \log p(\+x, \+u  \cond \+c ) \big] } + \underset{entropy}{ \mathbb{H} \big[q(\+u) \big] }  
 \end{align*}
+
 %Energy: It tries to place high probability on unobserved variables that are jointly likely with the data from the perspective of the model 
 %Entropy: a regularizer; keeps the result from being a point mass (o/w var density would e.g. put all the prob mass on the most likely latent state for each data point) ; tries to maximize uncertainty. 
 \end{block} 
+\vfill \tiny \textbf{Q}  What is the effect of the entropy term?
 \end{frame}
 
 
@@ -551,9 +427,9 @@ Note that the first term grows in magnitude as the number of samples increases; 
 
 \end{frame}
 
-
+\subsection{The posterior perspective}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Maximizing the \VLBO minimizes the KL divergence}  
+\begin{frame}{Maximizing the \VLBO minimizes the KL divergence \tiny (to the posterior)}  
 
 %The variational density $q \in \mathcal{Q}$  which maximizes the \VLBO also minimizes the KL divergence from the target posterior $p(\+u \cond \+x, \+c)$ %to the variational density. 
 
@@ -570,40 +446,50 @@ By definition, the \texttt{KL} divergence from the target posterior to the varia
 
 By the chain rule, we get 
 \begin{align*} 
- \texttt{KL} (q(\+u) \; || \; p(\+u \cond \+x, \+c)) & =  \E_q[\log q(\+u )]  - \E_q[ \log p(\+x,\+u \cond \+c)] &&+\log p(\+x \cond \+c) \\
+ \texttt{KL} (q(\+u) \; || \; p(\+u \cond \+x, \+c)) & = \explaintermbrace{energy/entropy decomposition}{ \E_q[\log q(\+u )]  - \E_q[ \log p(\+x,\+u \cond \+c)]} &&+\log p(\+x \cond \+c) \\
  & = \hphantom{blah} -\VLBO(q)  && +  \text{constant} 
  \end{align*}
  
 %Note that the term $p(\+x \cond \+c)$, is constant in the minimization.  Thus, we may equivalently maximize the negative of the first two terms, which is the \VLBO.
 
  
-\pause
-\alert{Note}: The optimal variational density, $q^*(\+u)$ is the target posterior density $p(\+u \cond \+x, \+c)$ when the underlying variational family $\Q$ is unrestricted  
-
+\vfill \tiny \bf{Discuss:} What is the optimal variational density?
 
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Problem: VI underestimates variance of the true posterior}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Maximizing the \VLBO minimizes the KL divergence \tiny (to the posterior)}  
 
+%The variational density $q \in \mathcal{Q}$  which maximizes the \VLBO also minimizes the KL divergence from the target posterior $p(\+u \cond \+x, \+c)$ %to the variational density. 
 
-	\begin{figure}
-	\includegraphics[width=.7\textwidth]{images/underfit_variance_2.png}
-	\end{figure}
+By definition, the \texttt{KL} divergence from the target posterior to the variational density is given by
+\begin{equation*}
+\texttt{KL} (q(\+u) \; || \; p(\+u \cond \+x, \+c)) =  \E_q \bigg[\log \df{q(\+u )}{p(\+u \cond \+x, \+c)} \bigg] 
+\end{equation*}
 
-
-\[ \texttt{KL} (q(\+u) \; || \; p(\+u \cond \+x, \+c)) =  \E_q \bigg[\log \df{q(\+u )}{p(\+u \cond \+x, \+c)} \bigg]  \]
  
-Intuition 
-\begin{itemize}
 
-\item If $ \green{q(\+u )}$ is low, then we don't care (because of the expectation).   
-\item If $ \green{q(\+u )}$ is high and $ \purple{p(\+x,\+u \cond \+c)}$  is low, then we pay a price
-%\item If $ \green{q(\+u )}$ is high and $\purple{p(\+x,\+u \cond \+c)}$  is high, then we are happy  
-\end{itemize}
+%\begin{equation*}
+% \texttt{KL} (q(\+u) \; || \; p(\+u \cond \+x, \+c)) =  \E_q[\log q(\+u )]  - \E_q[ \log p(\+u \cond \+x, \+c)] 
+%\end{equation*}
+
+By the chain rule, we get 
+\begin{align*} 
+ \texttt{KL} (q(\+u) \; || \; p(\+u \cond \+x, \+c)) & = \explaintermbrace{energy/entropy decomposition}{ \E_q[\log q(\+u )]  - \E_q[ \log p(\+x,\+u \cond \+c)]} &&+\log p(\+x \cond \+c) \\
+ & = \hphantom{blah} -\VLBO(q)  && +  \text{constant} 
+ \end{align*}
+ 
+%Note that the term $p(\+x \cond \+c)$, is constant in the minimization.  Thus, we may equivalently maximize the negative of the first two terms, which is the \VLBO.
+
+\metroset{block=fill}
+\begin{block}{The optimal variational density}
+The optimal variational density, $q^*(\+u)$ is the target posterior density $p(\+u \cond \+x, \+c)$ when the underlying variational family $\Q$ is unrestricted  
+\end{block}
 
 \end{frame}
+
+
 
 
 
@@ -643,10 +529,7 @@ Intuition
 %
 %\end{frame}
 
-
-
-
-
+\subsection{Summary}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Summary}
@@ -663,33 +546,161 @@ Intuition
 \begin{tabular}{l | l l l l} % centered columns 
 %heading
 %\hline \\ [.5ex] % inserts single horizontal line
-Model & Inferential & Target  &  Variational  & Target \\
-& goal & marginal & density & posterior    \\   [.8ex]
+Model & Inferential & Intractable  &  Variational  & Posterior \\
+& goal & marginal & density &  \\   [.8ex]
 %& & & & (or ``posterior")\\
 \hline \\ [.8ex] % inserts single horizontal line
 General case & \text{infer about} $\+\theta$ & $p(\+x \cond \+c)$& $q(\+u)$ & $p(\+u \cond \+x, \+c)$  \\ [.8ex]
 \hline \\ [.8ex] % inserts single horizontal line
-Bayesian  & $p(\+\theta \cond \+x)$ & $p(\+x) = \ds\int p(\+\theta,\+x) \wrt{\+\theta}$ & $q(\+\theta)$ &  $p(\+\theta \cond \+x)$ \\ 
-(non-latent) & & & & \\  [.8ex]
-Bayesian  & $p(\+z, \+\theta \cond \+x)$ &  $p(\+x) = \ds\int p(\+\theta,\+x, \+z) \wrt{\+\theta} \wrt{\+z}$  &  $q(\+z, \+\theta)$ & $p(\+z, \+\theta \cond \+x)$ \\
-latent & & & & \\  [.8ex]
-Frequentist  & $\argmax_{\+\theta} p(\+x \cond \+\theta)$  & $p(\+x \cond \+\theta) = \ds\int p(\+x, \+z \cond \+\theta) \wrt{\+z}$  & $q(\+z)$ & $p(\+z \cond \+x, \+\theta)$  \\
+Frequentist  & $\argmax_{\+\theta} \alert{p(\+x \cond \+\theta)}$  & \alert{$p(\+x \cond \+\theta)$} = $\ds\int p(\+x, \+z \cond \+\theta) \wrt{\+z}$  & $q(\+z)$ & \blue{$p(\+z \cond \+x, \+\theta)$}  \\
 latent & & & & \\ [.8ex]
+Bayesian  & $\alert{p(\+\theta \cond \+x)}$ & $ \blue{p(\+x)} = \ds\int p(\+\theta,\+x) \wrt{\+\theta}$ & $q(\+\theta)$ &  \alert{$p(\+\theta \cond \+x)$} \\ 
+(non-latent) & & & & \\  [.8ex]
+Bayesian  & $\alert{p(\+z, \+\theta \cond \+x)}$ &  $\blue{p(\+x)} = \ds\int p(\+\theta,\+x, \+z) \wrt{\+\theta} \wrt{\+z}$  &  $q(\+z, \+\theta)$ & \alert{$p(\+z, \+\theta \cond \+x)$} \\
+latent & & & & \\  [.8ex]
 \end{tabular}
 \label{vi_table} % is used to refer this table in the text
 \end{table}
  
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{How does VI accommodate the goal of statistical inference?}
+
+Given selection of variational family $\Q$, the optimal variational density $q^*$ ...
+
+\metroset{block=fill}
+\begin{block}{The marginal perspective}
+
+\begin{itemize}
+
+%We can now maximize an objective function which is as similar as possible to the true objective, the marginal likelihood $p(\+x \cond \+\theta)$. %(So it would seem to provide a "good" estimate of $\+\theta$.) 
+% Shorter: We can now find $\+\theta$ which maximizes a quantity approximating the marginal likelihood. 
+% Finding parameter $\widehat{\+\theta}_{\text{VI}}$ maximizing  $\VLBO(q^*)$ amounts to maximizing an objective function which is as similar as possible to the true objective, the marginal likelihood $p(\+x \cond \+\theta)$
+
+\item \textit{For frequentist models}: ... makes the \VLBO best approximate the  \alert{target marginal likelihood, $p(\+x \cond \+\theta)$}, which is what we wanted to maximize.
+\item \textit{For Bayesian models}: ... raises the (approximate) evidence term $\blue{p(\+x)}$ (the term used for Bayesian model comparison) as high as possible. %(So it would seem to provide a "good" distribution over $\+u$.) 
+\end{itemize}
+
+\end{block} 
 
 
+\metroset{block=fill}
+\begin{block}{The posterior perspective}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{frame}{Problems}
-%
-%VI has some known deficiencies.  Following is one. 
-%
-%\end{frame}
+\begin{itemize}
+\item \textit{For Bayesian models}:  ...  is the family member which is closest to the\alert{ target  posterior $p(\+u \cond \+x)$}.
+\item \textit{For frequentist models}: ... provides the best substitution $q^*(\+z) \approx \blue{p(\+z\cond \+x, \+\theta^{\text{curr}})}$ into the E-step of the EM algorithm\footnote{See next section for more information.}
+\end{itemize}
+
+\end{block} 
+\end{frame}
+
+
+\subsection{Evaluation (in context)}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Approximate Bayesian Inference}
+
+\begin{itemize}
+\item The two most prominent strategies for approximating intractable posteriors are VI and Markov Chain Monte Carlo (MCMC). 
+\item MCMC  uses \alert{sampling}.  We construct a Markov chain over model parameters.  The stationary distribution is the posterior.  We approximate the posterior with samples.
+\item VI uses \alert{approximation}.  A tractable approximating family is chosen, and parameters are optimized to be close to the posterior.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Variational Inference vs MCMC}
+
+Variational Inference scales better to large datasets.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{images/CAVI_vs_HamiltonianMCMC}
+\caption{ Comparison of CAVI to a Hamiltonian Monte Carlo-based sampling technique.  The plot shows log predictive test set accuracy by training time (minutes).  CAVI fits a Gaussian mixture model to 10,000 images in less than a minute.}
+\end{figure}
+\vfill
+\tiny Blei, D. M., Kucukelbir, A., \& McAuliffe, J. D. (2017). Variational inference: A review for statisticians. Journal of the American statistical Association, 112(518), 859-877.
+\end{frame}
+
+
+\begin{frame}{Variational Inference vs. Expectation Propagation}
+\footnotesize
+Let us fix a distribution $P$ and consider two optimization strategies
+\metroset{block=fill}
+\begin{block}{Variational Inference}
+\begin{minipage}{.3\textwidth}
+Minimizing \\
+$\texttt{KL}(\blue{Q} || \red{P})$ \\
+\tiny $ = \E_Q \bb{\log \frac{q(x)}{p(x)}}$
+\end{minipage}
+\hfill
+\begin{minipage}{.6\textwidth}
+\includegraphics[width=.9\textwidth]{images/kl_for_vi}
+\end{minipage}
+\end{block}
+
+\metroset{block=fill}
+\begin{block}{Expectation Propagation}
+\begin{minipage}{.3\textwidth}
+Minimizing \\
+$\texttt{KL}(\red{P} || \blue{Q})$ \\
+\tiny $ = \E_P \bb{\log \frac{p(x)}{q(x)}}$
+\end{minipage}
+\hfill
+\begin{minipage}{.6\textwidth}
+\includegraphics[width=.9\textwidth]{images/kl_for_ep}
+\end{minipage}
+\end{block}
+\hfill \tiny Image Credit: Tushar Tank \\
+\vfill \tiny \bf{Q:}  What does this say about VI?  Which one would you prefer to use?    
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Shortcoming: VI underestimates variance of the true posterior}
+
+
+	\begin{figure}
+	\includegraphics[width=.7\textwidth]{images/underfit_variance_2.png}
+	\end{figure}
+
+
+\[ \texttt{KL} (q(\+u) \; || \; p(\+u \cond \+x, \+c)) =  \E_q \bigg[\log \df{q(\+u )}{p(\+u \cond \+x, \+c)} \bigg]  \]
+ 
+Intuition 
+\begin{itemize}
+
+\item If $ \green{q(\+u )}$ is low, then we don't care (because of the expectation).   
+\item If $ \green{q(\+u )}$ is high and $ \purple{p(\+x,\+u \cond \+c)}$  is low, then we pay a price
+%\item If $ \green{q(\+u )}$ is high and $\purple{p(\+x,\+u \cond \+c)}$  is high, then we are happy  
+\end{itemize}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Modern application}
+
+  \begin{minipage}[t][.9\textheight]{\textwidth}
+
+We can compose probabilistic graphical models with neural networks to exploit their complementary strengths.  
+
+\vspace{.2in}
+
+\centering
+\includegraphics[width=.95\textwidth]{images/composing_pgms_with_nns}
+
+\vspace{.2in}
+
+The resulting model is expressive, but also interpretable/decomposable.\\
+
+    \vfill
+
+\tiny Johnson, M., Duvenaud, D. K., Wiltschko, A., Adams, R. P., \& Datta, S. R. (2016). Composing graphical models with neural networks for structured representations and fast inference. In Advances in neural information processing systems (pp. 2946-2954).
+
+  \end{minipage}
+  
+\end{frame}
 
 
 
@@ -836,7 +847,7 @@ q_{\+z}^{(t+1)} &= \text{argmax}_{q_\+z \in \mathcal{Q}} \; \VLBO  (q_\+z ; \+\t
 which generalizes the EM algorithm. %to situations where we cannot compute $p(\+z \cond \+x, \+\theta)$.
 \end{frame}
 
-
+\justfor{long}{%
 \begin{frame}{Extension: Variational MAP}
 
 Consider a \alert{Bayesian latent variable model}. Recall that a(n unscrupulous) Bayesian will sometimes compute a maximimum a posteriori (MAP) estimate of parameter $\+\theta$.  
@@ -852,20 +863,21 @@ q_{\+z}^{(t+1)} &= \text{argmax}_{q_\+z \in \mathcal{Q}} \; \VLBO  (q_\+z ; \+\t
 \end{align*} 
 
 \end{frame}
+}
+
 
 
 \begin{frame}{Variational Bayes Expectation Maximization (VBEM)}
 
-Consider a \alert{Bayesian latent variable model}.  So again we marginalize over $p(\+x, \+z, \+\theta)$ instead of $p(\+x, \+z \cond \+\theta)$. But this time we want the full posterior. 
+Consider a \alert{Bayesian latent variable model}. % So again we marginalize over $p(\+x, \+z, \+\theta)$ instead of $p(\+x, \+z \cond \+\theta)$. But this time we want the full posterior.   
+So we need to swap $p(\+x,\+z, \+\theta)$ for $p(\+x,\+z \cond \+\theta)$ in the \VLBO.
 
- 
 
-Suppose that we construct variational density with the factorization  
+If we construct the variational density with the factorization  
 \[  q(\+z,\+\theta)=q_\+z(\+z) q_{\+\theta}(\+\theta)\]
 
- 
 
-In this case, the VLBO becomes
+then the \VLBO becomes
 
 \begin{equation}
 \VLBO (q_\+z(\+z), q_\+\theta(\+\theta)):=  \ds\int \ds\int  q_\+z(\+z) q_\+\theta(\+\theta) \; \ln \bigg( \df{p(\+z, \+\theta, \+x)}{q_\+z(\+z) q_\+\theta(\+\theta)} \bigg) \wrt{\+\theta} \wrt{\+z}  \label{VLBO_bayesian_latent}
@@ -881,13 +893,59 @@ We can perform coordinate ascent on the \VLBO with respect to the densities $q_\
 
 \end{frame}
 
-
+\justfor{short}{
 \begin{frame}{VBEM: Derivation}
 \begin{center}
 See notes. 
 \end{center}
+\end{frame}
+}
+
+\justfor{long}{
+\begin{frame}{VBEM: Derivation}
+Because the VLBO is a functional, the update equations can be derived via variational calculus.  
+
+\textbf{Theorem} (Gelfand \& Foman)  Let $V[q]$ be a functional of the form 
+\[ \ds\int_a^b F(u,q,q') dx \]
+defined on the set of functions $q(u)$ which have continuous first derivatives in $[a,b]$ and satisfy the boundary conditions $q(a)=A, q(b)=B$. Then a necessary condition for $V[q]$ to have an extremum for a given function $q(u)$ is that $q(u)$ satisfy Euler's equation
+\[F_q - \df{d}{du} F_{q'} =0 \]
+
+%Since the \VLBO here does not integrate over the derivatives of the variational densities $q_\+\theta$ and $q_\+z$, it suffices to use
+
+%\begin{corollary} Using the notation of Theorem above, let $J[y]$ be a functional of the form 
+%\[ \ds\int_a^b F(x,y) dx \]
+%Then a necessary condition for $J[y]$ to have an extremum for a given function $y(x)$ is that $y(x)$ satisfy 
+%\[F_y =0 \]
+%\end{corollary}
 
 \end{frame}
+}
+
+\justfor{long}{
+\begin{frame}{VBEM: Derivation}
+
+We sketch the derivation for the VB-E step.  Take the VLBO and use the chain rule of probability to \red{isolate} terms that do not involve $q_\+z$
+
+\begin{equation*}
+\tiny \VLBO (q_\+z(\+z), q_\+\theta(\+\theta)):=  \red{\ds\int \wrt{\+\theta} q_\+\theta^{(t)}(\+\theta) \big( \ln p(\+\theta) - \ln q_{\+\theta}^{(t)}(\+\theta)  \big)}  + \ds\int \wrt{\+\theta}q_\+\theta^{(t)} (\+\theta) \ds\int \wrt{\+z}  q_\+z(\+z)    \big(\ln  p(\+z, \+x \cond \+\theta)  - \ln q_\+z(\+z) \big) 
+\end{equation*}
+
+The first summand is constant in $q_\+z$; therefore it does not play a role in the $\argmax$ over $q_\+z$.  Thus, our coordinate ascent update must satisfy this criterion for a critical point 
+
+\begin{equation*}
+0 =  \df{\partial}{\partial q_{\+z}} \bigg( \ds\int \wrt{\+\theta} q_\+\theta^{(t)}(\+\theta)  \ds\int \wrt{\+z}  q_\+z(\+z)    \big(\ln  p(\+z, \+x \cond \+\theta) \big) - \ln q_\+z(\+z) \big)  \bigg)
+\end{equation*}
+
+Applying the Theorem as well as the product rule yields an extremum at 
+\begin{equation*}
+0 =   \bigg( \ds\int \wrt{\+\theta} q_\+\theta^{(t)}(\+\theta)   \big(\ln  p(\+z, \+x \cond \+\theta) \big) - \ln q_\+z(\+z) \big) \bigg)  - \df{q_\+z}{q_\+z} 
+\end{equation*}
+
+
+Pulling out the constant term, $\ln q_\+z$, rearranging, and taking the  exponential yields the VB-E update. 
+
+\end{frame}
+}
 
 
 \begin{frame}{VBEM: Update Equations}
@@ -932,6 +990,7 @@ Variational inference can be considered as a generalization of the expectation m
 
 \section{Coordinate Ascent Variational Inference (CAVI)}
 
+\justfor{long}{%
 \begin{frame}{Towards generalizing the VBEM updates}
 
 
@@ -946,7 +1005,9 @@ But the VLBO in (\ref{VLBO_bayesian_latent}) is symmetric in its arguments, and 
 
 
 \end{frame}
+}
 
+\justfor{long}{%
 \begin{frame}{Towards generalizing the VBEM updates}
 
 %As it turns out, the difference in the update equations for $\+z$ and $\+\theta$  simply comes from their different locations w.r.t the conditional in the joint likelihood. 
@@ -964,7 +1025,7 @@ q_{\+z}^{(t+1)} &\propto p(\+z) \exp \bigg( \E_{q_\+\theta^{(t)}} \big[\ln p(\+x
  by simply interchanging the syntactic roles of $\+z$ and $\+\theta$, although the updates are not typically presented this way because joint likelihood is a conventional object.   
 
 \end{frame}
-
+}
 
 
 \begin{frame}{Coordinate Ascent Variational Inference (CAVI)}
@@ -1008,11 +1069,115 @@ The derivation uses variational calculus, and is nearly syntactically identical 
 
 %TOSAY: The derivation of the update equations explains the use of the term \textit{variational} in the term \textit{variational inference}. 
 
+\vfill \vfill \vfill \vfill \vfill \vfill
+\pause \tiny \bf{Rk:} Note the connection to Gibbs sampling.  In the MCMC literature, the distributions $ p(u_k \cond \text{rest} )$ are known as \textit{full conditionals} or \textit{complete conditionals}.  Gibbs sampling involves successive draws from the full conditionals.  In mean-field variational inference, we take expectations of the same distributions, in order to update our posterior approximations.  
 \end{frame}
 
 
 
-\subsection{Exponential Family Complete Conditionals}
+\section{Example: Bayesian Mixture Model}
+\begin{frame}{Example: Bayesian Gaussian Mixture Model}
+
+To see the mean field CAVI algorithm \eqref{mfcavi_update} in a concrete context, consider a version of the Bayesian Gaussian Mixture Model.  
+\begin{align*}
+\mu_k & \sim \text{Normal}(M_k = 0, V_k = \sigma^2) && k = 1,..., K\\
+c_i & \sim \text{Categorical}(\pi_1, ..., \pi_K) && i=1, ... ,n \\
+x_i \cond c_i, \mu & \sim \text{Normal}(\mu_{c_i}, 1) && i = 1,..., n
+\end{align*}
+\tiny (The model is simple in that it assumes univariate observations and that each mixture component has unit variance.) \normalsize 
+
+The joint density, by chain rule, is
+\[ p(x,c,\mu) = p(\mu) \ds\prod_{i=1}^n p(c_i) p(x_i \cond c_i, \mu) \]
+
+And a mean-field variational family is given by 
+\[  q(c, \mu) = \ds\prod_{k=1}^K q(\mu_k) \ds\prod_{i=1}^n q(c_i) \]
+
+\end{frame}
+
+\begin{frame}{Example: Bayesian Gaussian Mixture Model}
+We apply \eqref{mfcavi_update} to determine the coordinate updates for $q_{c_i}$, the variational factors governing cluster assignments.   %We take the log of the joint density and utilize proportionality to obtain
+
+\begin{align*}
+q(c_{ik}) & \propto \exp \bigg\{ \E_{q_{\mu_k}} \bigg[  \log p(c_i =k) + \log p(x_i \cond c_i=k, \mu) \bigg] \bigg\} \\
+& \propto \exp \bigg\{ \E_{q_{\mu_k}} \bigg[ \log \pi_k + x_i \mu_k - \df{1}{2} \mu_k^2 \bigg] \bigg\} \\
+& \propto \pi_k \exp \bigg\{ x_i \E_{q_{\mu_k}} [\mu_k] - \df{1}{2}  \E_{q_{\mu_k}} [ \mu_k^2] \bigg\} \\
+\end{align*}
+
+The coordinate updates for $q_{\mu_k}$ are derived similarly.  They reveal that $q_{\mu_k}$ are Gaussian, and hence the above expectations are easy to compute. 
+
+\vfill
+\tiny
+\alert{Note:} We abuse notation, and write $q(c_{ik})$ as shorthand for $q(c_i =k)$
+\end{frame}
+
+\begin{frame}{Bayesian Gaussian Mixture Model: \\ Updates to mixture component means}
+Using the same strategy as when updating cluster assignments $c_i$, we obtain
+
+\begin{align*}
+q(\mu_k) & \propto \exp \bigg\{ \E_{-q_{\mu_k}} \bigg[  \log p(\mu_k) + \ds\sum_{i=1}^n \log p(x_i \cond c_i=k, \mu) \bigg] \bigg\} \\
+& \propto \exp \bigg\{ -\df{1}{2  \sigma^2} \mu_k^2 +  \ds\sum_{i=1}^{n} \E_{q_c} \bigg[ \+1_{c_i=k}\, \bigg(x_i \mu_k - \df{1}{2} \mu_k^2\bigg) \bigg] \bigg\} \\
+& \propto \exp \bigg\{  \bigg( \ds\sum_{i=1}^n q(c_{ik})x_i  \bigg) \mu_k   \; +  \; -\df{1}{2} \bigg(\df{1}{ \sigma^2} + \ds\sum_{i=1}^n q(c_{ik}) \bigg) \mu_k^2 \bigg\} \\
+\end{align*}
+
+
+ 
+which is an exponential family distribution with sufficient statistics $(\mu_k, \mu_k^2)$  and base measure $\propto 1$; hence it is Gaussian. 
+
+\end{frame}
+
+\begin{frame}{Bayesian Gaussian Mixture Model: \\ Updates to mixture component means}
+
+It is easy to show\footnote{\tiny Indeed, in this course we have seen} that for a Gaussian with mean $M$ and variance $V$, the natural parameters are given by
+ \[\eta_1 = \df{M}{V}, \quad \eta_2 = -\df{1}{2V} \]
+ 
+From the last slide, the variational density $q(\mu_k)$ has natural parameters
+\[ \eta_1 = \bigg( \ds\sum_{i=1}^n q(c_{ik})x_i  \bigg) , \quad \eta_2 = -\df{1}{2} \bigg(\df{1}{ \sigma^2} + \ds\sum_{i=1}^n q(c_{ik}) \bigg) \]
+
+
+ 
+   Using this, we can backsolve to determine the updates to the mean and variance of the Gaussian variational density governing the kth cluster mean:
+\[ M_k = \df{\sum_{i=1}^n q(c_{ik}) x_i}{1/\sigma^2 + \sum_{i=1}^n q(c_{ik})}, \quad V_k= \df{1}{1/\sigma^2 +\sum_{i=1}^n q(c_{ik})}\]
+\end{frame}
+
+\subsection{Why \textit{Bayesian} mixture models?} 
+\begin{frame}{VB Predictive vs. ML Solution}
+
+\begin{center}
+\includegraphics[width=.9\textwidth]{images/ml_vs_vb}
+\end{center}
+\hfill \tiny{Image Credit: Lukas Burget} \normalsize
+
+\begin{itemize}
+\item \red{VB} was initialized from the \blue{ML} solution 
+\item \red{VB} recovers from \blue{ML} overfitting and is closer to the \green{true distribution} for generating the training data
+\end{itemize}
+
+% Details: http://www.fit.vutbr.cz/~burget/BayesianModels/4-Approximate%20inference.pdf
+\end{frame}
+
+\begin{frame}{Extensions of Bayesian Mixture Models}
+
+The Bayesian framework can be used to endow mixture models with many nice properties.
+\vfill
+\metroset{block=fill}
+\begin{block}{Example: Dirichlet Process Mixture Models (DPMMs)}
+DPMM's have an unbounded number of mixture components.   \\
+\vfill
+The model automatically adapts its number of components.
+
+\begin{itemize}
+\item Click \blue{\href{https://scikit-learn.org/stable/auto_examples/mixture/plot_concentration_prior.html\#sphx-glr-auto-examples-mixture-plot-concentration-prior-py}{here}} for Demo 1.
+\item Click \blue{\href{https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm.html\#sphx-glr-auto-examples-mixture-plot-gmm-py}{here}} for Demo 2.
+\end{itemize}
+\end{block}
+
+
+
+\end{frame}
+
+
+
+\section{Tool: CAVI with Exponential Family Complete Conditionals}
 
 \begin{frame}{Motivation}
 
@@ -1109,102 +1274,9 @@ Since $h$ and $s$ are identical to those of \eqref{eqn:efcc}, the claim holds.
 
 \end{frame}
 
-\subsection{Evaluation}
-\begin{frame}{Evaluation}
-
-CAVI uses deterministic optimization methods, and thereby requires analytical expansions of the expectations. 
-
-\vfill
-
-\redx This can require expert analysis, in terms of setting up the model, carefully choosing the variational family, and carrying out the integrals.  Moreover, expert analysis is required each time the model changes.%\footnotesize Modern approaches, labeled \textit{generic variational inference} (\texttt{generic VI}) or \textit{black-box variational inference} (\bbvi) attempt to construct inference procedures that are invariant to choice of probability model, and therefore require limited or no expert analysis.  \normalsize
- 
-\vfill
-
-\greencheck  However, CAVI is still used in state-of-the-art models for efficient subroutines in black box models. %\footnotesize Indeed, exploiting efficient subroutines is a major theme in the  contemporary machine learning literature, which is exploring how to combine the complementary benefits of probabilistic graphical models and neural networks. E.g. see structured variational autoencoder (SVAE). 
-
-\end{frame}
 
 
-\section{Example: Bayesian Gaussian Mixture Model}
-\begin{frame}{Example: Bayesian Gaussian Mixture Model}
-
-To see the mean field CAVI algorithm \eqref{mfcavi_update} in a concrete context, consider a version of the Bayesian Gaussian Mixture Model.  
-\begin{align*}
-\mu_k & \sim \text{Normal}(M_k = 0, V_k = \sigma^2) && k = 1,..., K\\
-c_i & \sim \text{Categorical}(\pi_1, ..., \pi_K) && i=1, ... ,n \\
-x_i \cond c_i, \mu & \sim \text{Normal}(\mu_{c_i}, 1) && i = 1,..., n
-\end{align*}
-\tiny (The model is simple in that it assumes univariate observations and that each mixture component has unit variance.) \normalsize 
-
-The joint density, by chain rule, is
-\[ p(x,c,\mu) = p(\mu) \ds\prod_{i=1}^n p(c_i) p(x_i \cond c_i, \mu) \]
-
-And a mean-field variational family is given by 
-\[  q(c, \mu) = \ds\prod_{k=1}^K q(\mu_k) \ds\prod_{i=1}^n q(c_i) \]
-
-\end{frame}
-
-\begin{frame}{Example: Bayesian Gaussian Mixture Model}
-We apply \eqref{mfcavi_update} to determine the coordinate updates for $q_{c_i}$, the variational factors governing cluster assignments.   %We take the log of the joint density and utilize proportionality to obtain
-
-\begin{align*}
-q(c_{ik}) & \propto \exp \bigg\{ \E_{q_{\mu_k}} \bigg[  \log p(c_i =k) + \log p(x_i \cond c_i=k, \mu) \bigg] \bigg\} \\
-& \propto \exp \bigg\{ \E_{q_{\mu_k}} \bigg[ \log \pi_k + x_i \mu_k - \df{1}{2} \mu_k^2 \bigg] \bigg\} \\
-& \propto \pi_k \exp \bigg\{ x_i \E_{q_{\mu_k}} [\mu_k] - \df{1}{2}  \E_{q_{\mu_k}} [ \mu_k^2] \bigg\} \\
-\end{align*}
-
-The coordinate updates for $q_{\mu_k}$ are derived similarly.  They reveal that $q_{\mu_k}$ are Gaussian, and hence the above expectations are easy to compute. 
-
-\vfill
-\tiny
-\alert{Note:} We abuse notation, and write $q(c_{ik})$ as shorthand for $q(c_i =k)$
-\end{frame}
-
-\begin{frame}{Bayesian Gaussian Mixture Model: \\ Updates to mixture component means}
-Using the same strategy as when updating cluster assignments $c_i$, we obtain
-
-\begin{align*}
-q(\mu_k) & \propto \exp \bigg\{ \E_{-q_{\mu_k}} \bigg[  \log p(\mu_k) + \ds\sum_{i=1}^n \log p(x_i \cond c_i=k, \mu) \bigg] \bigg\} \\
-& \propto \exp \bigg\{ -\df{1}{2  \sigma^2} \mu_k^2 +  \ds\sum_{i=1}^{n} \E_{q_c} \bigg[ \+1_{c_i=k}\, \bigg(x_i \mu_k - \df{1}{2} \mu_k^2\bigg) \bigg] \bigg\} \\
-& \propto \exp \bigg\{  \bigg( \ds\sum_{i=1}^n q(c_{ik})x_i  \bigg) \mu_k   \; +  \; -\df{1}{2} \bigg(\df{1}{ \sigma^2} + \ds\sum_{i=1}^n q(c_{ik}) \bigg) \mu_k^2 \bigg\} \\
-\end{align*}
-
-
- 
-which is an exponential family distribution with sufficient statistics $(\mu_k, \mu_k^2)$  and base measure $\propto 1$; hence it is Gaussian. 
-
-\end{frame}
-
-\begin{frame}{Bayesian Gaussian Mixture Model: \\ Updates to mixture component means}
-
-It is easy to show that for a Gaussian with mean $M$ and variance $V$, the natural parameters are given by
- \[\eta_1 = \df{M}{V}, \quad \eta_2 = -\df{1}{2V} \]
- 
-From the last slide, the variational density $q(\mu_k)$ has natural parameters
-\[ \eta_1 = \bigg( \ds\sum_{i=1}^n q(c_{ik})x_i  \bigg) , \quad \eta_2 = -\df{1}{2} \bigg(\df{1}{ \sigma^2} + \ds\sum_{i=1}^n q(c_{ik}) \bigg) \]
-
-
- 
-   Using this, we can backsolve to determine the updates to the mean and variance of the Gaussian variational density governing the kth cluster mean:
-\[ M_k = \df{\sum_{i=1}^n q(c_{ik}) x_i}{1/\sigma^2 + \sum_{i=1}^n q(c_{ik})}, \quad V_k= \df{1}{1/\sigma^2 +\sum_{i=1}^n q(c_{ik})}\]
-\end{frame}
-
-\begin{frame}{VB Predictive vs. ML Solution}
-
-\begin{center}
-\includegraphics[width=.9\textwidth]{images/ml_vs_vb}
-\end{center}
-\hfill \tiny{Image Credit: Lukas Burget} \normalsize
-
-\begin{itemize}
-\item \red{VB} was initialized from the \blue{ML} solution 
-\item \red{VB} recovers from \blue{ML} overfitting and is closer to the \green{true distribution} for generating the training data
-\end{itemize}
-
-% Details: http://www.fit.vutbr.cz/~burget/BayesianModels/4-Approximate%20inference.pdf
-\end{frame}
-
-
+\justfor{long}{
 \section{Example: Bayesian Hidden Markov Model}
 
 \begin{frame}{Hidden Markov Model}
@@ -1383,7 +1455,7 @@ Then we can use the forward-backwards algorithm (FBA) to update $q(x)$.
 \end{itemize}
 
 \end{frame}
-
+}
 
 \section{Example: Latent Dirichlet Allocation (LDA)}
 
@@ -1423,8 +1495,8 @@ So:
 
 
 \begin{itemize}
-\item Each \textbf{topic} is a distribution over words.
-\item Each \textbf{document} is a mixture of corpus-wide topics.
+\item Each \textbf{topic} is a distribution over words. \pause
+\item Each \textbf{document} is a mixture of corpus-wide topics. \pause
 \item Each \textbf{word} is drawn from one of those topics.
 \end{itemize}
 
@@ -1512,20 +1584,91 @@ So:
 %  
 %\end{frame}
 
+
+
 %%%%%%%%%%
-\begin{frame}{LDA as a graphical model}
-
-\begin{center}
-\includegraphics[width=\textwidth]{images/lda_graphical_model}
-\end{center}
-
+\begin{frame}{LDA: Generative Process}
+\footnotesize
 
 \begin{itemize}
-\item Encodes assumptions
-\item Defines a factorization of the joint distribution
+\item Fix a vocabulary of $V$ words, and set the number of topics,  $K$. 
+\item Set hyperparameters $\eta \in \R^V, \alpha \in \R^K$.
+\item For $k$ in $(1,K)$:
+	\begin{itemize}
+	\item Define the \textit{topic} \tiny (a distribution over words),  \footnotesize $\beta_k \in \R^V \sim \text{Dir}(\eta)$.\footnote{\tiny Interpretation of $\eta$: psuedocount of vocabulary words observed across prior topics.}
+	\end{itemize}
+\item For $d$ in $(1,D):$
+	\begin{itemize}
+	\item Choose  \tiny (per-document)  \footnotesize \textit{topic proportions}   $\theta_d \in \R^K \sim \text{Dir}(\alpha)$.\footnote{\tiny Interpretation of $\alpha$: psuedocount of topics observed across prior documents.}
+	\item For $n$ in $(1, N_d)$:
+		\begin{itemize}
+		\item Choose the \textit{topic assignment} $\alert{z_{d,n}} \sim \text{Categorical}_K (\theta_d)$
+		\item Choose \textit{word} $w_{d,n} \sim \text{Categorical}_V(\beta_{\alert{z_{d,n}}})$
+		\end{itemize}
+	\end{itemize}
 \end{itemize}
+\end{frame}
 
-%\hfill \tiny Source: David Blei, 2012 ICML Tutorial \normalsize
+
+%%%%%%%%%%%
+%\begin{frame}{LDA: Generative Process}
+%\footnotesize
+%
+%\begin{itemize}
+%\item Choose the vocabulary of $V$ words, and set the number of topics,  $K$. 
+%\item Set hyperparameters $\eta \in \R^V, \alpha \in \R^K$.
+%\item For $k$ in $(1,K)$:
+%	\begin{itemize}
+%	\item Choose \textit{per-topic word distribution} $\beta_k \in \R^V \sim \text{Dir}(\eta)$.\footnote{\tiny Interpretation of $\eta$: psuedocount of vocabulary words observed across prior topics.}
+%	\end{itemize}
+%\item For $d$ in $(1,D):$
+%	\begin{itemize}
+%	\item Choose  \textit{per-document topic distribution}   $\theta_d \in \R^K \sim \text{Dir}(\alpha)$.\footnote{\tiny Interpretation of $\alpha$: psuedocount of topics observed across prior documents.}
+%	\item For $j$ in $(1, N_d)$:
+%		\begin{itemize}
+%		\item Choose \textit{topic} $z_{d,n} \sim \text{Categorical}_K (\theta_d)$
+%		\item Choose \textit{word} $w_{d,n} \sim \text{Categorical}_V(\beta_{z_{d,n}})$
+%		\end{itemize}
+%	\end{itemize}
+%\end{itemize}
+%\end{frame}
+
+%%%%%%%%%%%%%%
+\begin{frame}{LDA as Probabilistic Matrix Factorization}
+\scriptsize
+
+\begin{center}
+\includegraphics[width=.9\textwidth]{images/lda_as_probabilistic_matrix_factorization}
+\end{center}
+
+LDA can be seen as a probabilistically constrained factorization of the matrix describing the bag of words composing each group, or document.  \\
+\vfill
+The number $K$ of latent topics determines the factorization’s rank.  \\
+\vfill
+% The hyperparameters $\alpha$ and $\beta$ define Dirichlet priors for
+%the columns of the topic and word distribution matrices, respectively \
+
+\hfill \tiny Image Credit : Erik Sudderth
+
+\end{frame}
+
+
+%%%%%%%%%%
+\begin{frame}{Aside: Dirichlet Distribution}
+
+\begin{itemize}
+\item Dirichlet distribution is \textit{conjugate prior} of Multinomial
+\[  p(\theta \cond \alpha)  = \df{\Gamma (\sum_{i=1}^K \alpha_i)}{ \prod_{i=1}^k \Gamma(\alpha_i)}  \theta_1^{\alpha_1 -1 } \cdots  \theta_k^{\alpha_k -1 }  \]
+\item The parameter $\alpha$ controls the shape and sparsity of the $\theta_d$'s. \tiny(per-document topic proportions) \normalsize
+	\begin{itemize}
+	\item high $\alpha$:  typical $\theta_d$ \tiny (from the prior) \normalsize will be uniform
+	\item small $\alpha$: a typical $\theta_d$ \tiny (from the prior) \normalsize will be sparse
+	\end{itemize}
+	\begin{center}
+	\includegraphics[width=.8\textwidth]{images/dirichlet_role_of_hyperparameter}
+	\end{center}
+\item Likewise, $\eta$ controls the shape and sparsity of the $\beta_k$'s \tiny(the topics -- distribution over words) \normalsize
+\end{itemize}
 \end{frame}
 
 
@@ -1536,11 +1679,13 @@ So:
 \includegraphics[width=\textwidth]{images/lda_graphical_model}
 \end{center}
 
-
+Recall:
+\scriptsize
 \begin{itemize}
-\item Nodes are random variables; edges indicate dependence.
+\item Nodes are random variables. 
 \item Shaded nodes are observed.
 \item Plates indicate replicated variables.
+\item Each node is conditionally independent from its non-descendants given its parents.
 \end{itemize}
 \end{frame}
 
@@ -1549,57 +1694,74 @@ So:
 \begin{frame}{Joint distribution}
 
 \begin{center}
-\includegraphics[width=\textwidth]{images/lda_graphical_model}
+\includegraphics[width=.9\textwidth]{images/lda_graphical_model}
 \end{center}
 
 \footnotesize
 \begin{equation}
-p(\+z, \+\theta, \+w, \+\beta \cond \+\alpha, \+\eta)  = \ds\prod_{k=1}^K \explainterm{Dirichlet}{p(\+\beta_k \cond \+\eta)}  \ds\prod_{d=1}^D \explainterm{Dirichlet}{p(\+\theta_d \cond \+\alpha)} \; \ds\prod_{n=1}^N \explainterm{Categorical}{p(\+z_n \cond \+\theta)} \; \explainterm{Categorical}{p(\+w_n \cond \+z_n, \+\beta)}
+p(\+z, \+\theta, \+w, \+\beta \cond \+\alpha, \+\eta)  = \ds\prod_{k=1}^K \explainterm{Dirichlet}{p(\+\beta_k \cond \+\eta)}  \ds\prod_{d=1}^D \explainterm{Dirichlet}{p(\+\theta_d \cond \+\alpha)} \; \ds\prod_{n=1}^N \explainterm{Categorical}{p(\+z_{d,n} \cond \+\theta_d)} \; \explainterm{Categorical}{p(\+w_{d,n} \cond \+z_{d,n}, \+\beta_k)}
 \label{lda_joint}
 \end{equation}
+\pause
+\vfill 
+\tiny \textbf{Remark.} Note that LDA is a ``bag-of-words" model; i.e. the probability of a word (or document) is invariant to word order.
 \end{frame}
 
 
-%%%%%%%%%%
-\begin{frame}{LDA: Generative Process}
-\footnotesize
 
-\begin{itemize}
-\item Choose $V$ vocabulary words, $K$ topics. 
-\item $\eta \in \R^V, \alpha \in \R^K$ are \textit{hyperparameters}.
-\item For $k$ in $(1,K)$:
-	\begin{itemize}
-	\item Choose \textit{per-corpus topic distribution} $\beta_k \in \R^V \sim \text{Dir}(\eta)$
-	\end{itemize}
-\item For $d$ in $(1,D):$
-	\begin{itemize}
-	\item Choose \textit{per-document topic proportions}   $\theta_d \in \R^K \sim \text{Dir}(\alpha)$
-	\item For $j$ in $(1, N_d)$:
-		\begin{itemize}
-		\item Choose \textit{topic} $z_{d,n} \sim \text{Categorical}_K (\theta_d)$
-		\item Choose \textit{word} $w_{d,n} \sim \text{Categorical}_V(\beta_{z_{d,n}})$
-		\end{itemize}
-	\end{itemize}
-\end{itemize}
+\begin{frame}{Variational distribution}
+
+We approximate the posterior $p(\+\theta \cond \+z, \+w)$
+using mean field variational inference  \eqref{mean_field}. In particular, we assume that the variational family $\Q$ has a density which factorizes as
+
+\begin{align} 
+q &= q_\+\delta (\+\theta) \; q_\+\tau (\+z) \nonumber \\
+&=  \ds\prod_{d=1}^D \explaintermbrace{Dirichlet}{q_\+\delta (\+\theta_d)}  \; \ds\prod_{n=1}^{N_d} \; \explaintermbrace{Categorical}{q_{\+\tau_n} (\+z_{d,n})} \label{mean_field_lda}
+\end{align}
+
+\vfil \vfill \vfill
+\tiny \bf{Note} We are treating the topics $\beta_k$ as a constant for simplicity.   For a fuller treatment, see Blei, D. M., Ng, A. Y., \& Jordan, M. I. (2003). Latent dirichlet allocation. Journal of machine Learning research, 3(Jan), 993-1022.
 \end{frame}
 
-%%%%%%%%%%
-\begin{frame}{Aside: Dirichlet Distribution}
+
+
+\begin{frame}{Update equations} 
+
+\metroset{block=fill}
+\begin{block}{LDA coordinate ascent update equations}
+\begin{align} 
+\explainterm{var. dirichlet (topic proportion)}{\delta_{d,k}} &= \explainterm{prior counts}{\alpha_k} + \ds\sum_{n=1}^{N_d} \;\; \explainterm{var. expected assignment}{\tau_{d, n,k}} \label{dirichlet_update} \\
+\explainterm{var. categorical (topic assigment)}{\tau_{d,n,k}} &\propto   \explainterm{var. "prior" \; topic assignment}{\exp \bigg\{ \biggE{q_\delta(\theta)}{\log \+\theta_{d,k}} \bigg\} } \;\; \explainterm{likelihood}{\beta_{k, [w_{d,n}]}}  \nonumber  \\
+ &= \bigg( \Psi(\delta_k) - \Psi (\ds\sum_j \delta_j) \bigg) \;\;  \beta_{k, [w_{d,n}]} 
+ \label{multinomial_update} 
+\end{align}
+
+where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
+\end{block}
+
 
 \begin{itemize}
-\item Dirichlet distribution is \textit{conjugate prior} of Multinomial
-\[  p(\theta \cond \alpha)  = \df{\Gamma (\sum_{i=1}^K \alpha_i)}{ \prod_{i=1}^k \Gamma(\alpha_i)}  \theta_1^{\alpha_1 -1 } \cdots  \theta_k^{\alpha_k -1 }  \]
-\item The parameter $\alpha$ controls the shape and sparsity of $\theta$
-	\begin{itemize}
-	\item high $\alpha$ = uniform $\theta$, small $\alpha$ = sparse $\theta$
-	\end{itemize}
+\item Derivable via VBEM (see notes). 
+\item Characteristic form: latent variable update depends on the data, global parameter update depends on the latent variable
 \end{itemize}
 
-\begin{center}
-\includegraphics[width=.8\textwidth]{images/dirichlet_role_of_hyperparameter}
-\end{center}
+\vfil \vfill \vfill
+\tiny \bf{Note} We are treating $\beta$ as a constant for brevity.  We could fit also $\beta$ to the data via  VEM.  (VEM does "empirical Bayes" for you.)   More generally, we could treat $\beta$ with VBEM.  For a fuller treatment, see Blei, D. M., Ng, A. Y., \& Jordan, M. I. (2003). Latent dirichlet allocation. Journal of machine Learning research, 3(Jan), 993-1022.
+\end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%
+\begin{frame}{The role of analytical computations}
+
+The varational categorical update crucially hinges on facts about the exponential family.  
+
+In particular, the meat of the proof of the variational categorical update depends crucially on the fact that the Dirichlet of a single probability component is given by
+\begin{equation} \label{dirichlet_expect_prob_component}
+ \biggE{q_\delta(\theta)}{\log \+\theta_i} =    \Psi(\delta_{i}) - \Psi (\ds\sum_k \delta_k) 
+\end{equation}
+where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
+
+This fact is justified via facts about the exponential family (such as that the derivative of the log normalization factor with respect to the natural parameter is equal to the sufficient statistic). 
 
 \end{frame}
 
@@ -1619,22 +1781,43 @@ p(\+z, \+\theta, \+w, \+\beta \cond \+\alpha, \+\eta)  = \ds\prod_{k=1}^K \expla
 \end{frame}
 
 
-%%%%%%%%%%%%%%
-\begin{frame}{LDA as Probabilistic Matrix Factorization}
-\scriptsize
+\begin{frame}{Application: Anomaly Detection in Network Traffic Traces }
 
-\begin{center}
-\includegraphics[width=.9\textwidth]{images/lda_as_probabilistic_matrix_factorization}
-\end{center}
+LDA can be applied to  \textit{documents} that can be just about anything!
 
-LDA can be seen as a probabilistically constrained factorization of the matrix describing the bag of words composing each group, or document.  \\
+\metroset{block=fill}
+\begin{block}{IP Addresses}
+An \bf{ip address}, like 72.194.113.177, is (roughly) an address assigned to each device connected to the Internet.   My laptop has one, my iphone has one, every website (Google, Apple, etc.) has one, etc. 
+\end{block}
+
+One application \tiny (Newton, B. D. (2012). Anomaly Detection in Network Traffic Traces Using Latent Dirichlet Allocation.) \normalsize 
+\begin{itemize}
+\item ``Documents"  =  the  session of a specific IP address
+\item “words” = the full external IP address and port number
+combinations. 
+\item The “words” in each “document” are counted
+and then this data set is processed by LDA to yield a compact
+model of the data.
+\end{itemize}
+
 \vfill
-The number $K$ of latent topics determines the factorization’s rank.  \\
-\vfill
-% The hyperparameters $\alpha$ and $\beta$ define Dirichlet priors for
-%the columns of the topic and word distribution matrices, respectively \
+\tiny \bf{Q:} Ok, but how to perform anomaly detection?
+\tiny \bf{Q:} What assumptions are being made by LDA?
+\end{frame}
 
-\hfill \tiny Image Credit : Erik Sudderth
+\begin{frame}
+
+\begin{quote}
+I analyzed each of the anomalies detected in the last half
+hour of the trace [...].  The second anomaly with nearly 300
+thousand messages exchanged with an SMTP server, is a bit
+more troubling. It is possible that this was actually a malicious
+client participating in a Mailbomb attack. According to the
+DARPA Intrusion Detection Attacks Database [8] a Mailbomb
+attack ``is one in which the attacker sends many messages to
+a server, overflowing that server’s mail queue and possibly
+causing a system failure.” 
+\end{quote}
 
 \end{frame}
 
@@ -1659,208 +1842,224 @@ The number $K$ of latent topics determines the factorization’s rank.  \\
 %\end{frame}
 
 
-\subsection{Old LDA Stuff (Still needs integration)}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Structure}
-
-LDA assumes that each latent topic is associated with a distribution over a vocabulary of $V$ words.   It also assumes that each word in a document was generated from one of $K$ latent topics.
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Old LDA Stuff (Still needs integration)}
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Definitions: Observations}
-
-\begin{itemize}
-\item A \textit{vocabulary} is a list of $V$ possible words. 
-
-\item A \textit{word}, $\+w_n \in \text{OneHot}(V)$ indicates which element of the vocabulary was observed as the $n$th word of the document.\footnote{\tiny We define $\text{OneHot}(K)$ as a K dimensional vector having one entry equal to  1 and all other entries equal to 0.   Note that this is the support of the $\text{Multinoulli}(K)$ distribution.} 
-\item A \textit{document}, $\+w \in \text{OneHot}(V)^N$, is a list of $N$ words. It is represented as a $N \times V$ matrix. %is a list of N words  %$\+w$, is a list of N words. We represent the $n$th word in the document as $\+w_n$.  
-
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}{Definitions: Hidden Variables}
-
-\begin{itemize}
-\item A \textit{topic indicator} is an integer in $\{1,...K\}$.
- %latent random variable, and is represented as a one hot encoded vector of length $K$. 
- 
-%SAY: Right stochastic matrix -> \footnote{i.e., each row sums to 1}
-%SAY: \footnote{In the language of Hidden Markov Models, each row is an \textit{emissions distribution}.} 
-
-\item A \textit{(per-word) topic assignment}, $\+z_n \in \text{OneHot}(K)$ indicates which topic generated the $n$th word in a document
- 
-\item The \textit{(per-word) topic assignments}, $\+z \in \text{OneHot}(K)^{N}$, is a list of N topic indicators, one for each word.  It is represented as a $N \times K$ matrix. %The $n$th topic in the document, $z_n$, is an integer in $\{1,...,K\}$  %We represent the $n$th topic in the document as $\+z_n$, a one hot encoded vector of length $K$.  
-
-\item The \textit{(per-document) topic proportions}, $\+\theta$, is a (document-specific) probability distribution over the topics. 
-\end{itemize}
-
-
-\end{frame}
-
-\begin{frame}{Hyperparameters}
-
-\begin{itemize}
-
-\item $\+\alpha \in (\R^+)^K$ is interpreted as the \textit{prior  counts of topic indicators}.
-
-\item  $\+\beta \in (\Delta^{V-1})^K$ is interpreted as the \textit{topic-conditional word probabilities},  In particular, note that, by construction $\+\beta$ is defined by 
-\[\beta_{kv} = P(w_{n, v}= 1 \cond z_{n, k} = 1 ), \]
-i.e. it is the right-stochastic matrix, where each row is a categorical distribution over vocabulary words given a (latent) topic. 
-%TO SAY:  It is the probability distributions over vocabulary words.
-
-\end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Graphical Model}
-
-	\begin{figure}
-	\includegraphics[width=\textwidth]{images/lda_generative.png}
-	\end{figure}
-
-\end{frame}
-
-%%%%%
-
-\begin{frame}{Generative process} 
-
-For each document $\+w=(\+w_1, \hdots, \+w_n)$ in a corpus, the generative model is   
-
-\vfill
-
-\begin{itemize}
-\item Choose a topic distribution for the document $\+\theta \sim \text{Dirichlet}_K (\+\alpha)$
-\item For each word $\+w_n$:
-
-	\begin{itemize}
-	\item Choose a topic  $\+z_n \sim \text{Multinoulli}_K (\theta)$ 
-	\item Choose a word $\+w_n \sim \text{Multinoulli}_V (\+\beta_{\+z_n, \cdot})$
-	\end{itemize}
-\end{itemize}
-
-%Note in particular that (for now) we have assumed access to $\+\beta$. 
-
-\vfill \vfill \vfill
-
-\textbf{Remark.} Note that LDA is a ``bag-of-words" model; i.e. the probability of a word (or document) is invariant to word order.
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Joint distribution}
-
-The joint distribution for the generative process is given by 
-
-\begin{equation}
-p(\+z, \+\theta, \+w \cond \+\alpha, \+\beta)  = \explainterm{Dirichlet}{p(\+\theta \cond \+\alpha)} \; \ds\prod_{n=1}^N \explainterm{Multinoulli}{p(\+z_n \cond \+\theta)} \; \explainterm{Multinoulli}{p(\+w_n \cond \+z_n, \+\beta)}
-\label{lda_joint}
-\end{equation}
-
-
-\begin{definition}{($[\cdot]$)}\label{brackets_op}
-We define the operator  $[\cdot] : OneHot(K) \to \set{1,...,K}$ as that which takes a one-hot encoded vector and returns the (unique) index which is non-zero.
-\end{definition} 
-
-Using Definition \ref{brackets_op}, we can specify the functional forms for the multinoulli log likelihoods as
-
-\begin{align}
-\log p(\+z_n \cond \+\theta) &= \log \+\theta_{[z_n]} \label{lda_log_like_latent} \\
-\log p(\+w_n \cond \+z_n, \+\beta) &=  \log \+\beta_{[\+z_n], [\+w_n]} \label{lda_log_like_observed}
-\end{align}
-
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Variational distribution}
-
-We approximate the posterior $p(\+\theta \cond \+z, \+w)$
-using mean field variational inference  \eqref{mean_field}. In particular, we assume that the variational family $\Q$ factorizes as
-
-\begin{align} 
-q &= q_\+\delta (\+\theta) \; q_\+\tau (\+z) \nonumber \\
-&=  \explaintermbrace{Dirichlet}{q_\+\delta (\+\theta)}  \; \ds\prod_{n=1}^N \; \explaintermbrace{Multinoulli}{q_{\+\tau_n} (\+z_n)} \label{mean_field_lda}
-\end{align}
-
-\end{frame}
-
-
-\begin{frame}{Update equations} 
-
-\metroset{block=fill}
-\begin{block}{LDA coordinate ascent update equations}
-\begin{align} 
-\explainterm{var. multinoulli (topics-for-word)}{\tau_{n,k}} &\propto  \bigg( \Psi(\delta_k) - \Psi (\ds\sum_j \delta_j) \bigg) \;\;  \beta_{k, [w_n]} 
- \label{multinomial_update} \\
- &=  \explainterm{var. "prior" \; over \; topics}{\exp \bigg\{ \biggE{q_\delta(\theta)}{\log \+\theta_i} \bigg\} } \;\; \explainterm{likelihood}{\beta_{k, [w_n]}}  \nonumber \\
-\explainterm{var. dirichlet (documents)}{\delta_k} &= \explainterm{prior counts}{\alpha_k} + \ds\sum_{n=1}^N \;\; \explainterm{var. prob of topics}{\tau_{n,k}} \label{dirichlet_update}
-\end{align}
-
-where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
-\end{block}
-
-
-\begin{itemize}
-\item Derivable via VBEM (see notes). 
-\item Could also fit $\alpha, \beta$ to data via VEM; i.e. VEM does "empirical Bayes" for you.  
-\item Characteristic form: latent variable update depends on the data, global parameter update depends on the latent variable
-
-\end{itemize}
-
- 
-\end{frame}
-
-
-\begin{frame}{The role of analytical computations}
-
-The varational multinomial update crucially hinges on facts about the exponential family.  
-
-In particular, the meat of the proof of the variational multinomial update depends crucially on the fact that the Dirichlet of a single probability component is given by
-\begin{equation} \label{dirichlet_expect_prob_component}
- \biggE{q_\delta(\theta)}{\log \+\theta_i} =    \Psi(\delta_{i}) - \Psi (\ds\sum_k \delta_k) 
-\end{equation}
-where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
-
-This fact is justified via facts about the exponential family (such as that the derivative of the log normalization factor with respect to the natural parameter is equal to the sufficient statistic). 
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Summary}
-
-
-\begin{enumerate}
-\item We can derive \tiny (see notes) \normalsize the LDA update equations from the VBEM algorithm, so that we have  
-\[ \text{MF-CAVI} \rightarrow \text{VBEM} \rightarrow \text{LDA} \]
-and LDA instantiates the big picture.
-
-\item We have highlighted the potential obstacles for deriving VI updates via classical approaches.  This will foreshadow and motivate the development of black-box VI.
-\end{enumerate}
-%Also although old + simple, it HAS been cited 28,000 times, so nice to know about. 
-
-\end{frame}
-
-%NOTES SLIDE 
-\begin{frame}[standout]
- 	Notes!
-\end{frame}
+%\begin{frame}{Structure}
+%
+%LDA assumes that each latent topic is associated with a distribution over a vocabulary of $V$ words.   It also assumes that each word in a document was generated from one of $K$ latent topics.
+%\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Definitions: Observations}
+%
+%\begin{itemize}
+%\item A \textit{vocabulary} is a list of $V$ possible words. 
+%
+%\item A \textit{word}, $\+w_n \in \text{OneHot}(V)$ indicates which element of the vocabulary was observed as the $n$th word of the document.\footnote{\tiny We define $\text{OneHot}(K)$ as a K dimensional vector having one entry equal to  1 and all other entries equal to 0.   Note that this is the support of the $\text{Multinoulli}(K)$ distribution.} 
+%\item A \textit{document}, $\+w \in \text{OneHot}(V)^N$, is a list of $N$ words. It is represented as a $N \times V$ matrix. %is a list of N words  %$\+w$, is a list of N words. We represent the $n$th word in the document as $\+w_n$.  
+%
+%\end{itemize}
+%\end{frame}
+%
+%
+%\begin{frame}{Definitions: Hidden Variables}
+%
+%\begin{itemize}
+%\item A \textit{topic indicator} is an integer in $\{1,...K\}$.
+% %latent random variable, and is represented as a one hot encoded vector of length $K$. 
+% 
+%%SAY: Right stochastic matrix -> \footnote{i.e., each row sums to 1}
+%%SAY: \footnote{In the language of Hidden Markov Models, each row is an \textit{emissions distribution}.} 
+%
+%\item A \textit{(per-word) topic assignment}, $\+z_n \in \text{OneHot}(K)$ indicates which topic generated the $n$th word in a document
+% 
+%\item The \textit{(per-word) topic assignments}, $\+z \in \text{OneHot}(K)^{N}$, is a list of N topic indicators, one for each word.  It is represented as a $N \times K$ matrix. %The $n$th topic in the document, $z_n$, is an integer in $\{1,...,K\}$  %We represent the $n$th topic in the document as $\+z_n$, a one hot encoded vector of length $K$.  
+%
+%\item The \textit{(per-document) topic proportions}, $\+\theta$, is a (document-specific) probability distribution over the topics. 
+%\end{itemize}
+%
+%
+%\end{frame}
+%
+%\begin{frame}{Hyperparameters}
+%
+%\begin{itemize}
+%
+%\item $\+\alpha \in (\R^+)^K$ is interpreted as the \textit{prior  counts of topic indicators}.
+%
+%\item  $\+\beta \in (\Delta^{V-1})^K$ is interpreted as the \textit{topic-conditional word probabilities},  In particular, note that, by construction $\+\beta$ is defined by 
+%\[\beta_{kv} = P(w_{n, v}= 1 \cond z_{n, k} = 1 ), \]
+%i.e. it is the right-stochastic matrix, where each row is a categorical distribution over vocabulary words given a (latent) topic. 
+%%TO SAY:  It is the probability distributions over vocabulary words.
+%
+%\end{itemize}
+%
+%\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Graphical Model}
+%
+%	\begin{figure}
+%	\includegraphics[width=\textwidth]{images/lda_generative.png}
+%	\end{figure}
+%
+%\end{frame}
+%
+%%%%%%
+%
+%\begin{frame}{Generative process} 
+%
+%For each document $\+w=(\+w_1, \hdots, \+w_n)$ in a corpus, the generative model is   
+%
+%\vfill
+%
+%\begin{itemize}
+%\item Choose a topic distribution for the document $\+\theta \sim \text{Dirichlet}_K (\+\alpha)$
+%\item For each word $\+w_n$:
+%
+%	\begin{itemize}
+%	\item Choose a topic  $\+z_n \sim \text{Multinoulli}_K (\theta)$ 
+%	\item Choose a word $\+w_n \sim \text{Multinoulli}_V (\+\beta_{\+z_n, \cdot})$
+%	\end{itemize}
+%\end{itemize}
+%
+%%Note in particular that (for now) we have assumed access to $\+\beta$. 
+%
+%\vfill \vfill \vfill
+%
+%\textbf{Remark.} Note that LDA is a ``bag-of-words" model; i.e. the probability of a word (or document) is invariant to word order.
+%
+%\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\begin{frame}{Joint distribution}
+%
+%The joint distribution for the generative process is given by 
+%
+%\begin{equation}
+%p(\+z, \+\theta, \+w \cond \+\alpha, \+\beta)  = \explainterm{Dirichlet}{p(\+\theta \cond \+\alpha)} \; \ds\prod_{n=1}^N \explainterm{Multinoulli}{p(\+z_n \cond \+\theta)} \; \explainterm{Multinoulli}{p(\+w_n \cond \+z_n, \+\beta)}
+%\label{lda_joint}
+%\end{equation}
+%
+%
+%\begin{definition}{($[\cdot]$)}\label{brackets_op}
+%We define the operator  $[\cdot] : OneHot(K) \to \set{1,...,K}$ as that which takes a one-hot encoded vector and returns the (unique) index which is non-zero.
+%\end{definition} 
+%
+%Using Definition \ref{brackets_op}, we can specify the functional forms for the multinoulli log likelihoods as
+%
+%\begin{align}
+%\log p(\+z_n \cond \+\theta) &= \log \+\theta_{[z_n]} \label{lda_log_like_latent} \\
+%\log p(\+w_n \cond \+z_n, \+\beta) &=  \log \+\beta_{[\+z_n], [\+w_n]} \label{lda_log_like_observed}
+%\end{align}
+%
+%
+%\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\begin{frame}{Variational distribution}
+%
+%We approximate the posterior $p(\+\theta \cond \+z, \+w)$
+%using mean field variational inference  \eqref{mean_field}. In particular, we assume that the variational family $\Q$ has a density which factorizes as
+%
+%\begin{align} 
+%q &= q_\+\delta (\+\theta) \; q_\+\tau (\+z) \nonumber \\
+%&=  \explaintermbrace{Dirichlet}{q_\+\delta (\+\theta)}  \; \ds\prod_{n=1}^N \; \explaintermbrace{Multinoulli}{q_{\+\tau_n} (\+z_n)} \label{mean_field_lda}
+%\end{align}
+%
+%\end{frame}
+%
+%
+%\begin{frame}{Update equations} 
+%
+%\metroset{block=fill}
+%\begin{block}{LDA coordinate ascent update equations}
+%\begin{align} 
+%\explainterm{var. multinoulli (topics-for-word)}{\tau_{n,k}} &\propto  \bigg( \Psi(\delta_k) - \Psi (\ds\sum_j \delta_j) \bigg) \;\;  \beta_{k, [w_n]} 
+% \label{multinomial_update} \\
+% &=  \explainterm{var. "prior" \; over \; topics}{\exp \bigg\{ \biggE{q_\delta(\theta)}{\log \+\theta_i} \bigg\} } \;\; \explainterm{likelihood}{\beta_{k, [w_n]}}  \nonumber \\
+%\explainterm{var. dirichlet (documents)}{\delta_k} &= \explainterm{prior counts}{\alpha_k} + \ds\sum_{n=1}^N \;\; \explainterm{var. prob of topics}{\tau_{n,k}} \label{dirichlet_update}
+%\end{align}
+%
+%where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
+%\end{block}
+%
+%
+%\begin{itemize}
+%\item Derivable via VBEM (see notes). 
+%\item Could also fit $\alpha, \beta$ to data via VEM; i.e. VEM does "empirical Bayes" for you.  
+%\item Characteristic form: latent variable update depends on the data, global parameter update depends on the latent variable
+%
+%\end{itemize}
+%
+% 
+%\end{frame}
+%
+%
+%\begin{frame}{The role of analytical computations}
+%
+%The varational multinomial update crucially hinges on facts about the exponential family.  
+%
+%In particular, the meat of the proof of the variational multinomial update depends crucially on the fact that the Dirichlet of a single probability component is given by
+%\begin{equation} \label{dirichlet_expect_prob_component}
+% \biggE{q_\delta(\theta)}{\log \+\theta_i} =    \Psi(\delta_{i}) - \Psi (\ds\sum_k \delta_k) 
+%\end{equation}
+%where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
+%
+%This fact is justified via facts about the exponential family (such as that the derivative of the log normalization factor with respect to the natural parameter is equal to the sufficient statistic). 
+%
+%\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Summary}
+%
+%
+%\begin{enumerate}
+%\item We can derive \tiny (see notes) \normalsize the LDA update equations from the VBEM algorithm, so that we have  
+%\[ \text{MF-CAVI} \rightarrow \text{VBEM} \rightarrow \text{LDA} \]
+%and LDA instantiates the big picture.
+%
+%\item We have highlighted the potential obstacles for deriving VI updates via classical approaches.  This will foreshadow and motivate the development of black-box VI.
+%\end{enumerate}
+%%Also although old + simple, it HAS been cited 28,000 times, so nice to know about. 
+%
+%\end{frame}
+
+
+%\section{Summary}
+%\begin{frame}{Evaluation of CAVI}
+%
+%CAVI uses deterministic optimization methods, and thereby requires analytical expansions of the expectations. 
+%
+%\vfill
+%
+%\redx This can require expert analysis, in terms of setting up the model, carefully choosing the variational family, and carrying out the integrals.  Moreover, expert analysis is required each time the model changes.%\footnotesize Modern approaches, labeled \textit{generic variational inference} (\texttt{generic VI}) or \textit{black-box variational inference} (\bbvi) attempt to construct inference procedures that are invariant to choice of probability model, and therefore require limited or no expert analysis.  \normalsize
+% 
+%\vfill
+%
+%\greencheck  However, CAVI is still used in state-of-the-art models for efficient subroutines in black box models. %\footnotesize Indeed, exploiting efficient subroutines is a major theme in the  contemporary machine learning literature, which is exploring how to combine the complementary benefits of probabilistic graphical models and neural networks. E.g. see structured variational autoencoder (SVAE). 
+%
+%\end{frame}
+
+%%NOTES SLIDE 
+%\begin{frame}[standout]
+% 	Notes!
+%\end{frame}
 
 
 %QUESTIONS SLIDE 
@@ -1874,86 +2073,8 @@ and LDA instantiates the big picture.
 % Slide Graveyard
 %%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{How does VI accommodate the goal of statistical inference?}
-\metroset{block=fill}
-\begin{block}{The target marginal perspective}
-
-Given selection of variational family $\Q$, 
-
-\begin{itemize}
-
-%We can now maximize an objective function which is as similar as possible to the true objective, the marginal likelihood $p(\+x \cond \+\theta)$. %(So it would seem to provide a "good" estimate of $\+\theta$.) 
-% Shorter: We can now find $\+\theta$ which maximizes a quantity approximating the marginal likelihood. 
-% Finding parameter $\widehat{\+\theta}_{\text{VI}}$ maximizing  $\VLBO(q^*)$ amounts to maximizing an objective function which is as similar as possible to the true objective, the marginal likelihood $p(\+x \cond \+\theta)$
-\item \textit{Bayesian models}: The optimal variational density $q^*(\+u)$ raises the (approximate) evidence term $p(\+x)$ (the term used for Bayesian model comparison) as high as possible. %(So it would seem to provide a "good" distribution over $\+u$.) 
-\item \textit{Frequentist models}: The VLBO approximates the true marginal likelihood, $p(\+x \cond \+\theta)$, which we wanted to maximize.
-
-\end{itemize}
-
-\end{block} 
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{How would VI accommodate the goal of statistical inference?}
-\metroset{block=fill}
-\begin{block}{The target posterior perspective}
-
-Given selection of variational family $\Q$, 
-
-\begin{itemize}
-\item \textit{Bayesian models}: The fitted $q^*(\+u)$  is as similar as possible   to the target  posterior $p(\+u \cond \+x)$
-\item \textit{Frequentist models}: The value  $\+\theta^*$ is as close as possible to the solution provided by the classical EM algorithm.  \footnotesize (See next section; we substitute $q^*(\+z) \approx p(\+z\cond \+x, \+\theta^{\text{curr}})$ in the E-step.)
-\end{itemize}
-
-\end{block} 
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-
-\begin{frame}{VBEM: Derivation}
-Because the VLBO is a functional, the update equations can be derived via variational calculus.  
-
-\textbf{Theorem} (Gelfand \& Foman)  Let $V[q]$ be a functional of the form 
-\[ \ds\int_a^b F(u,q,q') dx \]
-defined on the set of functions $q(u)$ which have continuous first derivatives in $[a,b]$ and satisfy the boundary conditions $q(a)=A, q(b)=B$. Then a necessary condition for $V[q]$ to have an extremum for a given function $q(u)$ is that $q(u)$ satisfy Euler's equation
-\[F_q - \df{d}{du} F_{q'} =0 \]
-
-%Since the \VLBO here does not integrate over the derivatives of the variational densities $q_\+\theta$ and $q_\+z$, it suffices to use
-
-%\begin{corollary} Using the notation of Theorem above, let $J[y]$ be a functional of the form 
-%\[ \ds\int_a^b F(x,y) dx \]
-%Then a necessary condition for $J[y]$ to have an extremum for a given function $y(x)$ is that $y(x)$ satisfy 
-%\[F_y =0 \]
-%\end{corollary}
-
-\end{frame}
-
-\begin{frame}{VBEM: Derivation}
-
-We sketch the derivation for the VB-E step.  Take the VLBO and use the chain rule of probability to \red{isolate} terms that do not involve $q_\+z$
-
-\begin{equation*}
-\tiny \VLBO (q_\+z(\+z), q_\+\theta(\+\theta)):=  \red{\ds\int \wrt{\+\theta} q_\+\theta^{(t)}(\+\theta) \big( \ln p(\+\theta) - \ln q_{\+\theta}^{(t)}(\+\theta)  \big)}  + \ds\int \wrt{\+\theta}q_\+\theta^{(t)} (\+\theta) \ds\int \wrt{\+z}  q_\+z(\+z)    \big(\ln  p(\+z, \+x \cond \+\theta)  - \ln q_\+z(\+z) \big) 
-\end{equation*}
-
-The first summand is constant in $q_\+z$; therefore it does not play a role in the $\argmax$ over $q_\+z$.  Thus, our coordinate ascent update must satisfy this criterion for a critical point 
-
-\begin{equation*}
-0 =  \df{\partial}{\partial q_{\+z}} \bigg( \ds\int \wrt{\+\theta} q_\+\theta^{(t)}(\+\theta)  \ds\int \wrt{\+z}  q_\+z(\+z)    \big(\ln  p(\+z, \+x \cond \+\theta) \big) - \ln q_\+z(\+z) \big)  \bigg)
-\end{equation*}
-
-Applying the Theorem as well as the product rule yields an extremum at 
-\begin{equation*}
-0 =   \bigg( \ds\int \wrt{\+\theta} q_\+\theta^{(t)}(\+\theta)   \big(\ln  p(\+z, \+x \cond \+\theta) \big) - \ln q_\+z(\+z) \big) \bigg)  - \df{q_\+z}{q_\+z} 
-\end{equation*}
-
-
-Pulling out the constant term, $\ln q_\+z$, rearranging, and taking the  exponential yields the VB-E update. 
-
-\end{frame}
 
 
 
