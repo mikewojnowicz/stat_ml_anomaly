@@ -23,6 +23,10 @@
 \patchcmd{\beamer@sectionintoc}{\vskip1.5em}{\vskip0.5em}{}{}
 \makeatother
 
+%%% GOOD URL 
+% Will make the url clickable, and also highlight it in blue.   Put the url 
+% first, then the text.
+\newcommand{\goodurl}[2]{\blue{\href{ {#1} }{ {#2} }}}
 
 \title{Variational Inference}
 
@@ -525,10 +529,7 @@ The optimal variational density, $q^*(\+u)$ is the target posterior density $p(\
 %
 %\end{frame}
 
-
-
-
-
+\subsection{Summary}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Summary}
@@ -622,6 +623,38 @@ Variational Inference scales better to large datasets.
 \tiny Blei, D. M., Kucukelbir, A., \& McAuliffe, J. D. (2017). Variational inference: A review for statisticians. Journal of the American statistical Association, 112(518), 859-877.
 \end{frame}
 
+
+\begin{frame}{Variational Inference vs. Expectation Propagation}
+\footnotesize
+Let us fix a distribution $P$ and consider two optimization strategies
+\metroset{block=fill}
+\begin{block}{Variational Inference}
+\begin{minipage}{.3\textwidth}
+Minimizing \\
+$\texttt{KL}(\blue{Q} || \red{P})$ \\
+\tiny $ = \E_Q \bb{\log \frac{q(x)}{p(x)}}$
+\end{minipage}
+\hfill
+\begin{minipage}{.6\textwidth}
+\includegraphics[width=.9\textwidth]{images/kl_for_vi}
+\end{minipage}
+\end{block}
+
+\metroset{block=fill}
+\begin{block}{Expectation Propagation}
+\begin{minipage}{.3\textwidth}
+Minimizing \\
+$\texttt{KL}(\red{P} || \blue{Q})$ \\
+\tiny $ = \E_P \bb{\log \frac{p(x)}{q(x)}}$
+\end{minipage}
+\hfill
+\begin{minipage}{.6\textwidth}
+\includegraphics[width=.9\textwidth]{images/kl_for_ep}
+\end{minipage}
+\end{block}
+\hfill \tiny Image Credit: Tushar Tank \\
+\vfill \tiny \bf{Q:}  What does this say about VI?  Which one would you prefer to use?    
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Shortcoming: VI underestimates variance of the true posterior}
@@ -1036,11 +1069,13 @@ The derivation uses variational calculus, and is nearly syntactically identical 
 
 %TOSAY: The derivation of the update equations explains the use of the term \textit{variational} in the term \textit{variational inference}. 
 
+\vfill \vfill \vfill \vfill \vfill \vfill
+\pause \tiny \bf{Rk:} Note the connection to Gibbs sampling.  In the MCMC literature, the distributions $ p(u_k \cond \text{rest} )$ are known as \textit{full conditionals} or \textit{complete conditionals}.  Gibbs sampling involves successive draws from the full conditionals.  In mean-field variational inference, we take expectations of the same distributions, in order to update our posterior approximations.  
 \end{frame}
 
 
 
-\section{Example: Bayesian Gaussian Mixture Model}
+\section{Example: Bayesian Mixture Model}
 \begin{frame}{Example: Bayesian Gaussian Mixture Model}
 
 To see the mean field CAVI algorithm \eqref{mfcavi_update} in a concrete context, consider a version of the Bayesian Gaussian Mixture Model.  
@@ -1092,7 +1127,7 @@ which is an exponential family distribution with sufficient statistics $(\mu_k, 
 
 \begin{frame}{Bayesian Gaussian Mixture Model: \\ Updates to mixture component means}
 
-It is easy to show that for a Gaussian with mean $M$ and variance $V$, the natural parameters are given by
+It is easy to show\footnote{\tiny Indeed, in this course we have seen} that for a Gaussian with mean $M$ and variance $V$, the natural parameters are given by
  \[\eta_1 = \df{M}{V}, \quad \eta_2 = -\df{1}{2V} \]
  
 From the last slide, the variational density $q(\mu_k)$ has natural parameters
@@ -1104,6 +1139,7 @@ From the last slide, the variational density $q(\mu_k)$ has natural parameters
 \[ M_k = \df{\sum_{i=1}^n q(c_{ik}) x_i}{1/\sigma^2 + \sum_{i=1}^n q(c_{ik})}, \quad V_k= \df{1}{1/\sigma^2 +\sum_{i=1}^n q(c_{ik})}\]
 \end{frame}
 
+\subsection{Why \textit{Bayesian} mixture models?} 
 \begin{frame}{VB Predictive vs. ML Solution}
 
 \begin{center}
@@ -1117,6 +1153,26 @@ From the last slide, the variational density $q(\mu_k)$ has natural parameters
 \end{itemize}
 
 % Details: http://www.fit.vutbr.cz/~burget/BayesianModels/4-Approximate%20inference.pdf
+\end{frame}
+
+\begin{frame}{Extensions of Bayesian Mixture Models}
+
+The Bayesian framework can be used to endow mixture models with many nice properties.
+\vfill
+\metroset{block=fill}
+\begin{block}{Example: Dirichlet Process Mixture Models (DPMMs)}
+DPMM's have an unbounded number of mixture components.   \\
+\vfill
+The model automatically adapts its number of components.
+
+\begin{itemize}
+\item Click \blue{\href{https://scikit-learn.org/stable/auto_examples/mixture/plot_concentration_prior.html\#sphx-glr-auto-examples-mixture-plot-concentration-prior-py}{here}} for Demo 1.
+\item Click \blue{\href{https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm.html\#sphx-glr-auto-examples-mixture-plot-gmm-py}{here}} for Demo 2.
+\end{itemize}
+\end{block}
+
+
+
 \end{frame}
 
 
@@ -1439,8 +1495,8 @@ So:
 
 
 \begin{itemize}
-\item Each \textbf{topic} is a distribution over words.
-\item Each \textbf{document} is a mixture of corpus-wide topics.
+\item Each \textbf{topic} is a distribution over words. \pause
+\item Each \textbf{document} is a mixture of corpus-wide topics. \pause
 \item Each \textbf{word} is drawn from one of those topics.
 \end{itemize}
 
@@ -1528,20 +1584,91 @@ So:
 %  
 %\end{frame}
 
+
+
 %%%%%%%%%%
-\begin{frame}{LDA as a graphical model}
-
-\begin{center}
-\includegraphics[width=\textwidth]{images/lda_graphical_model}
-\end{center}
-
+\begin{frame}{LDA: Generative Process}
+\footnotesize
 
 \begin{itemize}
-\item Encodes assumptions
-\item Defines a factorization of the joint distribution
+\item Fix a vocabulary of $V$ words, and set the number of topics,  $K$. 
+\item Set hyperparameters $\eta \in \R^V, \alpha \in \R^K$.
+\item For $k$ in $(1,K)$:
+	\begin{itemize}
+	\item Define the \textit{topic} \tiny (a distribution over words),  \footnotesize $\beta_k \in \R^V \sim \text{Dir}(\eta)$.\footnote{\tiny Interpretation of $\eta$: psuedocount of vocabulary words observed across prior topics.}
+	\end{itemize}
+\item For $d$ in $(1,D):$
+	\begin{itemize}
+	\item Choose  \tiny (per-document)  \footnotesize \textit{topic proportions}   $\theta_d \in \R^K \sim \text{Dir}(\alpha)$.\footnote{\tiny Interpretation of $\alpha$: psuedocount of topics observed across prior documents.}
+	\item For $n$ in $(1, N_d)$:
+		\begin{itemize}
+		\item Choose the \textit{topic assignment} $\alert{z_{d,n}} \sim \text{Categorical}_K (\theta_d)$
+		\item Choose \textit{word} $w_{d,n} \sim \text{Categorical}_V(\beta_{\alert{z_{d,n}}})$
+		\end{itemize}
+	\end{itemize}
 \end{itemize}
+\end{frame}
 
-%\hfill \tiny Source: David Blei, 2012 ICML Tutorial \normalsize
+
+%%%%%%%%%%%
+%\begin{frame}{LDA: Generative Process}
+%\footnotesize
+%
+%\begin{itemize}
+%\item Choose the vocabulary of $V$ words, and set the number of topics,  $K$. 
+%\item Set hyperparameters $\eta \in \R^V, \alpha \in \R^K$.
+%\item For $k$ in $(1,K)$:
+%	\begin{itemize}
+%	\item Choose \textit{per-topic word distribution} $\beta_k \in \R^V \sim \text{Dir}(\eta)$.\footnote{\tiny Interpretation of $\eta$: psuedocount of vocabulary words observed across prior topics.}
+%	\end{itemize}
+%\item For $d$ in $(1,D):$
+%	\begin{itemize}
+%	\item Choose  \textit{per-document topic distribution}   $\theta_d \in \R^K \sim \text{Dir}(\alpha)$.\footnote{\tiny Interpretation of $\alpha$: psuedocount of topics observed across prior documents.}
+%	\item For $j$ in $(1, N_d)$:
+%		\begin{itemize}
+%		\item Choose \textit{topic} $z_{d,n} \sim \text{Categorical}_K (\theta_d)$
+%		\item Choose \textit{word} $w_{d,n} \sim \text{Categorical}_V(\beta_{z_{d,n}})$
+%		\end{itemize}
+%	\end{itemize}
+%\end{itemize}
+%\end{frame}
+
+%%%%%%%%%%%%%%
+\begin{frame}{LDA as Probabilistic Matrix Factorization}
+\scriptsize
+
+\begin{center}
+\includegraphics[width=.9\textwidth]{images/lda_as_probabilistic_matrix_factorization}
+\end{center}
+
+LDA can be seen as a probabilistically constrained factorization of the matrix describing the bag of words composing each group, or document.  \\
+\vfill
+The number $K$ of latent topics determines the factorization’s rank.  \\
+\vfill
+% The hyperparameters $\alpha$ and $\beta$ define Dirichlet priors for
+%the columns of the topic and word distribution matrices, respectively \
+
+\hfill \tiny Image Credit : Erik Sudderth
+
+\end{frame}
+
+
+%%%%%%%%%%
+\begin{frame}{Aside: Dirichlet Distribution}
+
+\begin{itemize}
+\item Dirichlet distribution is \textit{conjugate prior} of Multinomial
+\[  p(\theta \cond \alpha)  = \df{\Gamma (\sum_{i=1}^K \alpha_i)}{ \prod_{i=1}^k \Gamma(\alpha_i)}  \theta_1^{\alpha_1 -1 } \cdots  \theta_k^{\alpha_k -1 }  \]
+\item The parameter $\alpha$ controls the shape and sparsity of the $\theta_d$'s. \tiny(per-document topic proportions) \normalsize
+	\begin{itemize}
+	\item high $\alpha$:  typical $\theta_d$ \tiny (from the prior) \normalsize will be uniform
+	\item small $\alpha$: a typical $\theta_d$ \tiny (from the prior) \normalsize will be sparse
+	\end{itemize}
+	\begin{center}
+	\includegraphics[width=.8\textwidth]{images/dirichlet_role_of_hyperparameter}
+	\end{center}
+\item Likewise, $\eta$ controls the shape and sparsity of the $\beta_k$'s \tiny(the topics -- distribution over words) \normalsize
+\end{itemize}
 \end{frame}
 
 
@@ -1552,11 +1679,13 @@ So:
 \includegraphics[width=\textwidth]{images/lda_graphical_model}
 \end{center}
 
-
+Recall:
+\scriptsize
 \begin{itemize}
-\item Nodes are random variables; edges indicate dependence.
+\item Nodes are random variables. 
 \item Shaded nodes are observed.
 \item Plates indicate replicated variables.
+\item Each node is conditionally independent from its non-descendants given its parents.
 \end{itemize}
 \end{frame}
 
@@ -1565,60 +1694,74 @@ So:
 \begin{frame}{Joint distribution}
 
 \begin{center}
-\includegraphics[width=\textwidth]{images/lda_graphical_model}
+\includegraphics[width=.9\textwidth]{images/lda_graphical_model}
 \end{center}
 
 \footnotesize
 \begin{equation}
-p(\+z, \+\theta, \+w, \+\beta \cond \+\alpha, \+\eta)  = \ds\prod_{k=1}^K \explainterm{Dirichlet}{p(\+\beta_k \cond \+\eta)}  \ds\prod_{d=1}^D \explainterm{Dirichlet}{p(\+\theta_d \cond \+\alpha)} \; \ds\prod_{n=1}^N \explainterm{Categorical}{p(\+z_n \cond \+\theta)} \; \explainterm{Categorical}{p(\+w_n \cond \+z_n, \+\beta)}
+p(\+z, \+\theta, \+w, \+\beta \cond \+\alpha, \+\eta)  = \ds\prod_{k=1}^K \explainterm{Dirichlet}{p(\+\beta_k \cond \+\eta)}  \ds\prod_{d=1}^D \explainterm{Dirichlet}{p(\+\theta_d \cond \+\alpha)} \; \ds\prod_{n=1}^N \explainterm{Categorical}{p(\+z_{d,n} \cond \+\theta_d)} \; \explainterm{Categorical}{p(\+w_{d,n} \cond \+z_{d,n}, \+\beta_k)}
 \label{lda_joint}
 \end{equation}
+\pause
+\vfill 
+\tiny \textbf{Remark.} Note that LDA is a ``bag-of-words" model; i.e. the probability of a word (or document) is invariant to word order.
 \end{frame}
 
 
-%%%%%%%%%%
-\begin{frame}{LDA: Generative Process}
-\footnotesize
 
-\begin{itemize}
-\item Choose the vocabulary of $V$ words, and set the number of topics,  $K$. 
-\item Set hyperparameters $\eta \in \R^V, \alpha \in \R^K$.
-\item For $k$ in $(1,K)$:
-	\begin{itemize}
-	\item Choose \textit{per-topic word distribution} $\beta_k \in \R^V \sim \text{Dir}(\eta)$.\footnote{\tiny Interpretation of $\eta$: psuedocount of vocabulary words observed across topics.}
-	\end{itemize}
-\item For $d$ in $(1,D):$
-	\begin{itemize}
-	\item Choose  \textit{per-document topic distribution}   $\theta_d \in \R^K \sim \text{Dir}(\alpha)$.\footnote{\tiny Interpretation of $\alpha$: psuedocount of topics observed across documents.}
-	\item For $j$ in $(1, N_d)$:
-		\begin{itemize}
-		\item Choose \textit{topic} $z_{d,n} \sim \text{Categorical}_K (\theta_d)$
-		\item Choose \textit{word} $w_{d,n} \sim \text{Categorical}_V(\beta_{z_{d,n}})$
-		\end{itemize}
-	\end{itemize}
-\end{itemize}
+\begin{frame}{Variational distribution}
+
+We approximate the posterior $p(\+\theta \cond \+z, \+w)$
+using mean field variational inference  \eqref{mean_field}. In particular, we assume that the variational family $\Q$ has a density which factorizes as
+
+\begin{align} 
+q &= q_\+\delta (\+\theta) \; q_\+\tau (\+z) \nonumber \\
+&=  \ds\prod_{d=1}^D \explaintermbrace{Dirichlet}{q_\+\delta (\+\theta_d)}  \; \ds\prod_{n=1}^{N_d} \; \explaintermbrace{Categorical}{q_{\+\tau_n} (\+z_{d,n})} \label{mean_field_lda}
+\end{align}
+
+\vfil \vfill \vfill
+\tiny \bf{Note} We are treating the topics $\beta_k$ as a constant for simplicity.   For a fuller treatment, see Blei, D. M., Ng, A. Y., \& Jordan, M. I. (2003). Latent dirichlet allocation. Journal of machine Learning research, 3(Jan), 993-1022.
 \end{frame}
 
-%%%%%%%%%%
-\begin{frame}{Aside: Dirichlet Distribution}
+
+
+\begin{frame}{Update equations} 
+
+\metroset{block=fill}
+\begin{block}{LDA coordinate ascent update equations}
+\begin{align} 
+\explainterm{var. dirichlet (topic proportion)}{\delta_{d,k}} &= \explainterm{prior counts}{\alpha_k} + \ds\sum_{n=1}^{N_d} \;\; \explainterm{var. expected assignment}{\tau_{d, n,k}} \label{dirichlet_update} \\
+\explainterm{var. categorical (topic assigment)}{\tau_{d,n,k}} &\propto   \explainterm{var. "prior" \; topic assignment}{\exp \bigg\{ \biggE{q_\delta(\theta)}{\log \+\theta_{d,k}} \bigg\} } \;\; \explainterm{likelihood}{\beta_{k, [w_{d,n}]}}  \nonumber  \\
+ &= \bigg( \Psi(\delta_k) - \Psi (\ds\sum_j \delta_j) \bigg) \;\;  \beta_{k, [w_{d,n}]} 
+ \label{multinomial_update} 
+\end{align}
+
+where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
+\end{block}
+
 
 \begin{itemize}
-\item Dirichlet distribution is \textit{conjugate prior} of Multinomial
-\[  p(\theta \cond \alpha)  = \df{\Gamma (\sum_{i=1}^K \alpha_i)}{ \prod_{i=1}^k \Gamma(\alpha_i)}  \theta_1^{\alpha_1 -1 } \cdots  \theta_k^{\alpha_k -1 }  \]
-\item The parameter $\alpha$ controls the shape and sparsity of the $\theta_d$'s. \tiny(per-document topic distribution) \normalsize
-	\begin{itemize}
-	\item high $\alpha$:  typical $\theta_d$ will be uniform
-	\item small $\alpha$: a typical $\theta_d$ will be sparse
-	\end{itemize}
-	\begin{center}
-	\includegraphics[width=.8\textwidth]{images/dirichlet_role_of_hyperparameter}
-	\end{center}
-\item Likewise, $\eta$ controls the shape and sparsity of the $\beta_k$'s \tiny(per-topic word distribution) \normalsize
+\item Derivable via VBEM (see notes). 
+\item Characteristic form: latent variable update depends on the data, global parameter update depends on the latent variable
 \end{itemize}
 
+\vfil \vfill \vfill
+\tiny \bf{Note} We are treating $\beta$ as a constant for brevity.  We could fit also $\beta$ to the data via  VEM.  (VEM does "empirical Bayes" for you.)   More generally, we could treat $\beta$ with VBEM.  For a fuller treatment, see Blei, D. M., Ng, A. Y., \& Jordan, M. I. (2003). Latent dirichlet allocation. Journal of machine Learning research, 3(Jan), 993-1022.
+\end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%
+\begin{frame}{The role of analytical computations}
 
+The varational categorical update crucially hinges on facts about the exponential family.  
+
+In particular, the meat of the proof of the variational categorical update depends crucially on the fact that the Dirichlet of a single probability component is given by
+\begin{equation} \label{dirichlet_expect_prob_component}
+ \biggE{q_\delta(\theta)}{\log \+\theta_i} =    \Psi(\delta_{i}) - \Psi (\ds\sum_k \delta_k) 
+\end{equation}
+where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
+
+This fact is justified via facts about the exponential family (such as that the derivative of the log normalization factor with respect to the natural parameter is equal to the sufficient statistic). 
 
 \end{frame}
 
@@ -1638,22 +1781,43 @@ p(\+z, \+\theta, \+w, \+\beta \cond \+\alpha, \+\eta)  = \ds\prod_{k=1}^K \expla
 \end{frame}
 
 
-%%%%%%%%%%%%%%
-\begin{frame}{LDA as Probabilistic Matrix Factorization}
-\scriptsize
+\begin{frame}{Application: Anomaly Detection in Network Traffic Traces }
 
-\begin{center}
-\includegraphics[width=.9\textwidth]{images/lda_as_probabilistic_matrix_factorization}
-\end{center}
+LDA can be applied to  \textit{documents} that can be just about anything!
 
-LDA can be seen as a probabilistically constrained factorization of the matrix describing the bag of words composing each group, or document.  \\
+\metroset{block=fill}
+\begin{block}{IP Addresses}
+An \bf{ip address}, like 72.194.113.177, is (roughly) an address assigned to each device connected to the Internet.   My laptop has one, my iphone has one, every website (Google, Apple, etc.) has one, etc. 
+\end{block}
+
+One application \tiny (Newton, B. D. (2012). Anomaly Detection in Network Traffic Traces Using Latent Dirichlet Allocation.) \normalsize 
+\begin{itemize}
+\item ``Documents"  =  the  session of a specific IP address
+\item “words” = the full external IP address and port number
+combinations. 
+\item The “words” in each “document” are counted
+and then this data set is processed by LDA to yield a compact
+model of the data.
+\end{itemize}
+
 \vfill
-The number $K$ of latent topics determines the factorization’s rank.  \\
-\vfill
-% The hyperparameters $\alpha$ and $\beta$ define Dirichlet priors for
-%the columns of the topic and word distribution matrices, respectively \
+\tiny \bf{Q:} Ok, but how to perform anomaly detection?
+\tiny \bf{Q:} What assumptions are being made by LDA?
+\end{frame}
 
-\hfill \tiny Image Credit : Erik Sudderth
+\begin{frame}
+
+\begin{quote}
+I analyzed each of the anomalies detected in the last half
+hour of the trace [...].  The second anomaly with nearly 300
+thousand messages exchanged with an SMTP server, is a bit
+more troubling. It is possible that this was actually a malicious
+client participating in a Mailbomb attack. According to the
+DARPA Intrusion Detection Attacks Database [8] a Mailbomb
+attack ``is one in which the attacker sends many messages to
+a server, overflowing that server’s mail queue and possibly
+causing a system failure.” 
+\end{quote}
 
 \end{frame}
 
@@ -1678,224 +1842,224 @@ The number $K$ of latent topics determines the factorization’s rank.  \\
 %\end{frame}
 
 
-\subsection{Old LDA Stuff (Still needs integration)}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Structure}
-
-LDA assumes that each latent topic is associated with a distribution over a vocabulary of $V$ words.   It also assumes that each word in a document was generated from one of $K$ latent topics.
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Old LDA Stuff (Still needs integration)}
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Definitions: Observations}
-
-\begin{itemize}
-\item A \textit{vocabulary} is a list of $V$ possible words. 
-
-\item A \textit{word}, $\+w_n \in \text{OneHot}(V)$ indicates which element of the vocabulary was observed as the $n$th word of the document.\footnote{\tiny We define $\text{OneHot}(K)$ as a K dimensional vector having one entry equal to  1 and all other entries equal to 0.   Note that this is the support of the $\text{Multinoulli}(K)$ distribution.} 
-\item A \textit{document}, $\+w \in \text{OneHot}(V)^N$, is a list of $N$ words. It is represented as a $N \times V$ matrix. %is a list of N words  %$\+w$, is a list of N words. We represent the $n$th word in the document as $\+w_n$.  
-
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}{Definitions: Hidden Variables}
-
-\begin{itemize}
-\item A \textit{topic indicator} is an integer in $\{1,...K\}$.
- %latent random variable, and is represented as a one hot encoded vector of length $K$. 
- 
-%SAY: Right stochastic matrix -> \footnote{i.e., each row sums to 1}
-%SAY: \footnote{In the language of Hidden Markov Models, each row is an \textit{emissions distribution}.} 
-
-\item A \textit{(per-word) topic assignment}, $\+z_n \in \text{OneHot}(K)$ indicates which topic generated the $n$th word in a document
- 
-\item The \textit{(per-word) topic assignments}, $\+z \in \text{OneHot}(K)^{N}$, is a list of N topic indicators, one for each word.  It is represented as a $N \times K$ matrix. %The $n$th topic in the document, $z_n$, is an integer in $\{1,...,K\}$  %We represent the $n$th topic in the document as $\+z_n$, a one hot encoded vector of length $K$.  
-
-\item The \textit{(per-document) topic proportions}, $\+\theta$, is a (document-specific) probability distribution over the topics. 
-\end{itemize}
-
-
-\end{frame}
-
-\begin{frame}{Hyperparameters}
-
-\begin{itemize}
-
-\item $\+\alpha \in (\R^+)^K$ is interpreted as the \textit{prior  counts of topic indicators}.
-
-\item  $\+\beta \in (\Delta^{V-1})^K$ is interpreted as the \textit{topic-conditional word probabilities},  In particular, note that, by construction $\+\beta$ is defined by 
-\[\beta_{kv} = P(w_{n, v}= 1 \cond z_{n, k} = 1 ), \]
-i.e. it is the right-stochastic matrix, where each row is a categorical distribution over vocabulary words given a (latent) topic. 
-%TO SAY:  It is the probability distributions over vocabulary words.
-
-\end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Graphical Model}
-
-	\begin{figure}
-	\includegraphics[width=\textwidth]{images/lda_generative.png}
-	\end{figure}
-
-\end{frame}
-
-%%%%%
-
-\begin{frame}{Generative process} 
-
-For each document $\+w=(\+w_1, \hdots, \+w_n)$ in a corpus, the generative model is   
-
-\vfill
-
-\begin{itemize}
-\item Choose a topic distribution for the document $\+\theta \sim \text{Dirichlet}_K (\+\alpha)$
-\item For each word $\+w_n$:
-
-	\begin{itemize}
-	\item Choose a topic  $\+z_n \sim \text{Multinoulli}_K (\theta)$ 
-	\item Choose a word $\+w_n \sim \text{Multinoulli}_V (\+\beta_{\+z_n, \cdot})$
-	\end{itemize}
-\end{itemize}
-
-%Note in particular that (for now) we have assumed access to $\+\beta$. 
-
-\vfill \vfill \vfill
-
-\textbf{Remark.} Note that LDA is a ``bag-of-words" model; i.e. the probability of a word (or document) is invariant to word order.
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Joint distribution}
-
-The joint distribution for the generative process is given by 
-
-\begin{equation}
-p(\+z, \+\theta, \+w \cond \+\alpha, \+\beta)  = \explainterm{Dirichlet}{p(\+\theta \cond \+\alpha)} \; \ds\prod_{n=1}^N \explainterm{Multinoulli}{p(\+z_n \cond \+\theta)} \; \explainterm{Multinoulli}{p(\+w_n \cond \+z_n, \+\beta)}
-\label{lda_joint}
-\end{equation}
-
-
-\begin{definition}{($[\cdot]$)}\label{brackets_op}
-We define the operator  $[\cdot] : OneHot(K) \to \set{1,...,K}$ as that which takes a one-hot encoded vector and returns the (unique) index which is non-zero.
-\end{definition} 
-
-Using Definition \ref{brackets_op}, we can specify the functional forms for the multinoulli log likelihoods as
-
-\begin{align}
-\log p(\+z_n \cond \+\theta) &= \log \+\theta_{[z_n]} \label{lda_log_like_latent} \\
-\log p(\+w_n \cond \+z_n, \+\beta) &=  \log \+\beta_{[\+z_n], [\+w_n]} \label{lda_log_like_observed}
-\end{align}
-
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Variational distribution}
-
-We approximate the posterior $p(\+\theta \cond \+z, \+w)$
-using mean field variational inference  \eqref{mean_field}. In particular, we assume that the variational family $\Q$ factorizes as
-
-\begin{align} 
-q &= q_\+\delta (\+\theta) \; q_\+\tau (\+z) \nonumber \\
-&=  \explaintermbrace{Dirichlet}{q_\+\delta (\+\theta)}  \; \ds\prod_{n=1}^N \; \explaintermbrace{Multinoulli}{q_{\+\tau_n} (\+z_n)} \label{mean_field_lda}
-\end{align}
-
-\end{frame}
-
-
-\begin{frame}{Update equations} 
-
-\metroset{block=fill}
-\begin{block}{LDA coordinate ascent update equations}
-\begin{align} 
-\explainterm{var. multinoulli (topics-for-word)}{\tau_{n,k}} &\propto  \bigg( \Psi(\delta_k) - \Psi (\ds\sum_j \delta_j) \bigg) \;\;  \beta_{k, [w_n]} 
- \label{multinomial_update} \\
- &=  \explainterm{var. "prior" \; over \; topics}{\exp \bigg\{ \biggE{q_\delta(\theta)}{\log \+\theta_i} \bigg\} } \;\; \explainterm{likelihood}{\beta_{k, [w_n]}}  \nonumber \\
-\explainterm{var. dirichlet (documents)}{\delta_k} &= \explainterm{prior counts}{\alpha_k} + \ds\sum_{n=1}^N \;\; \explainterm{var. prob of topics}{\tau_{n,k}} \label{dirichlet_update}
-\end{align}
-
-where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
-\end{block}
-
-
-\begin{itemize}
-\item Derivable via VBEM (see notes). 
-\item Could also fit $\alpha, \beta$ to data via VEM; i.e. VEM does "empirical Bayes" for you.  
-\item Characteristic form: latent variable update depends on the data, global parameter update depends on the latent variable
-
-\end{itemize}
-
- 
-\end{frame}
-
-
-\begin{frame}{The role of analytical computations}
-
-The varational multinomial update crucially hinges on facts about the exponential family.  
-
-In particular, the meat of the proof of the variational multinomial update depends crucially on the fact that the Dirichlet of a single probability component is given by
-\begin{equation} \label{dirichlet_expect_prob_component}
- \biggE{q_\delta(\theta)}{\log \+\theta_i} =    \Psi(\delta_{i}) - \Psi (\ds\sum_k \delta_k) 
-\end{equation}
-where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
-
-This fact is justified via facts about the exponential family (such as that the derivative of the log normalization factor with respect to the natural parameter is equal to the sufficient statistic). 
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Summary}
-
-
-\begin{enumerate}
-\item We can derive \tiny (see notes) \normalsize the LDA update equations from the VBEM algorithm, so that we have  
-\[ \text{MF-CAVI} \rightarrow \text{VBEM} \rightarrow \text{LDA} \]
-and LDA instantiates the big picture.
-
-\item We have highlighted the potential obstacles for deriving VI updates via classical approaches.  This will foreshadow and motivate the development of black-box VI.
-\end{enumerate}
-%Also although old + simple, it HAS been cited 28,000 times, so nice to know about. 
-
-\end{frame}
-
-
-\section{Summary}
-\begin{frame}{Evaluation of CAVI}
-
-CAVI uses deterministic optimization methods, and thereby requires analytical expansions of the expectations. 
-
-\vfill
-
-\redx This can require expert analysis, in terms of setting up the model, carefully choosing the variational family, and carrying out the integrals.  Moreover, expert analysis is required each time the model changes.%\footnotesize Modern approaches, labeled \textit{generic variational inference} (\texttt{generic VI}) or \textit{black-box variational inference} (\bbvi) attempt to construct inference procedures that are invariant to choice of probability model, and therefore require limited or no expert analysis.  \normalsize
- 
-\vfill
-
-\greencheck  However, CAVI is still used in state-of-the-art models for efficient subroutines in black box models. %\footnotesize Indeed, exploiting efficient subroutines is a major theme in the  contemporary machine learning literature, which is exploring how to combine the complementary benefits of probabilistic graphical models and neural networks. E.g. see structured variational autoencoder (SVAE). 
-
-\end{frame}
-
-%NOTES SLIDE 
-\begin{frame}[standout]
- 	Notes!
-\end{frame}
+%\begin{frame}{Structure}
+%
+%LDA assumes that each latent topic is associated with a distribution over a vocabulary of $V$ words.   It also assumes that each word in a document was generated from one of $K$ latent topics.
+%\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Definitions: Observations}
+%
+%\begin{itemize}
+%\item A \textit{vocabulary} is a list of $V$ possible words. 
+%
+%\item A \textit{word}, $\+w_n \in \text{OneHot}(V)$ indicates which element of the vocabulary was observed as the $n$th word of the document.\footnote{\tiny We define $\text{OneHot}(K)$ as a K dimensional vector having one entry equal to  1 and all other entries equal to 0.   Note that this is the support of the $\text{Multinoulli}(K)$ distribution.} 
+%\item A \textit{document}, $\+w \in \text{OneHot}(V)^N$, is a list of $N$ words. It is represented as a $N \times V$ matrix. %is a list of N words  %$\+w$, is a list of N words. We represent the $n$th word in the document as $\+w_n$.  
+%
+%\end{itemize}
+%\end{frame}
+%
+%
+%\begin{frame}{Definitions: Hidden Variables}
+%
+%\begin{itemize}
+%\item A \textit{topic indicator} is an integer in $\{1,...K\}$.
+% %latent random variable, and is represented as a one hot encoded vector of length $K$. 
+% 
+%%SAY: Right stochastic matrix -> \footnote{i.e., each row sums to 1}
+%%SAY: \footnote{In the language of Hidden Markov Models, each row is an \textit{emissions distribution}.} 
+%
+%\item A \textit{(per-word) topic assignment}, $\+z_n \in \text{OneHot}(K)$ indicates which topic generated the $n$th word in a document
+% 
+%\item The \textit{(per-word) topic assignments}, $\+z \in \text{OneHot}(K)^{N}$, is a list of N topic indicators, one for each word.  It is represented as a $N \times K$ matrix. %The $n$th topic in the document, $z_n$, is an integer in $\{1,...,K\}$  %We represent the $n$th topic in the document as $\+z_n$, a one hot encoded vector of length $K$.  
+%
+%\item The \textit{(per-document) topic proportions}, $\+\theta$, is a (document-specific) probability distribution over the topics. 
+%\end{itemize}
+%
+%
+%\end{frame}
+%
+%\begin{frame}{Hyperparameters}
+%
+%\begin{itemize}
+%
+%\item $\+\alpha \in (\R^+)^K$ is interpreted as the \textit{prior  counts of topic indicators}.
+%
+%\item  $\+\beta \in (\Delta^{V-1})^K$ is interpreted as the \textit{topic-conditional word probabilities},  In particular, note that, by construction $\+\beta$ is defined by 
+%\[\beta_{kv} = P(w_{n, v}= 1 \cond z_{n, k} = 1 ), \]
+%i.e. it is the right-stochastic matrix, where each row is a categorical distribution over vocabulary words given a (latent) topic. 
+%%TO SAY:  It is the probability distributions over vocabulary words.
+%
+%\end{itemize}
+%
+%\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Graphical Model}
+%
+%	\begin{figure}
+%	\includegraphics[width=\textwidth]{images/lda_generative.png}
+%	\end{figure}
+%
+%\end{frame}
+%
+%%%%%%
+%
+%\begin{frame}{Generative process} 
+%
+%For each document $\+w=(\+w_1, \hdots, \+w_n)$ in a corpus, the generative model is   
+%
+%\vfill
+%
+%\begin{itemize}
+%\item Choose a topic distribution for the document $\+\theta \sim \text{Dirichlet}_K (\+\alpha)$
+%\item For each word $\+w_n$:
+%
+%	\begin{itemize}
+%	\item Choose a topic  $\+z_n \sim \text{Multinoulli}_K (\theta)$ 
+%	\item Choose a word $\+w_n \sim \text{Multinoulli}_V (\+\beta_{\+z_n, \cdot})$
+%	\end{itemize}
+%\end{itemize}
+%
+%%Note in particular that (for now) we have assumed access to $\+\beta$. 
+%
+%\vfill \vfill \vfill
+%
+%\textbf{Remark.} Note that LDA is a ``bag-of-words" model; i.e. the probability of a word (or document) is invariant to word order.
+%
+%\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\begin{frame}{Joint distribution}
+%
+%The joint distribution for the generative process is given by 
+%
+%\begin{equation}
+%p(\+z, \+\theta, \+w \cond \+\alpha, \+\beta)  = \explainterm{Dirichlet}{p(\+\theta \cond \+\alpha)} \; \ds\prod_{n=1}^N \explainterm{Multinoulli}{p(\+z_n \cond \+\theta)} \; \explainterm{Multinoulli}{p(\+w_n \cond \+z_n, \+\beta)}
+%\label{lda_joint}
+%\end{equation}
+%
+%
+%\begin{definition}{($[\cdot]$)}\label{brackets_op}
+%We define the operator  $[\cdot] : OneHot(K) \to \set{1,...,K}$ as that which takes a one-hot encoded vector and returns the (unique) index which is non-zero.
+%\end{definition} 
+%
+%Using Definition \ref{brackets_op}, we can specify the functional forms for the multinoulli log likelihoods as
+%
+%\begin{align}
+%\log p(\+z_n \cond \+\theta) &= \log \+\theta_{[z_n]} \label{lda_log_like_latent} \\
+%\log p(\+w_n \cond \+z_n, \+\beta) &=  \log \+\beta_{[\+z_n], [\+w_n]} \label{lda_log_like_observed}
+%\end{align}
+%
+%
+%\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\begin{frame}{Variational distribution}
+%
+%We approximate the posterior $p(\+\theta \cond \+z, \+w)$
+%using mean field variational inference  \eqref{mean_field}. In particular, we assume that the variational family $\Q$ has a density which factorizes as
+%
+%\begin{align} 
+%q &= q_\+\delta (\+\theta) \; q_\+\tau (\+z) \nonumber \\
+%&=  \explaintermbrace{Dirichlet}{q_\+\delta (\+\theta)}  \; \ds\prod_{n=1}^N \; \explaintermbrace{Multinoulli}{q_{\+\tau_n} (\+z_n)} \label{mean_field_lda}
+%\end{align}
+%
+%\end{frame}
+%
+%
+%\begin{frame}{Update equations} 
+%
+%\metroset{block=fill}
+%\begin{block}{LDA coordinate ascent update equations}
+%\begin{align} 
+%\explainterm{var. multinoulli (topics-for-word)}{\tau_{n,k}} &\propto  \bigg( \Psi(\delta_k) - \Psi (\ds\sum_j \delta_j) \bigg) \;\;  \beta_{k, [w_n]} 
+% \label{multinomial_update} \\
+% &=  \explainterm{var. "prior" \; over \; topics}{\exp \bigg\{ \biggE{q_\delta(\theta)}{\log \+\theta_i} \bigg\} } \;\; \explainterm{likelihood}{\beta_{k, [w_n]}}  \nonumber \\
+%\explainterm{var. dirichlet (documents)}{\delta_k} &= \explainterm{prior counts}{\alpha_k} + \ds\sum_{n=1}^N \;\; \explainterm{var. prob of topics}{\tau_{n,k}} \label{dirichlet_update}
+%\end{align}
+%
+%where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
+%\end{block}
+%
+%
+%\begin{itemize}
+%\item Derivable via VBEM (see notes). 
+%\item Could also fit $\alpha, \beta$ to data via VEM; i.e. VEM does "empirical Bayes" for you.  
+%\item Characteristic form: latent variable update depends on the data, global parameter update depends on the latent variable
+%
+%\end{itemize}
+%
+% 
+%\end{frame}
+%
+%
+%\begin{frame}{The role of analytical computations}
+%
+%The varational multinomial update crucially hinges on facts about the exponential family.  
+%
+%In particular, the meat of the proof of the variational multinomial update depends crucially on the fact that the Dirichlet of a single probability component is given by
+%\begin{equation} \label{dirichlet_expect_prob_component}
+% \biggE{q_\delta(\theta)}{\log \+\theta_i} =    \Psi(\delta_{i}) - \Psi (\ds\sum_k \delta_k) 
+%\end{equation}
+%where $\Psi(\cdot)$ is the first derivative of the $\log \Gamma$ function. 
+%
+%This fact is justified via facts about the exponential family (such as that the derivative of the log normalization factor with respect to the natural parameter is equal to the sufficient statistic). 
+%
+%\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Summary}
+%
+%
+%\begin{enumerate}
+%\item We can derive \tiny (see notes) \normalsize the LDA update equations from the VBEM algorithm, so that we have  
+%\[ \text{MF-CAVI} \rightarrow \text{VBEM} \rightarrow \text{LDA} \]
+%and LDA instantiates the big picture.
+%
+%\item We have highlighted the potential obstacles for deriving VI updates via classical approaches.  This will foreshadow and motivate the development of black-box VI.
+%\end{enumerate}
+%%Also although old + simple, it HAS been cited 28,000 times, so nice to know about. 
+%
+%\end{frame}
+
+
+%\section{Summary}
+%\begin{frame}{Evaluation of CAVI}
+%
+%CAVI uses deterministic optimization methods, and thereby requires analytical expansions of the expectations. 
+%
+%\vfill
+%
+%\redx This can require expert analysis, in terms of setting up the model, carefully choosing the variational family, and carrying out the integrals.  Moreover, expert analysis is required each time the model changes.%\footnotesize Modern approaches, labeled \textit{generic variational inference} (\texttt{generic VI}) or \textit{black-box variational inference} (\bbvi) attempt to construct inference procedures that are invariant to choice of probability model, and therefore require limited or no expert analysis.  \normalsize
+% 
+%\vfill
+%
+%\greencheck  However, CAVI is still used in state-of-the-art models for efficient subroutines in black box models. %\footnotesize Indeed, exploiting efficient subroutines is a major theme in the  contemporary machine learning literature, which is exploring how to combine the complementary benefits of probabilistic graphical models and neural networks. E.g. see structured variational autoencoder (SVAE). 
+%
+%\end{frame}
+
+%%NOTES SLIDE 
+%\begin{frame}[standout]
+% 	Notes!
+%\end{frame}
 
 
 %QUESTIONS SLIDE 
