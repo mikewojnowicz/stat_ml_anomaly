@@ -37,7 +37,7 @@ Why have a lab as a part of the course, as opposed to just working on your own t
 
 
 ### Module 3: VI 
-* Exercises to appear later.
+* [LDA Exercise](https://colab.research.google.com/drive/15aeu86iCX2zROqKVHf-odM8Y-H7EaWi3#scrollTo=RU45U8jExYuf)
 
 
 ### Module 4: Black Box Models

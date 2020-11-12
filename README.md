@@ -33,23 +33,20 @@ Some submodules will have no exercises, some will have multiple.  Some exercises
     * Frequentist approaches and Maximum Likelihood 
     * Exponential Families 
     * Bayesian approaches and Conjugate Bayesian Models
-    * Cybersecurity Application of Conjugate Bayes
 * Module 2: Expectation Maximization (EM) and Probabilistic Graphical Models (PGM's)
     * Introduction (K-means)
     * Mixture Models
     * Hidden Markov Models
-    * General comments on EM 
-    * Cybersecurity Applications
+    * Expectation Maximization, Generally
     * Probabilistic Graphical Models
 * Module 3: Variational Inference (VI)
     * Overview (and Relation to EM) 
     * Bayesian Mixture Models
-    * Bayesian Hidden Markov Models
     * Latent Dirichlet Allocation 
 * Module 4: Black Box Models 
-    * Introduction 
-    * VAE 
+	 * Variational Autoencoders (VAE)
     * Normalizing Flow
+
 
 ## Goals
 By the end of this workshop, we hope that you will
