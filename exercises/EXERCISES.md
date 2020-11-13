@@ -25,21 +25,24 @@ Why have a lab as a part of the course, as opposed to just working on your own t
 
 
 
-### Module 2: EM and PGM's 
+### Module 2: EM 
 * [Mixture Models](https://colab.research.google.com/drive/1rbEjQkJPN6FCQ0i3dADZtCSa4tLK4zhw?usp=sharing)
   * [Mixture Models: Solution](https://colab.research.google.com/drive/1U7z9k0L6kguteOqECq0Pz5Ega8uXq4aU#scrollTo=u4UfbIN_paBZ)
 * [Mixture Models via SciKitLearn](https://colab.research.google.com/drive/1Rm5JRxB5lHGMFlj79C7kTgEuXmxnYSTe?usp=sharing)
    * [Mixture Models via SciKitLearn - Discussion Resources](https://colab.research.google.com/drive/1WOLuzfzc9LugAlA4m4fGtWmV6dNa-wnL) 
 * [HMM exercises](https://colab.research.google.com/drive/1Gbqtv7vEuKEClVGe5QpmMbkuLiFT6tOB?usp=sharing)
    * [HMM exercises with solution code](https://colab.research.google.com/drive/1naLAra95Z_acmd40r0veZb8cbzOHlfiw?usp=sharing)
+
+   
+### Module 3: Probabilistic Graphical Models
 * [Probabilistic Graphical Models](pdfs/d-separation-exercises.pdf)
 
 
 
-### Module 3: VI 
+### Module 4: VI 
 * [LDA Exercise](https://colab.research.google.com/drive/15aeu86iCX2zROqKVHf-odM8Y-H7EaWi3#scrollTo=RU45U8jExYuf)
 
 
-### Module 4: Black Box Models
+### Module 5: Black Box Models
 * [Normalizing Flows](https://colab.research.google.com/drive/1tHGmTXpme05uiB5kRz11EhSdxuZ4qXGf?usp=sharing)
 * Other exercises to appear later.

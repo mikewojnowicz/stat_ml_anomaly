@@ -33,17 +33,18 @@ Some submodules will have no exercises, some will have multiple.  Some exercises
     * Frequentist approaches and Maximum Likelihood 
     * Exponential Families 
     * Bayesian approaches and Conjugate Bayesian Models
-* Module 2: Expectation Maximization (EM) and Probabilistic Graphical Models (PGM's)
+* Module 2: Expectation Maximization (EM) 
     * Introduction (K-means)
     * Mixture Models
     * Hidden Markov Models
     * Expectation Maximization, Generally
+* Module 3: Probabilistic Graphical Models
     * Probabilistic Graphical Models
-* Module 3: Variational Inference (VI)
+* Module 4: Variational Inference
     * Overview (and Relation to EM) 
     * Bayesian Mixture Models
     * Latent Dirichlet Allocation 
-* Module 4: Black Box Models 
+* Module 5: Black Box Models 
 	 * Variational Autoencoders (VAE)
     * Normalizing Flow
 
@@ -69,24 +70,26 @@ By the end of this workshop, we hope that you will
 	* Michael I Jordan's chapter: https://people.eecs.berkeley.edu/~jordan/courses/260-spring10/other-readings/chapter8.pdf
 	* Michael I Jordan's chapter: https://people.eecs.berkeley.edu/~jordan/courses/260-spring10/other-readings/chapter9.pdf
 
-### Module 2: Expectation Maximization (EM) and Probabilistic Graphical Models (PGMs)
+### Module 2: Expectation Maximization (EM)
 * Mixture Models and EM  
 	* Section 2.3 and Chapter 9 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer.
 	* Sections 6.8 and 8.5 of Elements of Statistical Learning by Hastie et al. (2009)
 * Hidden Markov Models (HMMs)
 	* Sec 13.2 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer
 	* Ghahramani, Z. (2001). An introduction to hidden Markov models and Bayesian networks. In Hidden Markov models: applications in computer vision (pp. 9-41).
-* Graphical Models
+
+### Module 3: Probabilistic Graphical Models (PGMs)
+* Probabilistic Graphical Models
 	* CH 8 of Bishop, C. M. (2006). Pattern recognition and machine learning. springer.
 	* Ghahramani, Z. (2001). An introduction to hidden Markov models and Bayesian networks. In Hidden Markov models: applications in computer vision (pp. 9-41).
 
-### Module 3: Variational Inference
+### Module 4: Variational Inference
 * Introduction to VI 
 	* Blei, D. M., Kucukelbir, A., & McAuliffe, J. D. (2017). Variational inference: A review for statisticians. Journal of the American statistical Association, 112(518), 859-877.
 * Latent Dirichlet Allocation
 	* Blei, D. M., Ng, A. Y., & Jordan, M. I. (2003). Latent dirichlet allocation. Journal of machine Learning research, 3(Jan), 993-1022.
 
-### Module 4: Black Box Models 
+### Module 5: Black Box Models 
 
 * Normalizing Flows 
 	* Dinh, L., Sohl-Dickstein, J., & Bengio, S. (2016). Density estimation using real nvp. arXiv preprint arXiv:1605.08803.
