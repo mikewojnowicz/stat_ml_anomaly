@@ -33,10 +33,91 @@
 
 \section{Overview}
 
-\begin{frame}{Overview}
-TODO
+\begin{frame}{General Framework}
+
+  \begin{minipage}[t][.9\textheight]{\textwidth}
+We can compose probabilistic graphical models with neural networks to exploit their complementary strengths. 
+
+\vfill 
+  \begin{minipage}[t]{.3\textwidth}
+  \begin{center}
+  Data  \\
+  \includegraphics[width=.7\textwidth]{images/example_data}
+  \end{center}
+ \end{minipage}  \hfill
+  \begin{minipage}[t]{.3\textwidth}
+  \begin{center}
+  GMM  \\
+  \includegraphics[width=.7\textwidth]{images/example_gmm}
+  \end{center}
+ \end{minipage}  \hfill
+  \begin{minipage}[t]{.3\textwidth}
+  \begin{center}
+  GMM-SVAE \\
+  \includegraphics[width=.7\textwidth]{images/example_composed_gmm}
+  \end{center}
+ \end{minipage} 
+
+\vspace{.2in}
+\vfill
+The resulting model is expressive, but also interpretable/decomposable.\\
+
+\vfill 
+
+\tiny Johnson, M., Duvenaud, D. K., Wiltschko, A., Adams, R. P., \& Datta, S. R. (2016). Composing graphical models with neural networks for structured representations and fast inference. In Advances in neural information processing systems (pp. 2946-2954).
+\end{minipage}
+
 \end{frame}
 
+
+%%%%%%%%%%%%
+\begin{frame}{Parameterizing Conditional Distributions with Neural Networks}
+
+\begin{itemize}
+\item Have neural networks output \textit{parameters} of probability distributions, rather than predictions directly. \pause 
+\item The cost function for optimization is now probabilistic (e.g., maximum likelihood, minimum KL-divergence) rather than minimizing a distance to the target.
+\end{itemize}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%
+\begin{frame}{Deep Latent Variable Models (DLVMs)}
+\footnotesize 
+Let us introduce DLVMs by comparing them to the latent variable models  \tiny (MM, HMM, LDA) \footnotesize we've considered so far. \\
+\pause 
+\vfill 
+How does the latent state $z_i$ impact the data distribution for a particular sample, $x^{(i)} \sim F_{\theta_{z_i}}$? 
+
+\begin{align*}
+\text{Previously:} \quad & \theta^{(i)} = \theta_{z_i}&& \text{\scriptsize select one of $K$ fixed parameters} \\
+\text{Here: } \quad & \theta^{(i)} =  \texttt{NeuralNetwork}_\eta (z_i) && \text{\scriptsize flexibly create a sample-specific parameter} 
+\end{align*}
+
+\pause 
+
+Notes:
+
+\begin{enumerate}
+\item The latent variables now have continuous support \tiny (although this is an artifact of our choices for earlier examples) \footnotesize 
+	\begin{align*}
+	\text{Previously:} \quad & z_i \in \set{1,...,K} \\
+	\text{Here: } \quad & z_i \in \R^d
+	\end{align*} \pause 
+\item The parameters we need to learn, $\eta$, is still fixed in dimension. 
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Variational Autoencoders}
+\begin{center}
+\includegraphics[width=.6\textwidth]{images/vae}
+\end{center}
+
+\vfill \tiny
+\bf{Q}: What does this remind you of? 
+\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -61,10 +142,13 @@ Consider a parametric frequentist latent variable model, with
 
 Let us model our observations $x$ via the factorization
 \[ p_\theta(x |z )= \ds\prod_i \; p_\theta( \obs | \alatent ) \] 
-Let the likelihood of each observation $\obs$ be obtained by using a Multi-Layer Perceptron (MLP), parameterized by weights $\theta$, to map latent variable $\alatent$ to Gaussian parameters governing the distribution of observation $x^{(i)}$.
-\begin{equation} x^{(i)} | \alatent, \theta \sim \N \big(\mu_{x^{(i)}}( \alatent; \theta), \; \Sigma_{x^{(i)}} (\alatent; \theta) \big)  
+\pause 
+
+Let the likelihood of each observation $\obs$ be obtained by using a Multi-Layer Perceptron (MLP), parameterized by weights $\theta$, to map latent variable $\alatent$ to \alert{parameters} governing a Gaussian distribution of observation $x^{(i)}$. \pause 
+\begin{equation} x^{(i)} \cond \alatent, \theta \sim \N \big( \alert{\mu_{x^{(i)}}( \alatent, \theta)}, \; \alert{\Sigma_{x^{(i)}} (\alatent, \theta)} \big)  
 \label{likelihood} 
 \end{equation}
+\pause 
 Since the MLP maps latent variables, $z$, to the parameters of a probability distribution over observed data, $x$, we refer to it as a \bf{probabilistic decoder.}
 
 \vfill
@@ -72,27 +156,33 @@ Since the MLP maps latent variables, $z$, to the parameters of a probability dis
 \tiny  Notes on notation
 \begin{enumerate}
 \item $\N(M,V)$ refers to the Gaussian density with mean $M$ and covariance $V$.
-\item $\mu_{\obs}(\alatent; \theta)$ is meant to denote the mean parameter for a distribution over observed datum $\obs$; that parameter is a function of latent variable $z$ and learnable parameter $\theta$. Notation should be similarly interpreted throughout this section.
+\item $\mu_{\obs}(\alatent, \theta)$ is meant to denote the mean parameter for a distribution over observed datum $\obs$; that parameter is a function of latent variable $z$ and learnable parameter $\theta$. Notation should be similarly interpreted throughout this section.
 \end{enumerate}
 
 \end{frame}
 
 
-\begin{frame}{Probabilistic encoder}
+\begin{frame}{Probabilistic encoder} 
+\pause 
+\footnotesize
 Let us additionally put a prior distribution on the latent variables:
 \begin{align*}
 p_\theta(z) &= \ds\prod_i  p_\theta(\alatent) = \ds\prod_i  \N(\+0, \I) 
 \end{align*}
-
+\pause 
 %And let us assume, as in the context of a frequentist latent variable model, that $\theta$ is a fixed (but unknown) constant that will be learned.  
 
 In this case, the posterior distribution, $p_
-\theta(z| x)$, is intractable.  However, we consider an approximation 
-by using a Multi-Layer Perceptron (MLP), parameterized by weights $\phi$, to map observation $x$ to Gaussian parameters governing the distribution of latent variable $z$: 
+\theta(z| x)$, is intractable.
+\vfill
+\pause 
+However, we consider an approximation 
+by using a Multi-Layer Perceptron (MLP), parameterized by weights $\phi$, to map observation $x$ to  \alert{parameters} governing a Gaussian distribution of latent variable $z$: 
 \begin{align}
  q_\phi(z| x) &=  \ds\prod_i \; q_\phi(\alatent| x^{(i)}) \nonumber \\
-\alatent| x^{(i)}, \phi &\sim \N \big(\mu_{\alatent} (x^{(i)}; \phi), \Sigma_{\alatent} (x^{(i)}; \phi) \big) \label{approx_posterior} 
+\alatent| x^{(i)}, \phi &\sim \N \bigg( \alert{\mu_{\alatent} (x^{(i)}, \phi)} , \; \alert{\Sigma_{\alatent} (x^{(i)}, \phi)}  \bigg) \label{approx_posterior} 
 \end{align}
+\pause 
  Since the MLP maps observations, $x$, to to the parameters of a probability distribution over latent variables, $z$, we refer to it as a \bf{probabilistic encoder.} 
  
 \end{frame}
@@ -113,14 +203,43 @@ results from using the probabilistic decoder as a likelihood.
 Following Appendix C.2 of the VAE paper, we provide a sample implementation for the probabilistic encoder and decoder. 
 \end{frame}
 
+
+\begin{frame}{Probabilistic decoding}
+\footnotesize
+We may, for example, specifically assume that a latent variable $\alatent$ can be probabilistically decoded into  observation $\obs$ via the following process
+
+\begin{minipage}{.6\textwidth}
+\begin{align*}
+h^{(i)} &= \texttt{tanh} (W_1 \, \alatent + b_1) \\
+\mu_{\obs}&= W_{21} h^{(i)} + b_{41}, \quad \log \sigma^2_{\obs} = W_{22}h^{(i)}+b_{22} \\
+x|z &\sim \N(\mu_{\obs}, \Sigma_{\obs}), \quad \text{where} \; \text{diag}(\Sigma_{\obs}) = \sigma_{\obs}^2
+\end{align*}
+\end{minipage}
+\hfill
+\begin{minipage}{.3\textwidth}
+\begin{center}
+\includegraphics[width=.6\textwidth]{images/tanh}
+
+The hyperbolic tangent (\texttt{tanh}) function
+\end{center}
+\end{minipage}
+
+
+
+where $(W_1, W_{21}, W_{22})$ are the weights and $(b_1, b_{21}, b_{22})$ are the biases of a Multi-Layer Perceptron (MLP). \\
+\vfill \pause 
+ Letting $\theta := (W_1, W_{21}, W_{22}, b_1, b_{21}, b_{22})$, we may use the trained decoder to define the likelihood, $p_\theta(x |z )$, as defined in \eqref{likelihood}.
+
+\end{frame}
+
 \begin{frame}{Probabilistic encoding}
 \footnotesize
 We may, for example, specifically assume that an observation $\obs$ can be probabilistically encoded into latent variable $\alatent$ via the following process
 
 \begin{minipage}{.6\textwidth}
 \begin{align*}
-h^{(i)} &= \texttt{tanh} (W_1 x^{(i)} + b_1) \\
-\mu_{\alatent}&= W_{21} h^{(i)} + b_{21}, \quad \log \sigma^2_{\alatent} = W_{22}h^{(i)}+b_{22} \\
+h^{(i)} &= \texttt{tanh} (W_3 x^{(i)} + b_1) \\
+\mu_{\alatent}&= W_{41} h^{(i)} + b_{41}, \quad \log \sigma^2_{\alatent} = W_{42}h^{(i)}+b_{42} \\
 \alatent & \sim \N(\mu_{\alatent}, \Sigma_{\alatent}), \quad \text{where} \; \text{diag}(\Sigma_{\alatent}) = \sigma_{\alatent}^2
 \end{align*}
 \end{minipage}
@@ -133,25 +252,12 @@ The hyperbolic tangent (\texttt{tanh}) function
 \end{center}
 \end{minipage}
 
-where $(W_1, W_{21}, W_{22})$ are the weights and $(b_1, b_{21}, b_{22})$ are the biases of a Multi-Layer Perceptron (MLP). \\
-\vfill
-Letting $\phi := (W_1, W_{21}, W_{22}, b_1, b_{21}, b_{22})$, we may use the trained encoder to define the approximate posterior, $q_\phi(z| x)$, as defined in \eqref{approx_posterior}.
-\end{frame}
-
-\begin{frame}{Probabilistic decoding}
-We may, for example, specifically assume that a latent variable $\alatent$ can be probabilistically decoded into  observation $\obs$ via the following process
-
-\begin{align*}
-h^{(i)} &= \texttt{tanh} (W_3 \, \alatent + b_3) \\
-\mu_{\obs}&= W_{41} h^{(i)} + b_{41}, \quad \log \sigma^2_{\obs} = W_{42}h^{(i)}+b_{42} \\
-x|z &\sim \N(\mu_{\obs}, \Sigma_{\obs}), \quad \text{where} \; \text{diag}(\Sigma_{\obs}) = \sigma_{\obs}^2
-\end{align*}
-
 where $(W_3, W_{41}, W_{42})$ are the weights and $(b_3, b_{41}, b_{42})$ are the biases of a Multi-Layer Perceptron (MLP). \\
-\vfill
- Letting $\theta := (W_3, W_{41}, W_{42}, b_3, b_{41}, b_{42})$, we may use the trained decoder to define the likelihood, $p_\theta(x |z )$, as defined in \eqref{likelihood}.
-
+\vfill \pause 
+Letting $\phi := (W_3, W_{41}, W_{42}, b_3, b_{41}, b_{42})$, we may use the trained encoder to define the approximate posterior, $q_\phi(z| x)$, as defined in \eqref{approx_posterior}.
 \end{frame}
+
+
 
 
 
@@ -159,10 +265,10 @@ where $(W_3, W_{41}, W_{42})$ are the weights and $(b_3, b_{41}, b_{42})$ are th
 \section{Inference}
 
 \begin{frame}{}
-We use variational inference to jointly optimize $(\theta, \phi)$.  For example, in our sample implementation, we have 
+We use variational inference to \alert{jointly} optimize $(\theta, \phi)$.  For example, in our sample implementation, we have 
 \begin{align*}
-\theta &= (W_3, W_{41}, W_{42}, b_3, b_{41}, b_{42})  && \small \text{generative parameters} \\ 
-\phi &= (W_1, W_{21}, W_{22}, b_1, b_{21}, b_{22}) && \small \text{variational parameters}
+\theta &= (W_1, W_{21}, W_{22}, b_1, b_{21}, b_{22})  && \small \text{generative parameters} \\ 
+\phi &= (W_3, W_{41}, W_{42}, b_3, b_{41}, b_{42}) && \small \text{variational parameters}
 \end{align*}
 
 In particular, we construct $\mathcal{F}(\theta, \phi; x)$, a lower-bound on the marginal likelihood, $p_\theta(x)$, via the entropy/energy decomposition which is standard in variational inference:   
@@ -175,7 +281,15 @@ In particular, we construct $\mathcal{F}(\theta, \phi; x)$, a lower-bound on the
 
 \begin{frame}{}
 
-We train the model by performing stochastic gradient descent on the variational lower bound $\mathcal{F}$.  During training, the objective function \eqref{vae_vlbo} is approximated by performing a Monte Carlo approximation of the expectation.   Given minibatch $x^{(i)}$, we would like to take $L$ samples from $q_\phi(z| x^{(i)})$ and obtain the following estimator:
+
+  
+We train the model by performing stochastic gradient descent on the variational lower bound $\mathcal{F}$.  \tiny (How is this different than what we've seen?) \normalsize \pause \\
+\vfill
+During training, the objective function \eqref{vae_vlbo} is approximated by performing a Monte Carlo approximation of the expectation.   \\
+\vfill
+Given minibatch $x^{(i)}$, we would like to take $L$ samples from $q_\phi(z| x^{(i)})$ 
+\[  z^{(i.l)} \sim q_\phi(z^{(i,l)} | x^{(i)})\]
+and obtain the following estimator:
 
 \begin{equation}
 \label{vae_sgvb}
@@ -183,12 +297,35 @@ We train the model by performing stochastic gradient descent on the variational 
 \end{equation} 
 \end{frame}
 
-\begin{frame}{}
-However, naively backpropagating gradients in this case would ignore the role of the parameter in the sampling step. Thus, we use the \bf{reparameterization trick} ; i.e. we construct a differentiatiable transformation $g_\phi$ of parameterless distribution $p(\epsilon)$ such that $g_\phi(\epsilon, \obs)$ has the same distribution as $q_\phi(\alatent| x^{(i)})$.\footnote{In this case, since our variational distribution is a multivariate normal, $p(\epsilon)$ is simply a Gaussian with zero mean and identity covariance.}  Using this trick, we take $L$ samples $\{\epsilon_1, ..., \epsilon_L \}$ from $p(\epsilon)$ and obtain the estimator: 
+\begin{frame}{Reparametrization trick}
+ \begin{minipage}[t][.9\textheight]{\textwidth}
+ 
+However, naively backpropagating gradients in this case would have a problem:  \pause It would ignore the role of the parameter in the sampling step.  \pause \\
+\vfill 
+Thus, we use the \bf{reparameterization trick}  -- basically, \it{we remove the parameters from the sampling mechanism}. \pause
+
+\begin{center}
+\includegraphics[width=.9\textwidth]{images/reparametrization_trick}
+\vfill \hfill \tiny Image Credit: DP. Kingma 
+\end{center}
+
+\vfill
+\pause \tiny \bf{Rk}:  In our case, the variational distribution is a multivariate normal, so $p(\epsilon)$ is simply a Gaussian with zero mean and identity covariance.
+
+\end{minipage}
+
+\end{frame}
+
+
+\begin{frame}{Reparametrization trick}
+
+Using the \it{reparameterization trick}, we construct a differentiable transformation $\alert{g_\phi}$ of parameterless distribution $p(\epsilon)$ such that $\alert{g_\phi(\epsilon, \obs)}$ has the same distribution as $q_\phi(\alatent| x^{(i)})$. \\
+\vfill 
+ Using this trick, we take $L$ samples $\{\epsilon_1, ..., \epsilon_L \}$ from $p(\epsilon)$ and obtain the estimator: 
 
 \begin{equation}
 \label{vae_sgvb}
- \mathcal{F}(\theta, \phi; x^{(i)}) \approx \df{1}{L} \ds\sum_{l=1}^L - \log q_\phi \big(g_\phi(\epsilon^{(l)}, x^{(i)}) | x^{(i)} \big) + \log p_\theta \big( x^{(i)}, g_\phi(\epsilon^{(l)}, x^{(i)}) \big) 
+ \mathcal{F}(\theta, \phi; x^{(i)}) \approx \df{1}{L} \ds\sum_{l=1}^L - \log q_\phi \big(\alert{g_\phi(\epsilon^{(l)}, x^{(i)})} | x^{(i)} \big) + \log p_\theta \big( x^{(i)}, \alert{g_\phi(\epsilon^{(l)}, x^{(i)})} \big) 
 \end{equation} 
 
 \end{frame}
@@ -196,11 +333,39 @@ However, naively backpropagating gradients in this case would ignore the role of
 \section{Anomaly Scoring}
 
 \begin{frame}{Anomaly Scoring}
-A straightforward approach to assessing anomalousness of sample $x^{(i)}$ using a Variational Autoencoder was provided by the authors below.   First, take $L$ samples, $\{z^{(i,1)}, ..., z^{(i,L)} \}$ from the fitted variational distribution (i.e, the encoder), $q_\phi(\alatent| x^{(i)})$ .   Each such sample, $z^{(i,l)}$, determines a specific form of the fitted likelihood (i.e. the decoder) by specifying its parameters, $p_\theta(\obs | z^{(i,l)}) = p_\theta(\obs | \mu_{\obs} (z^{(i,l)}), \Sigma_{\obs} (z^{(i,l)})) $. Using this, the \textit{reconstruction probability} of the sample can be defined as the mean of these likelihoods:
+\footnotesize How can we use this model to assess the anomalouness of some new sample $x^{(i)}$ ? \pause
+\vfill 
+
+\begin{enumerate}
+\item Take $L$ samples, $\{z^{(i,1)}, ..., z^{(i,L)} \}$ from the fitted variational distribution (i.e, the encoder), $q_\phi(\alatent| x^{(i)})$ . \pause
+\item   Each such sample, $z^{(i,l)}$, determines a specific form of the fitted likelihood (i.e. the decoder) by specifying its \alert{parameters},  \
+\[ p_\theta(\obs \cond z^{(i,l)}) = p_\theta \bp{\obs \cond \alert{\mu_{\obs} (z^{(i,l)})} \quad , \quad \alert{\Sigma_{\obs} (z^{(i,l)}})} \].  \pause 
+\item Compute the \textit{reconstruction probability} of the sample as the mean of these likelihoods:
 
 \[ \texttt{reconstruction probability}(x^{(i)}) := \df{1}{L} \ds\sum_{l=1}^L p_\theta \big(\obs \cond \mu_{\obs} (z^{(i,l)}) \, , \, \Sigma_{\obs} (z^{(i,l)}) \big)\]
+\end{enumerate}
+
 \vfill \vfill
 \hfill \tiny An, J., \& Cho, S. (2015). Variational autoencoder based anomaly detection using reconstruction probability. Special Lecture on IE, 2(1).
+\end{frame}
+
+\begin{frame}{Evaluation}
+What do you think of this approach to anomaly detection? \\
+\vfil 
+My thoughts on VAE vs. NF for anomaly detection:
+\begin{itemize}
+\item  VAE's use of latent variables, and hence the need to jointly learn the generative and variational parameters, is awkward. \pause 
+\item Normalizing flows learn a single invertible map \tiny (from z-space to x-space) \normalsize, rather than separately learning a function and its inverse.  \pause 
+\item Thus:
+
+	\begin{itemize}
+	\item  The learned inverse is exact, rather than approximate 
+	\item Inference is simpler -- no latent variables (or variational inference) necessary!  
+    \item Anomaly scores are exact, not approximate. \pause 
+	\end{itemize}
+\item Perhaps it's not surprising, then, that I have obtained higher quality results in practice for anomaly detection with NF's than VAE's.
+\end{itemize}
+
 \end{frame}
 
 \end{document}
@@ -208,31 +373,7 @@ A straightforward approach to assessing anomalousness of sample $x^{(i)}$ using 
 
     
 
-    
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsubsection{Some Implementational Details}
-%
-%\begin{itemize}
-%\item Note that StrangeNet uses \texttt{pytorch}'s default initialization for the weights and biases of a linear layer, namely a random draw from $\mathcal{U} \big( [-\sqrt{k}, \sqrt{k}] \big)$, where $k=1/\text{\# of input features}$.  This is called a \textit{xavier initialization}. 
-%\end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Anomaly Scoring}
-
+  
 
 
 \end{document}
