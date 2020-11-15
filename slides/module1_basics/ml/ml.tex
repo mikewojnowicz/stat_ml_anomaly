@@ -211,9 +211,9 @@ for $\mu$.
 \begin{frame}{Example: Gaussian Mean MLE}
 \footnotesize
 \begin{align*}
-0 &= \ds\sum_{i=1}^n  \nabla_\mu  \log \bb{\df{1}{\sqrt{(2 \pi)^d |\Sigma| }} \exp \bp{ - \df{1}{2} (\+x - \+\mu)^T \Sigma^{-1} ( \+x - \+\mu)}}   \\
-&=  \ds\sum_{i=1}^n   \nabla_\mu  \bb{\log \df{1}{\sqrt{(2 \pi)^d |\Sigma| }}} +\nabla_\mu \bb{ \log \bp{\exp \bp{ - \df{1}{2} (\+x - \+\mu)^T \Sigma^{-1} ( \+x - \+\mu)} }} \\
-&=  \ds\sum_{i=1}^n \nabla_\mu \bp{ - \df{1}{2} (\+x - \+\mu)^T \Sigma^{-1} ( \+x - \+\mu)}  = -  \ds\sum_{i=1}^n \Sigma^{-1} (x_i - \+\mu) 
+0 &= \ds\sum_{i=1}^n  \nabla_\mu  \log \bb{\df{1}{\sqrt{(2 \pi)^d |\Sigma| }} \exp \bp{ - \df{1}{2} (x_i - \+\mu)^T \Sigma^{-1} ( x_i  - \+\mu)}}   \\
+&=  \ds\sum_{i=1}^n   \nabla_\mu  \bb{\log \df{1}{\sqrt{(2 \pi)^d |\Sigma| }}} +\nabla_\mu \bb{ \log \bp{\exp \bp{ - \df{1}{2} ( x_i  - \+\mu)^T \Sigma^{-1} (  x_i  - \+\mu)} }} \\
+&=  \ds\sum_{i=1}^n \nabla_\mu \bp{ - \df{1}{2} ( x_i  - \+\mu)^T \Sigma^{-1} (  x_i  - \+\mu)}  = -  \ds\sum_{i=1}^n \Sigma^{-1} (x_i - \+\mu) 
 \end{align*}
 
 Multiplication by $(- \Sigma)$ gives
