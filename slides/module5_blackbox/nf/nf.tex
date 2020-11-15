@@ -117,6 +117,7 @@ There appears to be a \textbf{conflict} between expressivity and efficiency.
 A \textit{(normalizing) flow}, $f=h_\theta^1 \circ ... \circ h_\theta^K$, is a sequence of diffeomorphisms which maps an observed data point, $x$, to a latent state representation, $z$. 
 \end{definition}
 
+\pause
 If we allow ourselves this abuse of notation\footnote{More generally, we will use the same notation to refer to the function itself as well as its evaluation at a point.}
 \begin{align*}
 h_\theta^0 &:=x \\
@@ -150,9 +151,12 @@ p_X(x) = p_Z( f_\theta(x) ) \ds\prod_{k=1}^K\absdet{\df{\partial h_\theta^k}{\pa
  \textbf{Real non-volume preserving flows} (RNVP; Dinh et al., 2016) is a normalizing flow where  each bijection in the sequence of bijections works in the following way. 
  
  \begin{itemize}
- \item The d features of a random variable are partitioned into two groups.  
- \item The first  group is transformed by the identity transformation.
- \item The second group is transformed by a more complex operation whereby its values are scaled and translated (hence, an \textit{affine transformation}) by factors created by applying neural networks to the features in the first group (hence, a \textit{coupling transformation}). 
+ \item The d features of a random variable are partitioned into two groups.   \pause 
+	 \begin{itemize}
+	 \item The first  group is transformed by the identity transformation. \pause
+	 \item The second group is transformed by a more complex operation whereby its values are scaled and translated (hence, an \textit{affine transformation}) by factors created by applying neural networks to the features in the first group (hence, a \textit{coupling transformation}).  \pause
+	 \end{itemize}
+
  \end{itemize}
 \vfill
 Each such bijection is called an "affine coupling transformation" or "affine coupling layer" (ACL).
@@ -196,7 +200,6 @@ Note that the real NVP allows for efficient computation of the determinant of th
 	\df{\partial h_{d_k+1:D}^{k+1}}{\partial h_{1:d_k}^{k}} & \text{diag} \bigg( \exp \big( s_\theta (h^k_{1:d_k}) \big) \bigg) 
 	\end{pmatrix}
 \]
-
 The bottom left term can be arbitrarily complex; we don't have to compute it, since the determinant of a triangular matrix is the product of the diagonals:
 
 \[ \det \df{\partial h_\theta^{k+1}}{\partial h_\theta^{k}} = \exp \bigg( \ds\sum_j s_\theta^k \, \big( h^k_{1:d_k} \big)_j \bigg) \] 

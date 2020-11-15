@@ -33,7 +33,17 @@
 
 \section{Overview}
 
-\begin{frame}{General Framework}
+\begin{frame}{Deep Generative Models}
+
+\begin{itemize}
+\item Can generate new samples ( \blue{\href{https://thispersondoesnotexist.com/}{click here}})
+\item Can interpolate across given samples
+\item If likelihood based, can be used to assess anomaly.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Composing PGM's with NN's}
 
   \begin{minipage}[t][.9\textheight]{\textwidth}
 We can compose probabilistic graphical models with neural networks to exploit their complementary strengths. 
@@ -91,7 +101,7 @@ Let us introduce DLVMs by comparing them to the latent variable models  \tiny (M
 How does the latent state $z_i$ impact the data distribution for a particular sample, $x^{(i)} \sim F_{\theta_{z_i}}$? 
 
 \begin{align*}
-\text{Previously:} \quad & \theta^{(i)} = \theta_{z_i}&& \text{\scriptsize select one of $K$ fixed parameters} \\
+\text{Previously:} \quad & \theta^{(i)} = \theta_{z_i}&& \text{\scriptsize select one of $K$ fixed parameters}  \\ 
 \text{Here: } \quad & \theta^{(i)} =  \texttt{NeuralNetwork}_\eta (z_i) && \text{\scriptsize flexibly create a sample-specific parameter} 
 \end{align*}
 
@@ -102,10 +112,10 @@ Notes:
 \begin{enumerate}
 \item The latent variables now have continuous support \tiny (although this is an artifact of our choices for earlier examples) \footnotesize 
 	\begin{align*}
-	\text{Previously:} \quad & z_i \in \set{1,...,K} \\
-	\text{Here: } \quad & z_i \in \R^d
+	\text{Previously:} \quad & z_i \in \set{1,...,K} \\ 
+	\text{Here: } \quad & z_i \in \R^k
 	\end{align*} \pause 
-\item The parameters we need to learn, $\eta$, is still fixed in dimension. 
+\item The parameters we need to learn, $\eta$, is  fixed in dimension. 
 \end{enumerate}
 \end{frame}
 
@@ -116,7 +126,7 @@ Notes:
 \end{center}
 
 \vfill \tiny
-\bf{Q}: What does this remind you of? 
+%\bf{Q}: What does this remind you of? 
 \end{frame}
 
 
@@ -148,7 +158,7 @@ Let the likelihood of each observation $\obs$ be obtained by using a Multi-Layer
 \begin{equation} x^{(i)} \cond \alatent, \theta \sim \N \big( \alert{\mu_{x^{(i)}}( \alatent, \theta)}, \; \alert{\Sigma_{x^{(i)}} (\alatent, \theta)} \big)  
 \label{likelihood} 
 \end{equation}
-\pause 
+\pause
 Since the MLP maps latent variables, $z$, to the parameters of a probability distribution over observed data, $x$, we refer to it as a \bf{probabilistic decoder.}
 
 \vfill
@@ -351,17 +361,18 @@ Using the \it{reparameterization trick}, we construct a differentiable transform
 
 \begin{frame}{Evaluation}
 What do you think of this approach to anomaly detection? \\
-\vfil 
+\pause 
+\vfill
 My thoughts on VAE vs. NF for anomaly detection:
 \begin{itemize}
-\item  VAE's use of latent variables, and hence the need to jointly learn the generative and variational parameters, is awkward. \pause 
-\item Normalizing flows learn a single invertible map \tiny (from z-space to x-space) \normalsize, rather than separately learning a function and its inverse.  \pause 
+\item  VAE's use of latent variables, and hence the need to jointly learn the generative and variational parameters, is awkward.
+\item Normalizing flows learn a single invertible map \tiny (from z-space to x-space) \normalsize, rather than separately learning a function and its inverse.  
 \item Thus:
 
 	\begin{itemize}
 	\item  The learned inverse is exact, rather than approximate 
 	\item Inference is simpler -- no latent variables (or variational inference) necessary!  
-    \item Anomaly scores are exact, not approximate. \pause 
+    \item Anomaly scores are exact, not approximate.
 	\end{itemize}
 \item Perhaps it's not surprising, then, that I have obtained higher quality results in practice for anomaly detection with NF's than VAE's.
 \end{itemize}
